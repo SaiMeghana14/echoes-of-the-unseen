@@ -1,0 +1,31 @@
+# System Design
+
+```mermaid
+flowchart TD
+
+A[User]
+
+A --> B[Next.js Frontend]
+
+B --> C[API Gateway]
+
+C --> D[Gemini AI]
+C --> E[Firestore]
+C --> F[Firebase Storage]
+C --> G[Pinecone]
+C --> H[Neo4j]
+
+G --> I[Knowledge Retrieval]
+
+H --> I
+
+I --> J[Heritage Intelligence Engine]
+
+J --> K[Future Historian]
+
+J --> L[Risk Engine]
+
+J --> M[Echo Oracle]
+
+J --> N[Preservation Archive]
+```

@@ -1,31 +1,85 @@
-# System Design
+# 🌌 Echoes of the Unseen - System Architecture
 
 ```mermaid
 flowchart TD
 
+%% USER LAYER
 A[User]
 
+%% FRONTEND
 A --> B[Next.js Frontend]
 
-B --> C[API Gateway]
+%% UPLOADS
+B --> C[Artifact Upload Center]
 
-C --> D[Gemini AI]
-C --> E[Firestore]
-C --> F[Firebase Storage]
-C --> G[Pinecone]
-C --> H[Neo4j]
+%% DATA TYPES
+C --> D1[Photos]
+C --> D2[Audio]
+C --> D3[Documents]
+C --> D4[Videos]
+C --> D5[Websites]
 
-G --> I[Knowledge Retrieval]
+%% API
+D1 --> E[Next.js API Gateway]
+D2 --> E
+D3 --> E
+D4 --> E
+D5 --> E
 
-H --> I
+%% AGENT SYSTEM
+E --> F[Discovery Agent]
 
-I --> J[Heritage Intelligence Engine]
+F --> G[Gemini 2.5 Pro]
 
-J --> K[Future Historian]
+G --> H[Knowledge Extraction]
 
-J --> L[Risk Engine]
+%% STORAGE
+H --> I[Firestore]
 
-J --> M[Echo Oracle]
+H --> J[Firebase Storage]
 
-J --> N[Preservation Archive]
+%% VECTOR DATABASE
+H --> K[Gemini Embeddings]
+
+K --> L[Pinecone Vector Store]
+
+%% KNOWLEDGE GRAPH
+H --> M[Neo4j Knowledge Graph]
+
+%% RAG
+L --> N[RAG Retrieval Layer]
+
+M --> N
+
+%% INTELLIGENCE ENGINE
+N --> O[Heritage Intelligence Engine]
+
+%% AGENTS
+O --> P[Future Historian Agent]
+
+O --> Q[Risk Prediction Agent]
+
+O --> R[Storytelling Agent]
+
+O --> S[Echo Oracle Agent]
+
+O --> T[Preservation Agent]
+
+%% OUTPUTS
+P --> U[Historical Significance Report]
+
+Q --> V[Heritage Risk Score]
+
+R --> W[Living Story Experience]
+
+S --> X[Future Loss Predictions]
+
+T --> Y[Digital Preservation Archive]
+
+%% DASHBOARD
+U --> Z[User Dashboard]
+V --> Z
+W --> Z
+X --> Z
+Y --> Z
 ```

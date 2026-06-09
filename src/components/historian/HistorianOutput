@@ -1,0 +1,30 @@
+interface HistorianOutputProps {
+  content: string;
+}
+
+export default function HistorianOutput({
+  content,
+}: HistorianOutputProps) {
+  if (!content) return null;
+
+  return (
+    <div
+      className="
+      mt-8
+      p-8
+      rounded-3xl
+      border
+      border-memory/30
+      bg-memory/5
+    "
+    >
+      <h2 className="text-2xl font-bold mb-4">
+        🕰 Future Historian Analysis
+      </h2>
+
+      <div className="leading-8 text-gray-300">
+        {content}
+      </div>
+    </div>
+  );
+}

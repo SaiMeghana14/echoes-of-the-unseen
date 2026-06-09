@@ -1,6 +1,6 @@
 "use client";
 
-import Globe from "./Globe";
+import GlobeView from "./Globe";
 import GlobePopup from "./GlobePopup";
 import { useState } from "react";
 
@@ -37,8 +37,8 @@ export default function VanishingEarth() {
 
   return (
     <section className="relative">
-      <Globe />
-
+      <GlobeView />
+        
       <GlobePopup
         title={selected.title}
         country={selected.country}

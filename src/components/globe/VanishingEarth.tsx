@@ -38,6 +38,18 @@ export default function VanishingEarth() {
   return (
     <section className="relative">
       <GlobeView />
+        <div className="absolute bottom-8 left-8 bg-black/70 backdrop-blur-xl rounded-2xl p-4 text-white border border-white/10">
+          <h3 className="font-bold mb-3">
+            Human Memory Network
+          </h3>
+
+          <div className="space-y-2 text-sm">
+            <div>🔴 Critical Heritage</div>
+            <div>🟡 At Risk Heritage</div>
+            <div>🔵 Protected Heritage</div>
+            <div>🌐 Cultural Relationships</div>
+          </div>
+        </div>
         
       <GlobePopup
         title={selected.title}

@@ -1,6 +1,6 @@
 "use client";
 
-import ForceGraph2D from "react-force-graph";
+import ForceGraph3D from "react-force-graph-3d";
 
 const data = {
   nodes: [
@@ -37,7 +37,7 @@ const data = {
 export default function MemoryGraph() {
   return (
     <div className="h-[800px]">
-      <ForceGraph2D
+      <ForceGraph3D
         graphData={data}
         nodeLabel="id"
         linkDirectionalParticles={2}

@@ -1,30 +1,44 @@
-interface WisdomCardsProps {
-  wisdom: string[];
+interface Props {
+  title: string;
+
+  items: string[];
 }
 
 export default function WisdomCards({
-  wisdom,
-}: WisdomCardsProps) {
+  title,
+  items,
+}: Props) {
   return (
-    <div className="grid md:grid-cols-3 gap-6 mt-8">
-      {wisdom.map((item, index) => (
-        <div
-          key={index}
-          className="
-          p-6
-          rounded-3xl
-          border
-          border-memory/20
-          bg-memory/5
-        "
-        >
-          <div className="text-3xl mb-4">
-            ✨
-          </div>
+    <div className="mt-8">
 
-          <p>{item}</p>
-        </div>
-      ))}
+      <h2 className="text-2xl font-bold mb-4">
+        {title}
+      </h2>
+
+      <div className="grid md:grid-cols-3 gap-6">
+
+        {items.map((item, index) => (
+          <div
+            key={index}
+            className="
+            p-6
+            rounded-3xl
+            border
+            border-memory/20
+            bg-memory/5
+          "
+          >
+            <div className="text-3xl mb-4">
+              ✨
+            </div>
+
+            <p>{item}</p>
+
+          </div>
+        ))}
+
+      </div>
+
     </div>
   );
 }

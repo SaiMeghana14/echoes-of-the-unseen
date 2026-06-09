@@ -2,38 +2,66 @@
   "name": "echoes-of-the-unseen",
   "version": "1.0.0",
   "private": true,
-  "description": "AI-powered heritage intelligence platform",
+  "description": "AI-powered heritage intelligence platform that discovers, predicts, and preserves endangered cultures, traditions, languages, stories, and digital artifacts before they disappear forever.",
+  "author": "Echoes of the Unseen Team",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "seed": "tsx scripts/seedDatabase.ts",
+    "import-data": "tsx scripts/importHeritageData.ts",
+    "generate-embeddings": "tsx scripts/generateEmbeddings.ts"
   },
   "dependencies": {
     "@google/genai": "^1.14.0",
+    "@pinecone-database/pinecone": "^5.1.0",
+
     "@react-three/drei": "^10.0.0",
     "@react-three/fiber": "^9.0.0",
+
     "firebase": "^12.0.0",
+
     "framer-motion": "^12.0.0",
+
     "lucide-react": "^0.500.0",
+
     "neo4j-driver": "^5.28.0",
+
     "next": "15.3.3",
-    "pinecone-client": "^0.1.6",
+
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+
     "react-force-graph": "^1.48.0",
+    "react-force-graph-3d": "^1.25.4",
+
+    "react-globe.gl": "^2.33.1",
+
     "three": "^0.177.0",
+    "three-globe": "^2.42.4",
+
     "zod": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.177.0",
+
     "autoprefixer": "^10.4.21",
+
     "eslint": "^9.0.0",
     "eslint-config-next": "^15.3.3",
+
     "postcss": "^8.5.6",
+
     "tailwindcss": "^3.4.17",
+
+    "tsx": "^4.19.2",
+
     "typescript": "^5.8.0"
   }
 }

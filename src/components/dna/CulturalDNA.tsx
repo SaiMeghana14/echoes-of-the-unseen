@@ -1,37 +1,48 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import DNACluster from "./DNACluster";
 import DNALegend from "./DNALegend";
 
-interface Props {
-  cultureName: string;
+import DNAGraph from "./DNAGraph";
+import DNAStats from "./DNAStats";
+import DNAExplorer from "./DNAExplorer";
 
-  stories: string[];
+export default function CulturalDNA() {
+  const [dna, setDna] =
+    useState<any>(null);
 
-  beliefs: string[];
+  const [loading, setLoading] =
+    useState(true);
 
-  rituals: string[];
+  useEffect(() => {
+    fetch("/api/dna")
+      .then((r) => r.json())
+      .then((data) => {
+        setDna(data);
+        setLoading(false);
+      });
+  }, []);
 
-  knowledge: string[];
-}
+  if (loading) {
+    return (
+      <div className="py-20 text-center">
+        Loading Cultural DNA...
+      </div>
+    );
+  }
 
-export default function CulturalDNA({
-  cultureName,
-  stories,
-  beliefs,
-  rituals,
-  knowledge,
-}: Props) {
-  const totalNodes =
-    stories.length +
-    beliefs.length +
-    rituals.length +
-    knowledge.length;
+  if (!dna) {
+    return null;
+  }
 
   return (
     <section className="py-24 px-6">
 
       <div className="max-w-7xl mx-auto">
+
+        {/* Header */}
 
         <div className="text-center mb-16">
 
@@ -40,15 +51,17 @@ export default function CulturalDNA({
           </h2>
 
           <p className="text-gray-400 mt-4 max-w-3xl mx-auto">
-            Explore the cultural genome of a
-            community. Stories, beliefs,
-            rituals, and knowledge are mapped
-            into a living preservation network.
+            Explore the cultural genome
+            of a community through
+            stories, rituals, beliefs,
+            and inherited knowledge.
           </p>
 
         </div>
 
-        <div className="flex justify-center mb-12">
+        {/* Culture Core */}
+
+        <div className="flex justify-center mb-16">
 
           <div
             className="
@@ -57,92 +70,96 @@ export default function CulturalDNA({
             rounded-full
             bg-memory
             text-black
-            font-bold
             text-2xl
-            shadow-xl
+            font-bold
           "
           >
-            {cultureName}
+            {dna.culture}
           </div>
 
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        {/* Stats */}
+
+        <DNAStats
+          stories={dna.stories}
+          beliefs={dna.beliefs}
+          rituals={dna.rituals}
+          knowledge={dna.knowledge}
+        />
+
+        {/* Graph */}
+
+        <div className="mt-12">
+
+          <DNAGraph
+            cultureName={
+              dna.culture
+            }
+            stories={
+              dna.stories
+            }
+            beliefs={
+              dna.beliefs
+            }
+            rituals={
+              dna.rituals
+            }
+            knowledge={
+              dna.knowledge
+            }
+          />
+
+        </div>
+
+        {/* Explorer */}
+
+        <div className="mt-12">
+
+          <DNAExplorer
+            stories={
+              dna.stories
+            }
+            beliefs={
+              dna.beliefs
+            }
+            rituals={
+              dna.rituals
+            }
+            knowledge={
+              dna.knowledge
+            }
+          />
+
+        </div>
+
+        {/* Original Clusters */}
+
+        <div className="grid lg:grid-cols-2 gap-8 mt-12">
 
           <DNACluster
             title="📖 Stories"
             type="story"
-            items={stories}
+            items={dna.stories}
           />
 
           <DNACluster
             title="🙏 Beliefs"
             type="belief"
-            items={beliefs}
+            items={dna.beliefs}
           />
 
           <DNACluster
             title="🎭 Rituals"
             type="ritual"
-            items={rituals}
+            items={dna.rituals}
           />
 
           <DNACluster
             title="📚 Knowledge"
             type="knowledge"
-            items={knowledge}
+            items={dna.knowledge}
           />
-
-        </div>
-
-        <div
-          className="
-          mt-10
-          grid
-          md:grid-cols-4
-          gap-6
-        "
-        >
-
-          <div className="glass p-6 rounded-3xl">
-            <div className="text-4xl font-bold">
-              {stories.length}
-            </div>
-
-            <div className="mt-2 text-gray-400">
-              Stories
-            </div>
-          </div>
-
-          <div className="glass p-6 rounded-3xl">
-            <div className="text-4xl font-bold">
-              {beliefs.length}
-            </div>
-
-            <div className="mt-2 text-gray-400">
-              Beliefs
-            </div>
-          </div>
-
-          <div className="glass p-6 rounded-3xl">
-            <div className="text-4xl font-bold">
-              {rituals.length}
-            </div>
-
-            <div className="mt-2 text-gray-400">
-              Rituals
-            </div>
-          </div>
-
-          <div className="glass p-6 rounded-3xl">
-            <div className="text-4xl font-bold">
-              {totalNodes}
-            </div>
-
-            <div className="mt-2 text-gray-400">
-              DNA Nodes
-            </div>
-          </div>
 
         </div>
 

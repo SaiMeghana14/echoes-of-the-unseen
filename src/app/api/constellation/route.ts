@@ -1,50 +1,86 @@
 import { NextResponse } from "next/server";
 
-import {
-  getConnections,
-} from "@/services/neo4j/knowledgeGraph";
-
 export async function GET() {
-  try {
-    const records =
-      await getConnections(
-        "ainu"
-      );
+  return NextResponse.json({
+    nodes: [
+      {
+        id: "Ainu Culture",
+        group: "culture",
+      },
 
-    const nodes = [];
-    const links = [];
+      {
+        id: "Stories",
+        group: "story",
+      },
 
-    for (const record of records) {
-      const source =
-        record.get("a");
+      {
+        id: "Beliefs",
+        group: "belief",
+      },
 
-      const target =
-        record.get("b");
+      {
+        id: "Rituals",
+        group: "ritual",
+      },
 
-      nodes.push({
-        id: source.properties.name,
-      });
+      {
+        id: "Knowledge",
+        group: "knowledge",
+      },
 
-      nodes.push({
-        id: target.properties.name,
-      });
+      {
+        id: "Bear Legend",
+        group: "story",
+      },
 
-      links.push({
+      {
+        id: "Nature Spirits",
+        group: "belief",
+      },
+    ],
+
+    links: [
+      {
         source:
-          source.properties.name,
+          "Ainu Culture",
         target:
-          target.properties.name,
-      });
-    }
+          "Stories",
+      },
 
-    return NextResponse.json({
-      nodes,
-      links,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed" },
-      { status: 500 }
-    );
-  }
+      {
+        source:
+          "Ainu Culture",
+        target:
+          "Beliefs",
+      },
+
+      {
+        source:
+          "Ainu Culture",
+        target:
+          "Rituals",
+      },
+
+      {
+        source:
+          "Ainu Culture",
+        target:
+          "Knowledge",
+      },
+
+      {
+        source:
+          "Stories",
+        target:
+          "Bear Legend",
+      },
+
+      {
+        source:
+          "Beliefs",
+        target:
+          "Nature Spirits",
+      },
+    ],
+  });
 }

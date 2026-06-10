@@ -3,17 +3,17 @@ import neo4j from "neo4j-driver";
 const driver = neo4j.driver(
   process.env.NEO4J_URI!,
   neo4j.auth.basic(
-    process.env.NEO4J_USERNAME!,
+    process.env.NEO4J_USER!,
     process.env.NEO4J_PASSWORD!
   )
 );
 
-export async function addArtifactNode(
-  artifact: {
-    id: string;
-    name: string;
-    type: string;
-  }
+export async function createCultureGraph(
+  culture: string,
+  stories: string[],
+  beliefs: string[],
+  rituals: string[],
+  knowledge: string[]
 ) {
   const session =
     driver.session();
@@ -21,51 +21,73 @@ export async function addArtifactNode(
   try {
     await session.run(
       `
-      MERGE (a:Artifact {id:$id})
-
-      SET
-      a.name=$name,
-      a.type=$type
+      MERGE (c:Culture {name:$culture})
       `,
-      artifact
+      { culture }
     );
+
+    for (const story of stories) {
+      await session.run(
+        `
+        MATCH (c:Culture {name:$culture})
+        MERGE (s:Story {name:$story})
+        MERGE (c)-[:HAS_STORY]->(s)
+        `,
+        {
+          culture,
+          story,
+        }
+      );
+    }
+
+    for (const belief of beliefs) {
+      await session.run(
+        `
+        MATCH (c:Culture {name:$culture})
+        MERGE (b:Belief {name:$belief})
+        MERGE (c)-[:HAS_BELIEF]->(b)
+        `,
+        {
+          culture,
+          belief,
+        }
+      );
+    }
+
+    for (const ritual of rituals) {
+      await session.run(
+        `
+        MATCH (c:Culture {name:$culture})
+        MERGE (r:Ritual {name:$ritual})
+        MERGE (c)-[:HAS_RITUAL]->(r)
+        `,
+        {
+          culture,
+          ritual,
+        }
+      );
+    }
+
+    for (const item of knowledge) {
+      await session.run(
+        `
+        MATCH (c:Culture {name:$culture})
+        MERGE (k:Knowledge {name:$item})
+        MERGE (c)-[:HAS_KNOWLEDGE]->(k)
+        `,
+        {
+          culture,
+          item,
+        }
+      );
+    }
   } finally {
     await session.close();
   }
 }
 
-export async function createRelationship(
-  sourceId: string,
-  targetId: string,
-  relationship: string
-) {
-  const session =
-    driver.session();
-
-  try {
-    await session.run(
-      `
-      MATCH (a:Artifact {id:$source})
-
-      MATCH (b:Artifact {id:$target})
-
-      MERGE (a)-[:RELATED_TO {
-        relation:$relation
-      }]->(b)
-      `,
-      {
-        source: sourceId,
-        target: targetId,
-        relation: relationship,
-      }
-    );
-  } finally {
-    await session.close();
-  }
-}
-
-export async function getConnections(
-  artifactId: string
+export async function getCultureGraph(
+  culture: string
 ) {
   const session =
     driver.session();
@@ -74,15 +96,10 @@ export async function getConnections(
     const result =
       await session.run(
         `
-        MATCH (a:Artifact {id:$id})
-        -[r]->
-        (b)
-
-        RETURN a,r,b
+        MATCH (c:Culture {name:$culture})-[r]->(n)
+        RETURN c,r,n
         `,
-        {
-          id: artifactId,
-        }
+        { culture }
       );
 
     return result.records;

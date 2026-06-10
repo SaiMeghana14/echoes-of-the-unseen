@@ -3,14 +3,37 @@
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 
-const Globe = dynamic(
-  () => import("react-globe.gl"),
+const Globe: any = dynamic(
+  () =>
+    import("react-globe.gl").then(
+      (mod) => mod.default
+    ),
   {
     ssr: false,
   }
 );
 
-const heritageData = [
+interface HeritageItem {
+  id: string;
+  title: string;
+  country: string;
+  risk: number;
+  status: string;
+  description: string;
+  lat: number;
+  lng: number;
+  size: number;
+  color: string;
+  label: string;
+}
+
+interface GlobeViewProps {
+  onSelect?: (
+    item: HeritageItem
+  ) => void;
+}
+
+const heritageData: HeritageItem[] = [
   {
     id: "ainu",
     title: "Ainu Language",
@@ -23,7 +46,8 @@ const heritageData = [
     lng: 141.35,
     size: 0.45,
     color: "#ff4d4d",
-    label: "Ainu Language (Japan) • Risk 91%",
+    label:
+      "Ainu Language (Japan) • Risk 91%",
   },
 
   {
@@ -74,10 +98,6 @@ const heritageData = [
       "Māori Oral Histories (New Zealand) • Risk 63%",
   },
 ];
-
-interface GlobeViewProps {
-  onSelect?: (item: any) => void;
-}
 
 export default function GlobeView({
   onSelect,
@@ -160,11 +180,14 @@ export default function GlobeView({
   return (
     <div className="w-full h-[800px]">
       <Globe
+        width={1200}
+        height={800}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
         bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
         backgroundColor="#060B17"
         atmosphereColor="#4FD1FF"
         atmosphereAltitude={0.15}
+
         pointsData={points}
         pointLat="lat"
         pointLng="lng"
@@ -172,6 +195,7 @@ export default function GlobeView({
         pointColor="color"
         pointRadius={0.25}
         pointLabel="label"
+
         ringsData={rings}
         ringLat="lat"
         ringLng="lng"
@@ -179,16 +203,19 @@ export default function GlobeView({
         ringMaxRadius="maxR"
         ringPropagationSpeed="propagationSpeed"
         ringRepeatPeriod="repeatPeriod"
+
         arcsData={arcs}
         arcStartLat="startLat"
         arcStartLng="startLng"
         arcEndLat="endLat"
         arcEndLng="endLng"
-        arcColor="color"
+        arcColor={(d: any) => d.color}
         arcDashLength={0.5}
         arcDashGap={0.15}
         arcDashAnimateTime={2500}
+
         enablePointerInteraction
+
         onPointClick={(point: any) => {
           onSelect?.(point);
         }}

@@ -1,31 +1,66 @@
-import Link from "next/link";
+import HeroSection from "@/components/home/HeroSection";
+
+import EndangeredFeed from "@/components/home/EndangeredFeed";
+
+import OraclePreview from "@/components/home/OraclePreview";
+
+import HistorianPreview from "@/components/home/HistorianPreview";
+
+import VoicesPreview from "@/components/home/VoicesPreview";
+
+import ConstellationPreview from "@/components/home/ConstellationPreview";
+
+import VanishingEarth from "@/components/globe/VanishingEarth";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-space text-white">
-      <section className="flex flex-col items-center justify-center h-screen">
-        <h1 className="text-6xl font-bold mb-6">
-          🌌 Echoes of the Unseen
-        </h1>
+    <main>
 
-        <p className="text-xl text-gray-300 max-w-2xl text-center">
-          What Humanity Forgets, We Remember.
-        </p>
+      <HeroSection />
 
-        <div className="mt-10 flex gap-4">
-          <Link href="/upload">
-            <button className="px-6 py-3 rounded-xl bg-nebula">
-              Start Preserving
-            </button>
-          </Link>
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-6">
 
-          <Link href="/echo-oracle">
-            <button className="px-6 py-3 rounded-xl border">
-              Open Oracle
-            </button>
-          </Link>
+          <h2 className="text-6xl font-bold mb-10">
+            🌍 The Vanishing Earth
+          </h2>
+
+          <p className="text-gray-400 mb-12">
+            A living map of humanity's fading memory.
+          </p>
+
+          <VanishingEarth />
+
         </div>
       </section>
+
+      <EndangeredFeed />
+
+      <OraclePreview />
+
+      <HistorianPreview />
+
+      <VoicesPreview />
+
+      <ConstellationPreview />
+
+      <section className="py-32 text-center">
+
+        <h2 className="text-6xl font-bold">
+          Humanity doesn't lose its memory all at once.
+        </h2>
+
+        <p className="text-2xl mt-6 text-memory">
+          It disappears one story at a time.
+        </p>
+
+        <p className="text-gray-400 mt-8 max-w-3xl mx-auto">
+          Echoes of the Unseen ensures those stories
+          are never lost.
+        </p>
+
+      </section>
+
     </main>
   );
 }

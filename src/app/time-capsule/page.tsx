@@ -2,84 +2,106 @@
 
 import { useState } from "react";
 
-export default function TimeCapsule() {
-  const [title, setTitle] =
-    useState("");
+import CapsuleCreator from "@/components/capsule/CapsuleCreator";
+import CapsuleCard from "@/components/capsule/CapsuleCard";
+import CapsuleTimeline from "@/components/capsule/CapsuleTimeline";
 
-  const [
-    unlockDate,
-    setUnlockDate
-  ] = useState("");
-
+export default function TimeCapsulePage() {
   const [capsule, setCapsule] =
     useState<any>(null);
 
-  const create =
-    async () => {
-      const res =
-        await fetch(
-          "/api/capsule",
-          {
-            method: "POST",
+  const [loading, setLoading] =
+    useState(false);
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
+  const createCapsule =
+    async (
+      title: string,
+      description: string,
+      unlockDate: string
+    ) => {
+      try {
+        setLoading(true);
 
-            body:
-              JSON.stringify({
-                title,
-                unlockDate,
-              }),
-          }
-        );
+        const res =
+          await fetch(
+            "/api/capsule",
+            {
+              method: "POST",
 
-      setCapsule(
-        await res.json()
-      );
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+
+              body:
+                JSON.stringify({
+                  title,
+                  description,
+                  unlockDate,
+                }),
+            }
+          );
+
+        const data =
+          await res.json();
+
+        setCapsule(data);
+      } finally {
+        setLoading(false);
+      }
     };
 
   return (
-    <main className="p-10">
+    <main className="max-w-7xl mx-auto py-20 px-6">
 
-      <h1>
-        Time Capsule
+      <h1 className="text-6xl font-bold">
+        ⏳ Time Capsule
       </h1>
 
-      <input
-        value={title}
-        onChange={(e) =>
-          setTitle(
-            e.target.value
-          )
-        }
-      />
+      <p className="text-gray-400 mt-4">
+        Preserve memories and
+        unlock them in the future.
+      </p>
 
-      <input
-        type="date"
-        value={unlockDate}
-        onChange={(e) =>
-          setUnlockDate(
-            e.target.value
-          )
-        }
-      />
+      <div className="mt-10">
 
-      <button
-        onClick={create}
-      >
-        Create Capsule
-      </button>
+        <CapsuleCreator
+          onCreate={
+            createCapsule
+          }
+        />
+
+      </div>
+
+      {loading && (
+        <div className="mt-8">
+          Creating capsule...
+        </div>
+      )}
 
       {capsule && (
-        <pre>
-          {JSON.stringify(
-            capsule,
-            null,
-            2
-          )}
-        </pre>
+        <div className="mt-12 space-y-8">
+
+          <CapsuleCard
+            title={
+              capsule.title
+            }
+            unlockDate={
+              capsule.unlockDate
+            }
+            status={
+              capsule.status
+            }
+          />
+
+          <CapsuleTimeline
+            events={
+              capsule.timeline ||
+              []
+            }
+          />
+
+        </div>
       )}
 
     </main>

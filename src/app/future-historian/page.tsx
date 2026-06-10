@@ -2,31 +2,82 @@
 
 import { useState } from "react";
 
+import { useHistorian } from "@/hooks/useHistorian";
+
+import HistorianOutput from "@/components/historian/HistorianOutput";
+
 export default function FutureHistorianPage() {
-  const [result, setResult] = useState("");
+  const [content, setContent] =
+    useState("");
+
+  const {
+    analyze,
+    result,
+    loading,
+  } = useHistorian();
+
+  const handleAnalyze =
+    async () => {
+      if (!content.trim()) return;
+
+      await analyze(content);
+    };
 
   return (
-    <main className="p-10 text-white">
-      <h1 className="text-4xl font-bold">
-        🔮 Future Historian
+    <main className="max-w-5xl mx-auto py-20 px-6">
+
+      <h1 className="text-6xl font-bold">
+        🕰 Future Historian
       </h1>
 
+      <p className="mt-4 text-gray-400">
+        Discover why future generations
+        would value today's memories.
+      </p>
+
       <textarea
-        className="w-full mt-6 p-4 rounded bg-black"
-        placeholder="Paste a story or tradition..."
+        value={content}
+        onChange={(e) =>
+          setContent(
+            e.target.value
+          )
+        }
+        placeholder="
+Upload a recipe, story, tradition, website, photo description..."
+        className="
+        mt-8
+        w-full
+        min-h-[220px]
+        rounded-3xl
+        bg-black/20
+        border
+        border-white/10
+        p-6
+      "
       />
 
       <button
-        className="mt-4 px-6 py-3 bg-nebula rounded"
+        onClick={handleAnalyze}
+        disabled={loading}
+        className="
+        mt-6
+        px-8
+        py-4
+        rounded-2xl
+        bg-memory
+        text-black
+        font-bold
+      "
       >
-        Analyze
+        {loading
+          ? "Analyzing..."
+          : "Analyze From 2126"}
       </button>
 
-      {result && (
-        <div className="mt-8">
-          {result}
-        </div>
-      )}
+      <HistorianOutput
+        report={result}
+      />
+
     </main>
   );
 }

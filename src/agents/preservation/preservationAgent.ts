@@ -1,42 +1,33 @@
 import {
- generateText
-}
-from "@/services/gemini/geminiClient";
+  generateText,
+} from "@/services/gemini/geminiClient";
 
 export async function preservationAgent(
   transcript: string
 ) {
   const prompt = `
-You are the Last Voices Agent.
-
-Analyze this elder interview.
+Analyze the following heritage transcript.
 
 Extract:
 
-1. Stories
-2. Traditions
-3. Beliefs
-4. Wisdom
-5. Life Lessons
+- stories
+- traditions
+- beliefs
+- lifeLessons
+- preservationSummary
 
-Return ONLY valid JSON.
-
-{
- "stories":[],
- "traditions":[],
- "beliefs":[],
- "wisdom":[],
- "lifeLessons":[],
- "preservationSummary":""
-}
+Return JSON only.
 
 Transcript:
-
 ${transcript}
 `;
 
   const response =
-    await geminiClient.generate(prompt);
+    await generateText(
+      prompt
+    );
 
-  return JSON.parse(response);
+  return JSON.parse(
+    response
+  );
 }

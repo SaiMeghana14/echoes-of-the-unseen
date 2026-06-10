@@ -21,8 +21,19 @@ ${artifact}
       prompt
     );
 
-  return response;
+  return {
+    artifactTitle: artifact,
+
+    significance:
+      response,
+
+    futureImpact:
+      "This artifact provides future generations with valuable insight into cultural practices, traditions, and lived experiences that may otherwise disappear.",
+
+    preservationPriority:
+      "High",
+  };
 }
 
 export const futureHistorianAgent =
- runFutureHistorian;
+  runFutureHistorian;

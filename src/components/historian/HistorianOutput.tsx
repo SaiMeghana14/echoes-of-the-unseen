@@ -1,81 +1,86 @@
-interface HistorianReport {
-  artifactTitle: string;
+import {
+  generateText,
+} from "@/services/gemini/geminiClient";
 
-  historicalImportance: string;
+import {
+  FUTURE_HISTORIAN_PROMPT,
+} from "@/services/gemini/prompts";
 
-  futureSignificance: string;
+export async function runFutureHistorian(
+  artifact: string
+) {
+  const prompt = `
+${FUTURE_HISTORIAN_PROMPT}
 
-  predictedLoss: string;
+Analyze this cultural artifact as a historian in the year 2126.
 
-  preservationRecommendation: string;
+Artifact:
+${artifact}
 
-  futureRelevanceScore: number;
+Return JSON with:
+
+{
+  "historicalImportance":"",
+  "futureSignificance":"",
+  "predictedLoss":"",
+  "preservationRecommendation":"",
+  "futureRelevanceScore":0
+}
+`;
+
+  const response =
+    await generateText(
+      prompt
+    );
+
+  try {
+    const parsed =
+      JSON.parse(response);
+
+    return {
+      artifactTitle: artifact,
+
+      historicalImportance:
+        parsed.historicalImportance ??
+        "This artifact represents an important cultural memory.",
+
+      futureSignificance:
+        parsed.futureSignificance ??
+        "Future generations may view this as historically valuable.",
+
+      predictedLoss:
+        parsed.predictedLoss ??
+        "Loss of cultural identity and knowledge.",
+
+      preservationRecommendation:
+        parsed.preservationRecommendation ??
+        "Digitally archive and preserve this artifact.",
+
+      futureRelevanceScore:
+        Number(
+          parsed.futureRelevanceScore
+        ) || 75,
+    };
+  } catch {
+    return {
+      artifactTitle: artifact,
+
+      historicalImportance:
+        response,
+
+      futureSignificance:
+        "This artifact provides future generations with insight into cultural traditions and lived experiences.",
+
+      predictedLoss:
+        "Unique stories, traditions, and knowledge may disappear if preservation efforts are not undertaken.",
+
+      preservationRecommendation:
+        "Archive, document, and share this artifact across digital preservation networks.",
+
+      futureRelevanceScore: 85,
+    };
+  }
 }
 
-interface Props {
-  report: HistorianReport | null;
-}
-
-export default function HistorianOutput({
-  report,
-}: Props) {
-  if (!report) return null;
-
-  return (
-    <div className="space-y-6 mt-8">
-
-      <div className="rounded-3xl p-8 bg-memory/5 border border-memory/20">
-        <h2 className="text-3xl font-bold">
-          🕰 Future Historian Report
-        </h2>
-
-        <p className="text-gray-400 mt-2">
-          Year 2126 Analysis
-        </p>
-      </div>
-
-      <div className="rounded-3xl p-8 bg-nebula/5 border border-nebula/20">
-        <h3 className="font-bold text-xl">
-          Future Relevance
-        </h3>
-
-        <div className="text-6xl font-bold mt-4 text-memory">
-          {report.futureRelevanceScore}%
-        </div>
-      </div>
-
-      <div className="rounded-3xl p-8 border border-white/10">
-        <h3 className="font-bold mb-3">
-          Historical Importance
-        </h3>
-
-        <p>{report.historicalImportance}</p>
-      </div>
-
-      <div className="rounded-3xl p-8 border border-white/10">
-        <h3 className="font-bold mb-3">
-          Future Significance
-        </h3>
-
-        <p>{report.futureSignificance}</p>
-      </div>
-
-      <div className="rounded-3xl p-8 border border-red-500/20 bg-red-500/5">
-        <h3 className="font-bold mb-3">
-          What Humanity Would Lose
-        </h3>
-
-        <p>{report.predictedLoss}</p>
-      </div>
-
-      <div className="rounded-3xl p-8 border border-green-500/20 bg-green-500/5">
-        <h3 className="font-bold mb-3">
-          Preservation Recommendation
-        </h3>
-
-        <p>{report.preservationRecommendation}</p>
-      </div>
-
-    </div>
-  );
-}
+export const futureHistorianAgent =
+  runFutureHistorian;

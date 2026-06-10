@@ -1,53 +1,33 @@
-import { NextResponse } from "next/server";
+import {
+  NextResponse,
+} from "next/server";
+
+import {
+  generateText,
+} from "@/services/gemini/geminiClient";
 
 export async function POST(
   req: Request
 ) {
-  try {
-    const body =
-      await req.json();
+  const {
+    title,
+  } = await req.json();
 
-    const title =
-      body.title ||
-      "Untitled Heritage";
+  const result =
+    await generateText(`
+Create a heritage book.
 
-    return NextResponse.json({
-      title,
+Title:
+${title}
 
-      summary: `
-This heritage archive preserves stories,
-traditions, and cultural practices for
-future generations.
-      `.trim(),
+Generate:
+- Summary
+- Timeline
+- Stories
+- Preservation Plan
+`);
 
-      timeline: [
-        "Origins and Early History",
-        "Community Development",
-        "Cultural Expansion",
-        "Modern Challenges",
-        "Preservation Era",
-      ],
-
-      stories: [
-        "Bear Legend",
-        "Winter Story",
-        "Fishing Tradition",
-        "Ancestor Journey",
-        "Harvest Celebration",
-      ],
-
-      generatedAt:
-        new Date().toISOString(),
-    });
-  } catch (error) {
-    return NextResponse.json(
-      {
-        error:
-          "Failed to generate heritage book",
-      },
-      {
-        status: 500,
-      }
-    );
-  }
+  return NextResponse.json({
+    content: result,
+  });
 }

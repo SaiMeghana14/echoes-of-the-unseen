@@ -1,0 +1,19 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "artifacts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "risk",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "country",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

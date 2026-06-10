@@ -2,68 +2,131 @@
 
 import { useState } from "react";
 
-export default function BookGenerator() {
+import BookPreview from "@/components/book/BookPreview";
+import TimelineSection from "@/components/book/TimelineSection";
+import StorySection from "@/components/book/StorySection";
+
+export default function BookGeneratorPage() {
   const [title, setTitle] =
     useState("");
+
+  const [loading, setLoading] =
+    useState(false);
 
   const [book, setBook] =
     useState<any>(null);
 
-  const generate =
+  const generateBook =
     async () => {
-      const res =
-        await fetch(
-          "/api/book",
-          {
-            method: "POST",
+      if (!title.trim()) return;
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
+      try {
+        setLoading(true);
 
-            body:
-              JSON.stringify({
-                title,
-              }),
-          }
-        );
+        const res =
+          await fetch(
+            "/api/book",
+            {
+              method: "POST",
 
-      setBook(
-        await res.json()
-      );
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+
+              body:
+                JSON.stringify({
+                  title,
+                }),
+            }
+          );
+
+        const data =
+          await res.json();
+
+        setBook(data);
+      } finally {
+        setLoading(false);
+      }
     };
 
   return (
-    <main className="p-10">
+    <main className="max-w-7xl mx-auto py-20 px-6">
 
-      <h1>
-        Heritage Book Generator
+      <h1 className="text-6xl font-bold">
+        📖 Heritage Book Generator
       </h1>
 
-      <input
-        value={title}
-        onChange={(e) =>
-          setTitle(
-            e.target.value
-          )
-        }
-      />
+      <p className="text-gray-400 mt-4">
+        Turn stories, traditions,
+        and memories into a
+        preservation book.
+      </p>
 
-      <button
-        onClick={generate}
-      >
-        Generate
-      </button>
+      <div className="mt-10 flex gap-4">
+
+        <input
+          value={title}
+          onChange={(e) =>
+            setTitle(
+              e.target.value
+            )
+          }
+          placeholder="Ainu Heritage Archive"
+          className="
+          flex-1
+          p-4
+          rounded-2xl
+          bg-black/20
+          border
+          border-white/10
+          "
+        />
+
+        <button
+          onClick={
+            generateBook
+          }
+          disabled={loading}
+          className="
+          px-8
+          py-4
+          rounded-2xl
+          bg-memory
+          text-black
+          font-bold
+          "
+        >
+          {loading
+            ? "Generating..."
+            : "Generate"}
+        </button>
+
+      </div>
 
       {book && (
-        <pre>
-          {JSON.stringify(
-            book,
-            null,
-            2
-          )}
-        </pre>
+        <div className="mt-12 space-y-8">
+
+          <BookPreview
+            title={book.title}
+            summary={
+              book.summary
+            }
+          />
+
+          <TimelineSection
+            timeline={
+              book.timeline
+            }
+          />
+
+          <StorySection
+            stories={
+              book.stories || []
+            }
+          />
+
+        </div>
       )}
 
     </main>

@@ -2,23 +2,33 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   return NextResponse.json({
-    culture: "Ainu Culture",
+    culture:
+      "Ainu Culture",
 
     stories: [
       "Bear Legend",
-      "Winter Story"
+      "Winter Story",
+      "Ancestor Journey",
+      "River Spirits",
     ],
 
     beliefs: [
-      "Nature Spirits"
+      "Nature Spirits",
+      "Respect for Ancestors",
+      "Community Harmony",
     ],
 
     rituals: [
-      "Harvest Festival"
+      "Harvest Festival",
+      "Coming of Age Ceremony",
+      "Seasonal Gathering",
     ],
 
     knowledge: [
-      "Fishing Methods"
-    ]
+      "Fishing Methods",
+      "Traditional Medicine",
+      "Oral History",
+      "Forest Navigation",
+    ],
   });
 }

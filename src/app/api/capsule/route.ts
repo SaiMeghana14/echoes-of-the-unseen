@@ -1,20 +1,57 @@
-import { NextResponse }
-from "next/server";
+import { NextResponse } from "next/server";
 
 export async function POST(
- req: Request
+  req: Request
 ) {
- const body =
-  await req.json();
+  try {
+    const body =
+      await req.json();
 
- return NextResponse.json({
-  title:
-   body.title,
+    const title =
+      body.title ||
+      "Untitled Capsule";
 
-  unlockDate:
-   body.unlockDate,
+    const unlockDate =
+      body.unlockDate ||
+      "2035-01-01";
 
-  status:
-   "Stored"
- });
+    return NextResponse.json({
+      title,
+
+      unlockDate,
+
+      status: "Stored",
+
+      createdAt:
+        new Date().toISOString(),
+
+      timeline: [
+        {
+          date: new Date()
+            .toISOString()
+            .split("T")[0],
+
+          title:
+            "Capsule Created",
+        },
+
+        {
+          date: unlockDate,
+
+          title:
+            "Capsule Opens",
+        },
+      ],
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error:
+          "Failed to create capsule",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }

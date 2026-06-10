@@ -1,13 +1,20 @@
-import { createEmbedding }
-from "@/services/gemini/embeddings";
+import {
+  generateText,
+} from "@/services/gemini/geminiClient";
 
-import { searchSimilar }
-from "@/services/pinecone/vectorStore";
+import {
+  createEmbedding,
+} from "@/services/gemini/embeddings";
 
-import { geminiClient }
-from "@/services/gemini/geminiClient";
+import {
+  searchSimilar,
+} from "@/services/pinecone/vectorStore";
 
-export async function oracleAgent(
+import {
+  ORACLE_PROMPT,
+} from "@/services/gemini/prompts";
+
+export async function runOracle(
   question: string
 ) {
   const embedding =
@@ -24,33 +31,28 @@ export async function oracleAgent(
     matches
       .map(
         (m) =>
-          m.metadata?.title
+          m.metadata?.title ??
+          ""
       )
       .join("\n");
 
   const prompt = `
-You are Echo Oracle.
+${ORACLE_PROMPT}
 
 Context:
-
 ${context}
 
 Question:
-
 ${question}
-
-Identify:
-
-1. What humanity is overlooking
-2. What may disappear
-3. Why it matters
-4. How to preserve it
 `;
 
-  const response =
-    await geminiClient.generate(
+  const answer =
+    await generateText(
       prompt
     );
 
-  return response;
+  return {
+    answer,
+    context,
+  };
 }

@@ -1,4 +1,6 @@
-import { geminiClient } from "@/services/gemini/geminiClient";
+import {
+  generateText,
+} from "@/services/gemini/geminiClient";
 
 export async function storytellingAgent(
   artifact: string
@@ -17,11 +19,12 @@ Artifact:
 ${artifact}
 `;
 
-  const response = await geminiClient.generate(
-    prompt
-  );
+  const response =
+    await generateText(
+      prompt
+    );
 
   return {
-    story: response
+    story: response,
   };
 }

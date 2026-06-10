@@ -1,13 +1,34 @@
-import { gemini } from "./geminiClient";
+import { ai } from "./geminiClient";
 
 export async function createEmbedding(
   text: string
-) {
-  const result =
-    await gemini.models.embedContent({
-      model: "text-embedding-004",
-      contents: text,
-    });
+): Promise<number[]> {
+  try {
+    const result =
+      await ai.models.embedContent({
+        model:
+          "text-embedding-004",
 
-  return result.embeddings?.[0]?.values ?? [];
+        contents: text,
+      });
+
+    const embedding =
+      result.embeddings?.[0]
+        ?.values;
+
+    if (!embedding) {
+      throw new Error(
+        "Embedding generation failed"
+      );
+    }
+
+    return embedding;
+  } catch (error) {
+    console.error(
+      "Embedding Error:",
+      error
+    );
+
+    throw error;
+  }
 }

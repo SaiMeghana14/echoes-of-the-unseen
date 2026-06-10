@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-
 import "@/styles/globals.css";
 
 import Navbar from "@/components/common/Navbar";
@@ -8,7 +7,7 @@ import Footer from "@/components/common/Footer";
 export const metadata: Metadata = {
   title: "Echoes of the Unseen",
   description:
-    "What Humanity Forgets, We Remember.",
+    "AI Guardian of Human Memory",
 };
 
 export default function RootLayout({
@@ -18,18 +17,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-
-        <div className="starfield" />
-
+      <body className="bg-black text-white">
         <Navbar />
 
-        <main>
-          {children}
-        </main>
+        {children}
 
         <Footer />
-
       </body>
     </html>
   );

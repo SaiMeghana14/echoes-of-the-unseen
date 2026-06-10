@@ -12,6 +12,8 @@ import ConstellationPreview from "@/components/home/ConstellationPreview";
 
 import VanishingEarth from "@/components/globe/VanishingEarth";
 
+import CulturalDNA from "@/components/dna/CulturalDNA";
+
 export default function HomePage() {
   return (
     <main>
@@ -39,6 +41,8 @@ export default function HomePage() {
       <OraclePreview />
 
       <HistorianPreview />
+
+      <CulturalDNA />
 
       <VoicesPreview />
 

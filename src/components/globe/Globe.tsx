@@ -23,7 +23,7 @@ const heritageData = [
     lng: 141.35,
     size: 0.45,
     color: "#ff4d4d",
-    label: "Ainu Language",
+    label: "Ainu Language (Japan) • Risk 91%",
   },
 
   {
@@ -38,7 +38,8 @@ const heritageData = [
     lng: 76.7,
     size: 0.4,
     color: "#FFD166",
-    label: "Toda Embroidery",
+    label:
+      "Toda Embroidery (India) • Risk 82%",
   },
 
   {
@@ -53,16 +54,38 @@ const heritageData = [
     lng: 122.5,
     size: 0.42,
     color: "#ff4d4d",
-    label: "Fishing Songs",
+    label:
+      "Fishing Songs (Philippines) • Risk 88%",
+  },
+
+  {
+    id: "maori",
+    title: "Māori Oral Histories",
+    country: "New Zealand",
+    risk: 63,
+    status: "Protected",
+    description:
+      "Community-led preservation efforts are helping keep these stories alive.",
+    lat: -41.28,
+    lng: 174.77,
+    size: 0.35,
+    color: "#4FD1FF",
+    label:
+      "Māori Oral Histories (New Zealand) • Risk 63%",
   },
 ];
+
 interface GlobeViewProps {
   onSelect?: (item: any) => void;
 }
 
 export default function GlobeView({
   onSelect,
-}: GlobeViewProps)
+}: GlobeViewProps) {
+  const points = useMemo(
+    () => heritageData,
+    []
+  );
 
   const rings = useMemo(
     () => [
@@ -140,10 +163,8 @@ export default function GlobeView({
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
         bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
         backgroundColor="#060B17"
-
         atmosphereColor="#4FD1FF"
         atmosphereAltitude={0.15}
-
         pointsData={points}
         pointLat="lat"
         pointLng="lng"
@@ -151,7 +172,6 @@ export default function GlobeView({
         pointColor="color"
         pointRadius={0.25}
         pointLabel="label"
-
         ringsData={rings}
         ringLat="lat"
         ringLng="lng"
@@ -159,7 +179,6 @@ export default function GlobeView({
         ringMaxRadius="maxR"
         ringPropagationSpeed="propagationSpeed"
         ringRepeatPeriod="repeatPeriod"
-
         arcsData={arcs}
         arcStartLat="startLat"
         arcStartLng="startLng"
@@ -169,9 +188,7 @@ export default function GlobeView({
         arcDashLength={0.5}
         arcDashGap={0.15}
         arcDashAnimateTime={2500}
-
         enablePointerInteraction
-
         onPointClick={(point: any) => {
           onSelect?.(point);
         }}

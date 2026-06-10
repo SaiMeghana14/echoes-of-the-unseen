@@ -1,30 +1,25 @@
-import { geminiClient } from "@/services/gemini/geminiClient";
+import {
+  generateText,
+} from "@/services/gemini/geminiClient";
 
-export async function futureHistorianAgent(
-  content: string
+import {
+  FUTURE_HISTORIAN_PROMPT,
+} from "@/services/gemini/prompts";
+
+export async function runFutureHistorian(
+  artifact: string
 ) {
   const prompt = `
-You are a historian living in year 2126.
-
-Analyze the following artifact.
-
-Explain:
-
-1. Why future generations care.
-2. What it reveals about society.
-3. What may have been lost.
-4. Why preservation matters.
+${FUTURE_HISTORIAN_PROMPT}
 
 Artifact:
-
-${content}
+${artifact}
 `;
 
-  const response = await geminiClient.generate(
-    prompt
-  );
+  const response =
+    await generateText(
+      prompt
+    );
 
-  return {
-    historianView: response
-  };
+  return response;
 }

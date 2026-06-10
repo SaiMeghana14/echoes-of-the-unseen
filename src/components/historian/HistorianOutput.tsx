@@ -1,86 +1,89 @@
-import {
-  generateText,
-} from "@/services/gemini/geminiClient";
+interface HistorianReport {
+  artifactTitle: string;
 
-import {
-  FUTURE_HISTORIAN_PROMPT,
-} from "@/services/gemini/prompts";
+  historicalImportance: string;
 
-export async function runFutureHistorian(
-  artifact: string
-) {
-  const prompt = `
-${FUTURE_HISTORIAN_PROMPT}
+  futureSignificance: string;
 
-Analyze this cultural artifact as a historian in the year 2126.
+  predictedLoss: string;
 
-Artifact:
-${artifact}
+  preservationRecommendation: string;
 
-Return JSON with:
-
-{
-  "historicalImportance":"",
-  "futureSignificance":"",
-  "predictedLoss":"",
-  "preservationRecommendation":"",
-  "futureRelevanceScore":0
+  futureRelevanceScore: number;
 }
-`;
 
-  const response =
-    await generateText(
-      prompt
-    );
+interface Props {
+  report: HistorianReport | null;
+}
 
-  try {
-    const parsed =
-      JSON.parse(response);
-
-    return {
-      artifactTitle: artifact,
-
-      historicalImportance:
-        parsed.historicalImportance ??
-        "This artifact represents an important cultural memory.",
-
-      futureSignificance:
-        parsed.futureSignificance ??
-        "Future generations may view this as historically valuable.",
-
-      predictedLoss:
-        parsed.predictedLoss ??
-        "Loss of cultural identity and knowledge.",
-
-      preservationRecommendation:
-        parsed.preservationRecommendation ??
-        "Digitally archive and preserve this artifact.",
-
-      futureRelevanceScore:
-        Number(
-          parsed.futureRelevanceScore
-        ) || 75,
-    };
-  } catch {
-    return {
-      artifactTitle: artifact,
-
-      historicalImportance:
-        response,
-
-      futureSignificance:
-        "This artifact provides future generations with insight into cultural traditions and lived experiences.",
-
-      predictedLoss:
-        "Unique stories, traditions, and knowledge may disappear if preservation efforts are not undertaken.",
-
-      preservationRecommendation:
-        "Archive, document, and share this artifact across digital preservation networks.",
-
-      futureRelevanceScore: 85,
-    };
+export default function HistorianOutput({
+  report,
+}: Props) {
+  if (!report) {
+    return null;
   }
-}
 
-export const futureHistorianAgent =
-  runFutureHistorian;
+  return (
+    <div className="space-y-6 mt-10">
+      <div className="rounded-3xl border border-memory/20 bg-memory/5 p-8">
+        <h2 className="text-3xl font-bold">
+          🕰 Future Historian Report
+        </h2>
+
+        <p className="mt-2 text-gray-400">
+          Analysis from the year 2126
+        </p>
+      </div>
+
+      <div className="rounded-3xl border border-nebula/20 bg-nebula/5 p-8">
+        <h3 className="text-xl font-bold">
+          Future Relevance Score
+        </h3>
+
+        <div className="mt-4 text-6xl font-bold text-memory">
+          {report.futureRelevanceScore}%
+        </div>
+      </div>
+
+      <div className="rounded-3xl border border-white/10 p-8">
+        <h3 className="mb-3 text-xl font-bold">
+          Artifact
+        </h3>
+
+        <p>{report.artifactTitle}</p>
+      </div>
+
+      <div className="rounded-3xl border border-white/10 p-8">
+        <h3 className="mb-3 text-xl font-bold">
+          Historical Importance
+        </h3>
+
+        <p>{report.historicalImportance}</p>
+      </div>
+
+      <div className="rounded-3xl border border-white/10 p-8">
+        <h3 className="mb-3 text-xl font-bold">
+          Future Significance
+        </h3>
+
+        <p>{report.futureSignificance}</p>
+      </div>
+
+      <div className="rounded-3xl border border-red-500/20 bg-red-500/5 p-8">
+        <h3 className="mb-3 text-xl font-bold">
+          What Humanity Would Lose
+        </h3>
+
+        <p>{report.predictedLoss}</p>
+      </div>
+
+      <div className="rounded-3xl border border-green-500/20 bg-green-500/5 p-8">
+        <h3 className="mb-3 text-xl font-bold">
+          Preservation Recommendation
+        </h3>
+
+        <p>{report.preservationRecommendation}</p>
+      </div>
+    </div>
+  );
+}

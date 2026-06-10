@@ -1,4 +1,7 @@
-import { geminiClient } from "@/services/gemini/geminiClient";
+import {
+ generateText
+}
+from "@/services/gemini/geminiClient";
 
 export async function preservationAgent(
   transcript: string

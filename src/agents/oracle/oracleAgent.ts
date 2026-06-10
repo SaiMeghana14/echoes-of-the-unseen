@@ -56,3 +56,6 @@ ${question}
     context,
   };
 }
+
+export const oracleAgent =
+ runOracle;

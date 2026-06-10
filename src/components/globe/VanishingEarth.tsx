@@ -31,9 +31,14 @@ const endangeredItems = [
 ];
 
 export default function VanishingEarth() {
-  const [selected] = useState(
-    endangeredItems[0]
-  );
+  const [selected, setSelected] =
+    useState(endangeredItems[0]);
+  
+  <GlobeView
+    onSelect={(item) =>
+      setSelected(item)
+    }
+  />
 
   return (
     <section className="relative">

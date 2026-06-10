@@ -1,27 +1,51 @@
+import DashboardHero from "@/components/dashboard/DashboardHero";
+
+import MetricsPanel from "@/components/dashboard/MetricsPanel";
+
+import RiskFeed from "@/components/dashboard/RiskFeed";
+
+import ThreatMap from "@/components/dashboard/ThreatMap";
+
+import TrendChart from "@/components/dashboard/TrendChart";
+
+import RevivalOpportunities from "@/components/dashboard/RevivalOpportunities";
+
+import OracleInsights from "@/components/dashboard/OracleInsights";
+
+import PreservationTimeline from "@/components/dashboard/PreservationTimeline";
+
 export default function DashboardPage() {
   return (
-    <main className="p-10 text-white">
-      <h1 className="text-4xl font-bold">
-        Dashboard
-      </h1>
+    <main className="max-w-7xl mx-auto px-6 py-16">
 
-      <div className="grid grid-cols-4 gap-6 mt-10">
-        <div className="p-6 border rounded-xl">
-          Artifacts
-        </div>
+      <DashboardHero />
 
-        <div className="p-6 border rounded-xl">
-          Communities
-        </div>
+      <MetricsPanel />
 
-        <div className="p-6 border rounded-xl">
-          Risk Alerts
-        </div>
+      <div className="grid lg:grid-cols-2 gap-8 mt-10">
 
-        <div className="p-6 border rounded-xl">
-          Oracle Insights
-        </div>
+        <ThreatMap />
+
+        <TrendChart />
+
       </div>
+
+      <div className="grid lg:grid-cols-2 gap-8 mt-10">
+
+        <RiskFeed />
+
+        <OracleInsights />
+
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8 mt-10">
+
+        <RevivalOpportunities />
+
+        <PreservationTimeline />
+
+      </div>
+
     </main>
   );
 }

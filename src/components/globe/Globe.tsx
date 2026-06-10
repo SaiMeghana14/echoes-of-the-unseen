@@ -12,43 +12,57 @@ const Globe = dynamic(
 
 const heritageData = [
   {
+    id: "ainu",
+    title: "Ainu Language",
+    country: "Japan",
+    risk: 91,
+    status: "Critical",
+    description:
+      "One of the world's most endangered indigenous languages.",
     lat: 43.06,
     lng: 141.35,
     size: 0.45,
     color: "#ff4d4d",
-    label: "Ainu Language (Japan) • CRITICAL • Risk 91%",
+    label: "Ainu Language",
   },
 
   {
+    id: "toda",
+    title: "Toda Embroidery",
+    country: "India",
+    risk: 82,
+    status: "At Risk",
+    description:
+      "Traditional embroidery practiced by the Toda community.",
     lat: 11.4,
     lng: 76.7,
     size: 0.4,
     color: "#FFD166",
-    label: "Toda Embroidery (India) • AT RISK • Risk 82%",
+    label: "Toda Embroidery",
   },
 
   {
+    id: "fishing",
+    title: "Fishing Songs",
+    country: "Philippines",
+    risk: 88,
+    status: "Critical",
+    description:
+      "Oral traditions passed through generations.",
     lat: 13.4,
     lng: 122.5,
     size: 0.42,
     color: "#ff4d4d",
-    label: "Fishing Songs (Philippines) • CRITICAL • Risk 88%",
-  },
-
-  {
-    lat: -41.28,
-    lng: 174.77,
-    size: 0.35,
-    color: "#4FD1FF",
-    label: "Māori Oral Histories (New Zealand) • PROTECTED",
+    label: "Fishing Songs",
   },
 ];
+interface GlobeViewProps {
+  onSelect?: (item: any) => void;
+}
 
-export default function GlobeView() {
-  const points = useMemo(
-    () => heritageData,
-    []
-  );
+export default function GlobeView({
+  onSelect,
+}: GlobeViewProps)
 
   const rings = useMemo(
     () => [
@@ -157,6 +171,10 @@ export default function GlobeView() {
         arcDashAnimateTime={2500}
 
         enablePointerInteraction
+
+        onPointClick={(point: any) => {
+          onSelect?.(point);
+        }}
       />
     </div>
   );

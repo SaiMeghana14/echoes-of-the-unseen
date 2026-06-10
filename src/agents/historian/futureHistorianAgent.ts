@@ -23,3 +23,6 @@ ${artifact}
 
   return response;
 }
+
+export const futureHistorianAgent =
+ runFutureHistorian;

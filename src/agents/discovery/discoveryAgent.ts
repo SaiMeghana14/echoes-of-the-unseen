@@ -23,7 +23,7 @@ Artifact:
 ${JSON.stringify(input)}
 `;
 
-  const response = await generateText.generate(prompt);
+  const response = await generateText(prompt);
 
   return JSON.parse(response);
 }

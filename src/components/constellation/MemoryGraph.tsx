@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import ForceGraph3D from "react-force-graph-3d";
 
 const data = {
@@ -35,6 +36,20 @@ const data = {
 };
 
 export default function MemoryGraph() {
+  const [graph, setGraph] =
+    useState({
+      nodes: [],
+      links: [],
+    });
+
+  useEffect(() => {
+    fetch(
+      "/api/constellation"
+    )
+      .then((r) => r.json())
+      .then(setGraph);
+  }, []);
+  
   return (
     <div className="h-[800px]">
       <ForceGraph3D

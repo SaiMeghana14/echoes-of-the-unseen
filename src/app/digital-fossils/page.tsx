@@ -2,68 +2,99 @@
 
 import { useState } from "react";
 
-export default function DigitalFossils() {
-  const [url, setUrl] =
-    useState("");
+import WebsiteAnalyzer from "@/components/fossils/WebsiteAnalyzer";
+import FossilCard from "@/components/fossils/FossilCard";
+import FossilTimeline from "@/components/fossils/FossilTimeline";
+
+export default function DigitalFossilsPage() {
+  const [loading, setLoading] =
+    useState(false);
 
   const [data, setData] =
     useState<any>(null);
 
-  const analyze =
-    async () => {
-      const res =
-        await fetch(
-          "/api/fossils",
-          {
-            method: "POST",
+  const analyzeWebsite =
+    async (url: string) => {
+      if (!url.trim()) return;
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
+      try {
+        setLoading(true);
 
-            body:
-              JSON.stringify({
-                url,
-              }),
-          }
-        );
+        const res =
+          await fetch(
+            "/api/fossils",
+            {
+              method: "POST",
 
-      setData(
-        await res.json()
-      );
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+
+              body:
+                JSON.stringify({
+                  url,
+                }),
+            }
+          );
+
+        const result =
+          await res.json();
+
+        setData(result);
+      } finally {
+        setLoading(false);
+      }
     };
 
   return (
-    <main className="p-10">
+    <main className="max-w-7xl mx-auto py-20 px-6">
 
-      <h1>
-        Digital Fossils
+      <h1 className="text-6xl font-bold">
+        🏺 Digital Fossils
       </h1>
 
-      <input
-        value={url}
-        onChange={(e) =>
-          setUrl(
-            e.target.value
-          )
-        }
-      />
+      <p className="text-gray-400 mt-4">
+        Discover internet communities,
+        websites, and digital memories
+        at risk of disappearing.
+      </p>
 
-      <button
-        onClick={analyze}
-      >
-        Analyze
-      </button>
+      <div className="mt-10">
+
+        <WebsiteAnalyzer
+          onAnalyze={
+            analyzeWebsite
+          }
+        />
+
+      </div>
+
+      {loading && (
+        <div className="mt-8">
+          Analyzing website...
+        </div>
+      )}
 
       {data && (
-        <pre>
-          {JSON.stringify(
-            data,
-            null,
-            2
-          )}
-        </pre>
+        <div className="mt-12 space-y-8">
+
+          <FossilCard
+            title={data.title}
+            significance={
+              data.significance
+            }
+            risk={data.risk}
+          />
+
+          <FossilTimeline
+            events={
+              data.timeline ||
+              []
+            }
+          />
+
+        </div>
       )}
 
     </main>

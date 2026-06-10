@@ -1,4 +1,7 @@
-import { geminiClient } from "@/services/gemini/geminiClient";
+import {
+ generateText
+}
+from "@/services/gemini/geminiClient";
 
 export async function discoveryAgent(input: any) {
   const prompt = `
@@ -20,7 +23,7 @@ Artifact:
 ${JSON.stringify(input)}
 `;
 
-  const response = await geminiClient.generate(prompt);
+  const response = await generateText.generate(prompt);
 
   return JSON.parse(response);
 }

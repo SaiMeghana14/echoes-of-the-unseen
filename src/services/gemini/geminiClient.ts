@@ -1,16 +1,39 @@
 import { GoogleGenAI } from "@google/genai";
 
-export const gemini = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY!,
-});
+if (!process.env.GEMINI_API_KEY) {
+  throw new Error(
+    "Missing GEMINI_API_KEY"
+  );
+}
 
-export const geminiClient = {
-  async generate(prompt: string) {
-    const response = await gemini.models.generateContent({
-      model: "gemini-2.5-pro",
-      contents: prompt,
-    });
+export const ai =
+  new GoogleGenAI({
+    apiKey:
+      process.env.GEMINI_API_KEY,
+  });
 
-    return response.text ?? "";
-  },
-};
+export async function generateText(
+  prompt: string
+) {
+  try {
+    const response =
+      await ai.models.generateContent({
+        model:
+          "gemini-2.5-flash",
+
+        contents: prompt,
+      });
+
+    return (
+      response.text ||
+      "No response generated."
+    );
+  } catch (error) {
+    console.error(
+      "Gemini Error:",
+      error
+    );
+
+    throw error;
+  }
+}

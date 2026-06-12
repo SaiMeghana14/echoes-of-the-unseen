@@ -21,20 +21,17 @@ export default function VanishingEarth() {
         item={selected}
       />
 
-      <div
-        className="
+      <div className="
         absolute
-        bottom-8
-        left-8
+        left-4
+        top-1/2
+        w-80
+        -z-20
         bg-black/70
         backdrop-blur-xl
+        p-6
         rounded-2xl
-        p-4
-        text-white
-        border
-        border-white/10
-      "
-      >
+        ">
         <h3 className="font-bold mb-3">
           Human Memory Network
         </h3>

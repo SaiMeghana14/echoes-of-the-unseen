@@ -12,18 +12,20 @@ export default function ThreatMap() {
         🌍 Threat Map
       </h2>
 
-      <div
-        className="
-        h-[300px]
-        rounded-3xl
-        border
-        border-white/10
-        flex
-        items-center
-        justify-center
-      "
-      >
-        Connect VanishingEarth Globe Here
+      <div className="h-full flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-5xl mb-4">
+            🌏
+          </div>
+      
+          <h3 className="text-xl font-semibold">
+            APAC Heritage Risk Visualization
+          </h3>
+      
+          <p className="text-white/60 mt-2">
+            Interactive threat mapping coming soon
+          </p>
+        </div>
       </div>
 
     </div>

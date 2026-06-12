@@ -14,6 +14,8 @@ import OracleInsights from "@/components/dashboard/OracleInsights";
 
 import PreservationTimeline from "@/components/dashboard/PreservationTimeline";
 
+import AgentFlow from "@/components/dashboard/AgentFlow";
+
 export default function DashboardPage() {
   return (
     <main className="max-w-7xl mx-auto px-6 py-16">
@@ -43,6 +45,8 @@ export default function DashboardPage() {
         <RevivalOpportunities />
 
         <PreservationTimeline />
+        
+        <AgentFlow />
 
       </div>
 

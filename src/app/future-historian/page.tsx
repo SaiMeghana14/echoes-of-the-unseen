@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
+
 import { useHistorian } from "@/hooks/useHistorian";
 
 import LoadingMemory from "@/components/common/LoadingMemory";
@@ -44,8 +46,7 @@ export default function FutureHistorianPage() {
             e.target.value
           )
         }
-        placeholder="
-Upload a recipe, story, tradition, website, photo description..."
+        placeholder="Upload a recipe, story, tradition, website, photo description..."
         className="
         mt-8
         w-full
@@ -58,15 +59,20 @@ Upload a recipe, story, tradition, website, photo description..."
       "
       />
 
-      <Button className="bg-amber-400 text-black font-semibold px-8 py-4 rounded-xl mt-6">
+      <Button
+        onClick={handleAnalyze}
+        className="
+          bg-amber-400
+          text-black
+          font-semibold
+          px-8
+          py-4
+          rounded-xl
+          mt-6
+        "
+      >
         Predict Historical Value
       </Button>
-        {loading && <LoadingMemory />}
-      </button>
-
-      <HistorianOutput
-        report={result}
-      />
 
     </main>
   );

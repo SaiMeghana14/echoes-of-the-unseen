@@ -6,7 +6,11 @@ export default function ConstellationPage() {
       </h1>
 
       <div className="h-[700px] border rounded-xl mt-8">
-        Graph Visualization Area
+        Interactive Heritage Galaxy
+        <p className="text-white/60 mt-4">
+          AI-generated network of preserved cultures,
+          languages, stories, and traditions.
+        </p>
       </div>
     </main>
   );

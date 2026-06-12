@@ -48,7 +48,7 @@ export default function GalaxyView() {
         <div className="absolute top-10 left-20 w-3 h-3 bg-cyan-400 rounded-full"></div>
         <div className="absolute top-24 left-72 w-3 h-3 bg-purple-400 rounded-full"></div>
         <div className="absolute top-40 left-48 w-3 h-3 bg-green-400 rounded-full"></div>
-        <div className="absolute top-32 left-[700px] w-3 h-3 bg-yellow-400 rounded-full"></div>
+        <div className="absolute top-32 right-20 w-3 h-3 bg-yellow-400 rounded-full"></div>
       
         <svg className="absolute inset-0 w-full h-full">
           <line x1="80" y1="40" x2="300" y2="100" stroke="white" />

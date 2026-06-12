@@ -4,6 +4,7 @@ import OraclePreview from "@/components/home/OraclePreview";
 import HistorianPreview from "@/components/home/HistorianPreview";
 import VoicesPreview from "@/components/home/VoicesPreview";
 import ConstellationPreview from "@/components/home/ConstellationPreview";
+
 import ImpactStats from "@/components/dashboard/ImpactStats";
 
 import CulturalDNA from "@/components/dna/CulturalDNA";
@@ -16,7 +17,7 @@ export default function HomePage() {
       {/* Hero */}
       <HeroSection />
 
-      {/* Vanishing Earth */}
+      {/* Interactive Globe */}
       <section
         id="explore"
         className="relative h-screen overflow-hidden"
@@ -25,110 +26,18 @@ export default function HomePage() {
 
         <div
           className="
-          absolute inset-0
+          absolute
+          inset-0
           bg-gradient-to-b
-          from-black/70
-          via-black/20
+          from-black/60
+          via-transparent
           to-black
+          pointer-events-none
         "
         />
-
-        <div
-          className="
-          absolute inset-0
-          flex flex-col
-          items-center
-          justify-center
-          text-center
-          z-[100]
-          px-6
-        "
-        >
-          <div
-            className="
-            px-4 py-2
-            rounded-full
-            border border-white/20
-            backdrop-blur-lg
-            bg-white/5
-            mb-6
-          "
-          >
-            🌍 Living Memory Network
-          </div>
-
-          <h1
-            className="
-            text-5xl
-            md:text-7xl
-            lg:text-8xl
-            font-black
-            tracking-tight
-          "
-          >
-            Echoes of the Unseen
-          </h1>
-
-          <p
-            className="
-            text-xl
-            md:text-2xl
-            text-white/70
-            mt-6
-            max-w-3xl
-          "
-          >
-            Preserving endangered languages,
-            traditions, oral histories, communities,
-            and digital memories before they disappear.
-          </p>
-
-          <div
-            className="
-            mt-10
-            flex
-            flex-wrap
-            justify-center
-            gap-4
-          "
-          >
-            <a
-              href="#memory"
-              className="
-              px-8
-              py-4
-              rounded-full
-              bg-cyan-400
-              text-black
-              font-bold
-              hover:scale-105
-              transition
-            "
-            >
-              Explore Humanity's Memory
-            </a>
-
-            <a
-              href="/echo-oracle"
-              className="
-              px-8
-              py-4
-              rounded-full
-              border
-              border-white/20
-              backdrop-blur-xl
-              bg-white/5
-              hover:bg-white/10
-              transition
-            "
-            >
-              Ask Echo Oracle
-            </a>
-          </div>
-        </div>
       </section>
 
-      {/* Impact Stats */}
+      {/* Impact Statistics */}
       <section
         id="memory"
         className="
@@ -138,94 +47,7 @@ export default function HomePage() {
         border-white/10
       "
       >
-        
-      <ImpactStats />
-        
-        <div
-          className="
-          max-w-6xl
-          mx-auto
-          grid
-          md:grid-cols-4
-          gap-8
-        "
-        >
-          <div
-            className="
-            rounded-3xl
-            border border-white/10
-            bg-white/5
-            backdrop-blur-xl
-            p-8
-            text-center
-          "
-          >
-            <h3 className="text-5xl font-black">
-              150+
-            </h3>
-
-            <p className="mt-3 text-white/60">
-              Cultural Artifacts
-            </p>
-          </div>
-
-          <div
-            className="
-            rounded-3xl
-            border border-white/10
-            bg-white/5
-            backdrop-blur-xl
-            p-8
-            text-center
-          "
-          >
-            <h3 className="text-5xl font-black">
-              38
-            </h3>
-
-            <p className="mt-3 text-white/60">
-              Endangered Languages
-            </p>
-          </div>
-
-          <div
-            className="
-            rounded-3xl
-            border border-white/10
-            bg-white/5
-            backdrop-blur-xl
-            p-8
-            text-center
-          "
-          >
-            <h3 className="text-5xl font-black">
-              22
-            </h3>
-
-            <p className="mt-3 text-white/60">
-              Oral Traditions
-            </p>
-          </div>
-
-          <div
-            className="
-            rounded-3xl
-            border border-white/10
-            bg-white/5
-            backdrop-blur-xl
-            p-8
-            text-center
-          "
-          >
-            <h3 className="text-5xl font-black">
-              9
-            </h3>
-
-            <p className="mt-3 text-white/60">
-              Countries
-            </p>
-          </div>
-        </div>
+        <ImpactStats />
       </section>
 
       {/* Cultural DNA */}
@@ -243,7 +65,7 @@ export default function HomePage() {
         <CulturalDNA />
       </section>
 
-      {/* AI Features */}
+      {/* AI Agents */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
 
@@ -260,7 +82,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Endangered Feed */}
+      {/* Endangered Heritage */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
 
@@ -273,7 +95,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Constellation */}
+      {/* Cultural Constellation */}
       <section className="py-24">
         <ConstellationPreview />
       </section>

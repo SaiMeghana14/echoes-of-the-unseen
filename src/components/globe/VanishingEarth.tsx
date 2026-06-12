@@ -2,7 +2,9 @@
 
 import GlobeView from "./Globe";
 import GlobePopup from "./GlobePopup";
+
 import { useState } from "react";
+import HeritageDrawer from "./HeritageDrawer";
 
 const endangeredItems = [
   {
@@ -32,7 +34,7 @@ const endangeredItems = [
 
 export default function VanishingEarth() {
   const [selected, setSelected] =
-    useState(endangeredItems[0]);
+    useState<any>(null);
   
   <GlobeView
     onSelect={(item) =>
@@ -42,7 +44,15 @@ export default function VanishingEarth() {
 
   return (
     <section className="relative">
-      <GlobeView />
+      <>
+        <GlobeView
+          onSelect={setSelected}
+        />
+      
+        <HeritageDrawer
+          item={selected}
+        />
+      </>
         <div className="absolute bottom-8 left-8 bg-black/70 backdrop-blur-xl rounded-2xl p-4 text-white border border-white/10">
           <h3 className="font-bold mb-3">
             Human Memory Network

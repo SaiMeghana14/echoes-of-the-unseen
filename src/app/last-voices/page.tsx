@@ -123,25 +123,27 @@ export default function LastVoicesPage() {
         </label>
 
         <input
+          id="audio-upload"
           type="file"
-          accept="audio/*"
-          onChange={(e) =>
-            setAudioFile(
-              e.target.files?.[0] ??
-                null
-            )
-          }
-          className="
-            block
-            w-full
-            rounded-xl
-            border
-            border-white/10
-            p-4
-            bg-black/20
-          "
+          className="hidden"
         />
-
+        
+        <label
+          htmlFor="audio-upload"
+          className="
+          cursor-pointer
+          inline-block
+          px-6
+          py-3
+          rounded-xl
+          bg-purple-600
+          text-white
+          hover:bg-purple-500
+          transition
+        "
+        >
+          Upload Recording
+        </label>
       </div>
 
       {/* Transcribe */}

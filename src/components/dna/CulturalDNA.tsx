@@ -27,8 +27,14 @@ export default function CulturalDNA() {
 
   if (loading) {
     return (
-      <div className="py-20 text-center">
-        Loading Cultural DNA...
+      <div className="text-center py-24">
+        <h3 className="text-2xl font-bold">
+          Interactive Heritage Network
+        </h3>
+      
+        <p className="text-white/60 mt-3">
+          Demo Visualization
+        </p>
       </div>
     );
   }

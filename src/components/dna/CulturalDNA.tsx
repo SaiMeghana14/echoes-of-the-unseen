@@ -22,6 +22,9 @@ export default function CulturalDNA() {
       .then((data) => {
         setDna(data);
         setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
       });
   }, []);
 

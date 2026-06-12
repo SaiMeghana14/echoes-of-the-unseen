@@ -76,7 +76,12 @@ export default function FutureHistorianPage() {
           ? "Analyzing..."
           : "Predict Historical Value"}
       </button>
-
+      
+      {loading && <LoadingMemory />}
+      
+      <HistorianOutput
+        report={result}
+      />
     </main>
   );
 }

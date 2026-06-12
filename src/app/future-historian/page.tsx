@@ -62,14 +62,15 @@ Upload a recipe, story, tradition, website, photo description..."
         onClick={handleAnalyze}
         disabled={loading}
         className="
-        mt-6
         px-8
         py-4
-        rounded-2xl
-        bg-memory
+        rounded-xl
+        bg-yellow-400
         text-black
-        font-bold
-      "
+        font-semibold
+        hover:scale-105
+        transition
+        "
       >
         {loading && <LoadingMemory />}
       </button>

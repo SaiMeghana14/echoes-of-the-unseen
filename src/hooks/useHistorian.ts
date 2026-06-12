@@ -2,12 +2,28 @@
 
 import { useState } from "react";
 
+interface HistorianReport {
+  artifactTitle: string;
+
+  historicalImportance: string;
+
+  futureSignificance: string;
+
+  predictedLoss: string;
+
+  preservationRecommendation: string;
+
+  futureRelevanceScore: number;
+}
+
 export function useHistorian() {
   const [loading, setLoading] =
     useState(false);
 
   const [result, setResult] =
-    useState("");
+    useState<HistorianReport | null>(
+      null
+    );
 
   const analyze = async (
     content: string
@@ -29,7 +45,8 @@ export function useHistorian() {
         }
       );
 
-      const data = await res.json();
+      const data =
+        await res.json();
 
       setResult(
         data.historianView

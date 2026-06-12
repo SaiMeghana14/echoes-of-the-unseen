@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useOracle } from "@/hooks/useOracle";
 
 import OracleResponse from "@/components/oracle/OracleResponse";
+import LoadingMemory from "@/components/common/LoadingMemory";
 
 export default function EchoOraclePage() {
   const [question, setQuestion] =
@@ -70,9 +71,7 @@ What traditions are disappearing in APAC?"
         bg-nebula
       "
       >
-        {loading
-          ? "Searching..."
-          : "Ask Oracle"}
+        <LoadingMemory />
       </button>
 
       <OracleResponse

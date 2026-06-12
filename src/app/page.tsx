@@ -13,6 +13,9 @@ import VanishingEarth from "@/components/globe/VanishingEarth";
 export default function HomePage() {
   return (
     <main className="bg-[#020817] text-white overflow-hidden">
+      <div className="bg-red-500 text-white text-5xl p-10">
+        Tailwind Test
+      </div>
 
       {/* Hero */}
       <HeroSection />

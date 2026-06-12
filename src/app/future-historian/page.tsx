@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import { useHistorian } from "@/hooks/useHistorian";
 
+import LoadingMemory from "@/components/common/LoadingMemory";
+
 import HistorianOutput from "@/components/historian/HistorianOutput";
 
 export default function FutureHistorianPage() {
@@ -69,9 +71,7 @@ Upload a recipe, story, tradition, website, photo description..."
         font-bold
       "
       >
-        {loading
-          ? "Analyzing..."
-          : "Analyze From 2126"}
+        {loading && <LoadingMemory />}
       </button>
 
       <HistorianOutput

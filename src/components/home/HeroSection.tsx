@@ -41,6 +41,44 @@ export default function HeroSection() {
           </Link>
         </div>
 
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12 max-w-4xl mx-auto text-center">
+          <div>
+            <div className="text-cyan-400 text-3xl font-bold">
+              150+
+            </div>
+            <div className="text-white/60">
+              Artifacts
+            </div>
+          </div>
+        
+          <div>
+            <div className="text-cyan-400 text-3xl font-bold">
+              38
+            </div>
+            <div className="text-white/60">
+              Languages
+            </div>
+          </div>
+        
+          <div>
+            <div className="text-cyan-400 text-3xl font-bold">
+              22
+            </div>
+            <div className="text-white/60">
+              Traditions
+            </div>
+          </div>
+        
+          <div>
+            <div className="text-cyan-400 text-3xl font-bold">
+              9
+            </div>
+            <div className="text-white/60">
+              Countries
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );

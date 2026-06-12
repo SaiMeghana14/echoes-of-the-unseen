@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
-
 import { useHistorian } from "@/hooks/useHistorian";
 
 import LoadingMemory from "@/components/common/LoadingMemory";
@@ -59,20 +57,25 @@ export default function FutureHistorianPage() {
       "
       />
 
-      <Button
+      <button
         onClick={handleAnalyze}
+        disabled={loading}
         className="
-          bg-amber-400
-          text-black
-          font-semibold
+          mt-6
           px-8
           py-4
           rounded-xl
-          mt-6
+          bg-amber-400
+          text-black
+          font-semibold
+          hover:scale-105
+          transition
         "
       >
-        Predict Historical Value
-      </Button>
+        {loading
+          ? "Analyzing..."
+          : "Predict Historical Value"}
+      </button>
 
     </main>
   );

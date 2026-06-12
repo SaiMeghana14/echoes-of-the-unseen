@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import WisdomCards from "@/components/voices/WisdomCards";
 import PreservationSummary from "@/components/voices/PreservationSummary";
+import LoadingMemory from "@/components/common/LoadingMemory";
 
 export default function LastVoicesPage() {
   const [audioFile, setAudioFile] =
@@ -212,9 +213,7 @@ My grandmother taught us to sing before fishing..."
           font-bold
         "
       >
-        {loading
-          ? "Analyzing..."
-          : "Extract Heritage"}
+        <LoadingMemory />
       </button>
 
       {/* Results */}

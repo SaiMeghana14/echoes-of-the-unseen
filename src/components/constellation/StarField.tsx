@@ -1,0 +1,11 @@
+<Particles
+ options={{
+   particles:{
+     number:{value:80},
+     move:{speed:0.5},
+     links:{
+       enable:true
+     }
+   }
+ }}
+/>

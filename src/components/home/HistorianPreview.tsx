@@ -1,33 +1,53 @@
 import Link from "next/link";
+import { Clock3 } from "lucide-react";
 
 export default function HistorianPreview() {
   return (
-    <section className="py-24 px-6">
-
-      <div className="memory-card p-10">
-
-        <h2 className="text-5xl font-bold">
-          🕰 Future Historian
-        </h2>
-
-        <p className="mt-6 text-gray-300">
-          Upload a recipe, tradition, website, or story.
-        </p>
-
-        <div className="mt-8 p-6 rounded-2xl bg-white/5">
-          "A historian in 2126 would consider this significant
-          because it reveals how communities preserved identity
-          during rapid technological change."
-        </div>
-
-        <Link href="/future-historian">
-          <button className="mt-8 px-6 py-3 bg-memory text-black rounded-xl">
-            Open Historian
-          </button>
-        </Link>
-
+    <div
+      className="
+      rounded-3xl
+      bg-gradient-to-br
+      from-amber-500/10
+      to-orange-500/10
+      border border-white/10
+      backdrop-blur-xl
+      p-8
+      hover:scale-[1.02]
+      transition-all
+      "
+    >
+      <div className="flex items-center gap-3 mb-6">
+        <Clock3 className="text-amber-400" />
+        <h3 className="text-3xl font-bold">
+          Future Historian
+        </h3>
       </div>
 
-    </section>
+      <p className="text-white/70">
+        Discover how future generations
+        will interpret today's memories.
+      </p>
+
+      <div className="mt-6 p-5 rounded-2xl bg-black/20">
+        "A historian in 2126 would view
+        this as evidence of cultural resilience."
+      </div>
+
+      <Link href="/future-historian">
+        <button
+          className="
+          mt-6
+          w-full
+          py-3
+          rounded-xl
+          bg-amber-400
+          text-black
+          font-bold
+          "
+        >
+          Open Historian
+        </button>
+      </Link>
+    </div>
   );
 }

@@ -58,7 +58,9 @@ export default function GalaxyView() {
       
       </div>
 
-      <MemoryGraph />
+      <div className="mt-12">
+        <MemoryGraph />
+      </div>
     </section>
   );
 }

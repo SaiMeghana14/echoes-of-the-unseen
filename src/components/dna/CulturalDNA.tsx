@@ -27,14 +27,21 @@ export default function CulturalDNA() {
 
   if (loading) {
     return (
-      <div className="text-center py-24">
-        <h3 className="text-2xl font-bold">
-          Interactive Heritage Network
-        </h3>
+      <div className="relative h-[500px]">
+        <div className="absolute top-20 left-20 w-4 h-4 rounded-full bg-cyan-400"></div>
+        <div className="absolute top-40 left-80 w-4 h-4 rounded-full bg-purple-400"></div>
+        <div className="absolute top-60 left-40 w-4 h-4 rounded-full bg-green-400"></div>
+        <div className="absolute top-80 left-[500px] w-4 h-4 rounded-full bg-pink-400"></div>
       
-        <p className="text-white/60 mt-3">
-          Demo Visualization
-        </p>
+        <svg className="absolute inset-0 w-full h-full">
+          <line x1="80" y1="80" x2="320" y2="180" stroke="#06b6d4" />
+          <line x1="320" y1="180" x2="180" y2="300" stroke="#06b6d4" />
+          <line x1="180" y1="300" x2="500" y2="400" stroke="#06b6d4" />
+        </svg>
+      
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/70">
+          AI-generated Cultural Relationship Map
+        </div>
       </div>
     );
   }

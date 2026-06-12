@@ -4,6 +4,7 @@ import OraclePreview from "@/components/home/OraclePreview";
 import HistorianPreview from "@/components/home/HistorianPreview";
 import VoicesPreview from "@/components/home/VoicesPreview";
 import ConstellationPreview from "@/components/home/ConstellationPreview";
+import ImpactStats from "@/components/dashboard/ImpactStats";
 
 import CulturalDNA from "@/components/dna/CulturalDNA";
 import VanishingEarth from "@/components/globe/VanishingEarth";
@@ -137,6 +138,9 @@ export default function HomePage() {
         border-white/10
       "
       >
+        
+      <ImpactStats />
+        
         <div
           className="
           max-w-6xl

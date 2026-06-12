@@ -58,20 +58,9 @@ Upload a recipe, story, tradition, website, photo description..."
       "
       />
 
-      <button
-        onClick={handleAnalyze}
-        disabled={loading}
-        className="
-        px-8
-        py-4
-        rounded-xl
-        bg-yellow-400
-        text-black
-        font-semibold
-        hover:scale-105
-        transition
-        "
-      >
+      <Button className="bg-amber-400 text-black font-semibold px-8 py-4 rounded-xl mt-6">
+        Predict Historical Value
+      </Button>
         {loading && <LoadingMemory />}
       </button>
 

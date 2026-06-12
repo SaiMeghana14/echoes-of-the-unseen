@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 
 import Navbar from "@/components/common/Navbar";
+import FloatingNav from "@/components/common/FloatingNav";
 import Footer from "@/components/common/Footer";
 
 export const metadata: Metadata = {
@@ -17,8 +18,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-black text-white">
-        <Navbar />
+      <body className="bg-white text-blue">
+        <FloatingNav />
 
         {children}
 

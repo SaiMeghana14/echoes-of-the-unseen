@@ -9,7 +9,9 @@ export async function POST(req: Request) {
       body.content
     );
 
-    return NextResponse.json(result);
+    return NextResponse.json({
+      historianView: result,
+    });
   } catch (error) {
     console.error(error);
 

@@ -178,7 +178,7 @@ export default function GlobeView({
   );
 
   return (
-    <div className="w-full h-[800px]">
+    <div className="w-screen h-screen">
       <Globe
         width={1200}
         height={800}

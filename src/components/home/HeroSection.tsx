@@ -6,10 +6,8 @@ export default function HeroSection() {
     <section className="min-h-screen flex items-center justify-center px-6 text-center">
       <div className="max-w-5xl">
 
-        <div className="mb-6">
-          <span className="px-4 py-2 rounded-full border border-aurora/30 bg-aurora/10">
-            🌌 AI Guardian of Human Memory
-          </span>
+        <div className="bg-nebula text-white p-10 rounded-xl mb-10">
+          Nebula Test
         </div>
 
         <h1 className="text-7xl font-bold leading-tight">

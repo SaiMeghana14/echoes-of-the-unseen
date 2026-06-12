@@ -28,7 +28,7 @@ const links = [
 export default function FloatingNav() {
   return (
     <nav className="bg-red-500 p-10">
-    >
+    
       {links.map((link) => (
         <Link
           key={link.href}

@@ -76,7 +76,7 @@ export default function HomePage() {
             AI Preservation Agents
           </h2>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             <OraclePreview />
             <HistorianPreview />
             <VoicesPreview />

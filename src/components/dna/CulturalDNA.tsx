@@ -10,22 +10,45 @@ import DNAStats from "./DNAStats";
 import DNAExplorer from "./DNAExplorer";
 
 export default function CulturalDNA() {
-  const [dna, setDna] =
-    useState<any>(null);
-
   const [loading, setLoading] =
     useState(true);
-
+  
+  const [dna, setDna] =
+    useState<any>(null);
   useEffect(() => {
-    fetch("/api/dna")
-      .then((r) => r.json())
-      .then((data) => {
-        setDna(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
+    const timer = setTimeout(() => {
+      setDna({
+        culture: "APAC Heritage",
+  
+        stories: [
+          "Oral Storytelling",
+          "Folklore Archives",
+          "Community Legends",
+        ],
+  
+        beliefs: [
+          "Ancestor Respect",
+          "Harmony with Nature",
+          "Collective Memory",
+        ],
+  
+        rituals: [
+          "Harvest Festival",
+          "Traditional Dance",
+          "Seasonal Celebrations",
+        ],
+  
+        knowledge: [
+          "Traditional Medicine",
+          "Handcrafted Arts",
+          "Indigenous Agriculture",
+        ],
       });
+  
+      setLoading(false);
+    }, 2500);
+  
+    return () => clearTimeout(timer);
   }, []);
 
   if (loading) {
@@ -42,13 +65,15 @@ export default function CulturalDNA() {
           <line x1="180" y1="300" x2="500" y2="400" stroke="#06b6d4" />
         </svg>
       
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/70">
-          AI-generated Cultural Relationship Map
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white animate-pulse">
+          🧬 Interactive Heritage Network
+        </div>
+        <div className="absolute top-8 left-8 text-cyan-300 font-semibold">
+          Demo Visualization
         </div>
       </div>
     );
   }
-
   if (!dna) {
     return null;
   }
@@ -72,7 +97,46 @@ export default function CulturalDNA() {
             stories, rituals, beliefs,
             and inherited knowledge.
           </p>
-
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 max-w-3xl mx-auto">
+          
+            <div>
+              <div className="text-cyan-400 text-3xl font-bold">
+                38
+              </div>
+              <div className="text-white/60">
+                Languages
+              </div>
+            </div>
+          
+            <div>
+              <div className="text-cyan-400 text-3xl font-bold">
+                22
+              </div>
+              <div className="text-white/60">
+                Traditions
+              </div>
+            </div>
+          
+            <div>
+              <div className="text-cyan-400 text-3xl font-bold">
+                150+
+              </div>
+              <div className="text-white/60">
+                Stories
+              </div>
+            </div>
+          
+            <div>
+              <div className="text-cyan-400 text-3xl font-bold">
+                9
+              </div>
+              <div className="text-white/60">
+                Countries
+              </div>
+            </div>
+          
+          </div>
         </div>
 
         {/* Culture Core */}

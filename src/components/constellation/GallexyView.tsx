@@ -43,18 +43,50 @@ export default function GalaxyView() {
         </div>
       </div>
 
-      <div className="relative h-[250px] mt-12 rounded-2xl bg-black/20 overflow-hidden">
+      <div className="grid md:grid-cols-4 gap-6 mt-10">
 
-        <div className="absolute top-10 left-20 w-3 h-3 bg-cyan-400 rounded-full"></div>
-        <div className="absolute top-24 left-72 w-3 h-3 bg-purple-400 rounded-full"></div>
-        <div className="absolute top-40 left-48 w-3 h-3 bg-green-400 rounded-full"></div>
-        <div className="absolute top-32 right-20 w-3 h-3 bg-yellow-400 rounded-full"></div>
+        <div className="glass-card p-6 rounded-2xl bg-black/20">
+          <div className="text-4xl">🌍</div>
+          <div className="text-3xl font-bold mt-2">38</div>
+          <div className="text-white/60">Languages</div>
+        </div>
+      
+        <div className="glass-card p-6 rounded-2xl bg-black/20">
+          <div className="text-4xl">🎭</div>
+          <div className="text-3xl font-bold mt-2">22</div>
+          <div className="text-white/60">Traditions</div>
+        </div>
+      
+        <div className="glass-card p-6 rounded-2xl bg-black/20">
+          <div className="text-4xl">📖</div>
+          <div className="text-3xl font-bold mt-2">150+</div>
+          <div className="text-white/60">Stories</div>
+        </div>
+      
+        <div className="glass-card p-6 rounded-2xl bg-black/20">
+          <div className="text-4xl">🏛️</div>
+          <div className="text-3xl font-bold mt-2">75</div>
+          <div className="text-white/60">Sites</div>
+        </div>
+      
+      </div>
+      
+      <div className="relative h-[350px] mt-12 rounded-2xl bg-black/20 overflow-hidden">
+      
+        <div className="absolute top-12 left-24 w-4 h-4 bg-cyan-400 rounded-full shadow-lg"></div>
+        <div className="absolute top-28 left-80 w-4 h-4 bg-purple-400 rounded-full shadow-lg"></div>
+        <div className="absolute top-52 left-52 w-4 h-4 bg-green-400 rounded-full shadow-lg"></div>
+        <div className="absolute top-32 right-32 w-4 h-4 bg-yellow-400 rounded-full shadow-lg"></div>
       
         <svg className="absolute inset-0 w-full h-full">
-          <line x1="80" y1="40" x2="300" y2="100" stroke="white" />
-          <line x1="300" y1="100" x2="180" y2="160" stroke="white" />
-          <line x1="180" y1="160" x2="700" y2="120" stroke="white" />
+          <line x1="100" y1="50" x2="320" y2="120" stroke="#38bdf8" />
+          <line x1="320" y1="120" x2="220" y2="220" stroke="#38bdf8" />
+          <line x1="220" y1="220" x2="700" y2="150" stroke="#38bdf8" />
         </svg>
+      
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xl">
+          🌌 Interactive Heritage Galaxy
+        </div>
       
       </div>
 

@@ -81,10 +81,11 @@ export default function DNAGraph({
         graphData={graphData}
         nodeLabel="id"
         nodeAutoColorBy="group"
-        linkDirectionalParticles={2}
-        linkDirectionalParticleSpeed={
-          0.003
-        }
+        nodeRelSize={8}
+        linkWidth={2}
+        linkDirectionalParticles={4}
+        linkDirectionalParticleSpeed={0.003}
+        enableNodeDrag={true}
         backgroundColor="#060B17"
       />
     </div>

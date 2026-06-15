@@ -22,9 +22,12 @@ export default function ThreatMap() {
             APAC Heritage Risk Visualization
           </h3>
       
-          <p className="text-white/60 mt-2">
-            Interactive threat mapping coming soon
-          </p>
+          <div className="space-y-3 mt-6">
+            <div>🔴 Ainu Language — 91% Risk</div>
+            <div>🟠 Toda Embroidery — 82% Risk</div>
+            <div>🔴 Fishing Songs — 88% Risk</div>
+            <div>🟡 Oral Histories — 74% Risk</div>
+          </div>
         </div>
       </div>
 

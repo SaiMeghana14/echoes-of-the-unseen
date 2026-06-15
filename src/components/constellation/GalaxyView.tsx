@@ -46,6 +46,52 @@ export default function GalaxyView() {
       <div className="mt-12">
         <MemoryGraph />
       </div>
+
+      <div className="mt-16">
+
+        <h2 className="text-3xl font-bold mb-6">
+          Top Connected Cultures
+        </h2>
+      
+        <div className="grid md:grid-cols-3 gap-6">
+      
+          <div className="glass-card p-6">
+            <h3 className="font-bold">
+              Ainu Culture
+            </h3>
+      
+            <p className="text-white/60 mt-2">
+              Connected to language preservation,
+              fishing songs, spiritual beliefs,
+              and ancestral knowledge.
+            </p>
+          </div>
+      
+          <div className="glass-card p-6">
+            <h3 className="font-bold">
+              Toda Culture
+            </h3>
+      
+            <p className="text-white/60 mt-2">
+              Connected through embroidery,
+              festivals, and oral traditions.
+            </p>
+          </div>
+      
+          <div className="glass-card p-6">
+            <h3 className="font-bold">
+              Māori Culture
+            </h3>
+      
+            <p className="text-white/60 mt-2">
+              Connected through songs,
+              tribal wisdom, and preservation efforts.
+            </p>
+          </div>
+      
+        </div>
+      
+      </div>
     </section>
   );
 }

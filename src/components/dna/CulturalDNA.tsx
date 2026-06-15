@@ -24,24 +24,52 @@ export default function CulturalDNA() {
           "Oral Storytelling",
           "Folklore Archives",
           "Community Legends",
+          "Sea Legends",
+          "Migration Stories",
+          "Temple Narratives",
+          "Village Histories",
+          "Epic Poetry",
+          "Mountain Myths",
+          "Heroic Sagas"
         ],
   
         beliefs: [
           "Ancestor Respect",
           "Harmony with Nature",
           "Collective Memory",
+          "Spiritual Guardians",
+          "Sacred Rivers",
+          "Seasonal Cycles",
+          "Community Stewardship",
+          "Respect for Elders",
+          "Balance of Life",
+          "Cultural Continuity"
         ],
   
         rituals: [
           "Harvest Festival",
           "Traditional Dance",
           "Seasonal Celebrations",
+          "New Year Ceremonies",
+          "Wedding Blessings",
+          "Coming-of-Age Rituals",
+          "Temple Offerings",
+          "Moon Festivals",
+          "Fishing Ceremonies",
+          "Ancestor Commemorations"
         ],
   
         knowledge: [
           "Traditional Medicine",
           "Handcrafted Arts",
           "Indigenous Agriculture",
+          "Bamboo Architecture",
+          "Navigation by Stars",
+          "Herbal Remedies",
+          "Water Conservation",
+          "Natural Dye Techniques",
+          "Wood Carving",
+          "Traditional Music Theory"
         ],
       });
   

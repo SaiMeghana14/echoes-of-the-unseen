@@ -68,7 +68,12 @@ export default function MemoryGraph() {
       <ForceGraph3D
         graphData={graph}
         nodeLabel="id"
-        linkDirectionalParticles={2}
+        nodeAutoColorBy="group"
+        linkDirectionalParticles={4}
+        linkDirectionalParticleSpeed={0.004}
+        linkWidth={2}
+        nodeRelSize={8}
+        backgroundColor="#020817"
       />
     </div>
   );

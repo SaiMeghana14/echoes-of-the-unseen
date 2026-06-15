@@ -23,52 +23,24 @@ export default function GalaxyView() {
 
       <div className="grid md:grid-cols-4 gap-6 p-8">
         <div className="glass-card p-6">
-          🌍 Languages
+          🌍 38 Languages
           <div className="text-3xl font-bold mt-2">38</div>
         </div>
       
         <div className="glass-card p-6">
-          🎭 Traditions
+          🎭 22 Traditions
           <div className="text-3xl font-bold mt-2">22</div>
         </div>
       
         <div className="glass-card p-6">
-          📖 Stories
+          📖 150+ Stories
           <div className="text-3xl font-bold mt-2">150+</div>
         </div>
       
         <div className="glass-card p-6">
-          🏛 Sites
+          🏛️ 75 Sites
           <div className="text-3xl font-bold mt-2">75</div>
         </div>
-      </div>
-
-      <div className="grid md:grid-cols-4 gap-6 mt-10">
-
-        <div className="glass-card p-6 rounded-2xl bg-black/20">
-          <div className="text-4xl">🌍</div>
-          <div className="text-3xl font-bold mt-2">38</div>
-          <div className="text-white/60">Languages</div>
-        </div>
-      
-        <div className="glass-card p-6 rounded-2xl bg-black/20">
-          <div className="text-4xl">🎭</div>
-          <div className="text-3xl font-bold mt-2">22</div>
-          <div className="text-white/60">Traditions</div>
-        </div>
-      
-        <div className="glass-card p-6 rounded-2xl bg-black/20">
-          <div className="text-4xl">📖</div>
-          <div className="text-3xl font-bold mt-2">150+</div>
-          <div className="text-white/60">Stories</div>
-        </div>
-      
-        <div className="glass-card p-6 rounded-2xl bg-black/20">
-          <div className="text-4xl">🏛️</div>
-          <div className="text-3xl font-bold mt-2">75</div>
-          <div className="text-white/60">Sites</div>
-        </div>
-      
       </div>
       
       <div className="relative h-[350px] mt-12 rounded-2xl bg-black/20 overflow-hidden">

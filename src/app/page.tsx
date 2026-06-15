@@ -37,19 +37,6 @@ export default function HomePage() {
         "
         />
       </section>
-
-      {/* Impact Statistics */}
-      <section
-        id="memory"
-        className="
-        py-24
-        px-6
-        border-y
-        border-white/10
-      "
-      >
-        <ImpactStats />
-      </section>
       
       <GalaxyView />
 

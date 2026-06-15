@@ -52,13 +52,6 @@ export default function HomePage() {
       {/* Cultural DNA */}
       <section className="py-24">
         <div className="text-center mb-12">
-          <h2 className="text-5xl font-black">
-            Cultural DNA
-          </h2>
-
-          <p className="mt-4 text-white/60">
-            Mapping humanity's interconnected memories.
-          </p>
         </div>
 
         <CulturalDNA />
@@ -84,10 +77,6 @@ export default function HomePage() {
       {/* Endangered Heritage */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
-
-          <h2 className="text-5xl font-black text-center mb-12">
-            Endangered Today
-          </h2>
 
           <EndangeredFeed />
 

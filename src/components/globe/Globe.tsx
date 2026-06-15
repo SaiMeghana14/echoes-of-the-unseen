@@ -106,22 +106,28 @@ export default function GlobeView({
     {
       lat: 43.0,
       lng: 142.0,
-      label: "Ainu Language",
-      risk: "91%"
+      label: "Ainu Language • 91% Risk",
+      risk: "91%",
+      size: 0.45,
+      color: "#ff4d4d"
     },
   
     {
       lat: 11.4,
       lng: 76.7,
-      label: "Toda Embroidery",
-      risk: "82%"
+      label: "Toda Embroidery • 82% Risk",
+      risk: "82%",
+      size: 0.40,
+      color: "#FFD166"
     },
   
     {
       lat: 14.5,
       lng: 121,
-      label: "Fishing Songs",
-      risk: "88%"
+      label: "Fishing Songs • 88% Risk",
+      risk: "88%",
+      size: 0.42,
+      color: "#ff4d4d"
     }
   ];
 
@@ -196,7 +202,7 @@ export default function GlobeView({
   );
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-full h-[800px]">
       <Globe
         width={1200}
         height={800}
@@ -206,7 +212,7 @@ export default function GlobeView({
         atmosphereColor="#4FD1FF"
         atmosphereAltitude={0.15}
 
-        pointsData={points}
+        pointsData={heritageData}
         pointLat="lat"
         pointLng="lng"
         pointAltitude="size"
@@ -235,7 +241,7 @@ export default function GlobeView({
         enablePointerInteraction
 
         onPointClick={(point: any) => {
-          onSelect?.(point);
+          onSelect?.(point as HeritageItem);
         }}
       />
     </div>

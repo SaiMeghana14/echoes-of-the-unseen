@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ForceGraph3D from "react-force-graph-3d";
+import dynamic from "next/dynamic";
+
+const ForceGraph3D = dynamic(
+  () => import("react-force-graph-3d"),
+  {
+    ssr: false,
+  }
+);
 
 const data = {
   nodes: [
@@ -36,24 +43,30 @@ const data = {
 };
 
 export default function MemoryGraph() {
-  const [graph, setGraph] =
-    useState({
-      nodes: [],
-      links: [],
-    });
-
-  useEffect(() => {
-    fetch(
-      "/api/constellation"
-    )
-      .then((r) => r.json())
-      .then(setGraph);
-  }, []);
+  const [graph, setGraph] = useState<any>({
+    nodes: [
+      { id: "Ainu Culture", group: "culture" },
+      { id: "Stories", group: "story" },
+      { id: "Beliefs", group: "belief" },
+      { id: "Rituals", group: "ritual" },
+      { id: "Knowledge", group: "knowledge" },
+    ],
+    links: [
+      {
+        source: "Ainu Culture",
+        target: "Stories",
+      },
+      {
+        source: "Ainu Culture",
+        target: "Beliefs",
+      },
+    ],
+  });
   
   return (
     <div className="h-[800px]">
       <ForceGraph3D
-        graphData={data}
+        graphData={graph}
         nodeLabel="id"
         linkDirectionalParticles={2}
       />

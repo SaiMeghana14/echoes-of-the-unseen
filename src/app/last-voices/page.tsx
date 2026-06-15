@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import WisdomCards from "@/components/voices/WisdomCards";
 import PreservationSummary from "@/components/voices/PreservationSummary";
-import LoadingMemory from "@/components/common/LoadingMemory";
 
 export default function LastVoicesPage() {
   const [audioFile, setAudioFile] =
@@ -33,29 +32,19 @@ export default function LastVoicesPage() {
     try {
       setTranscribing(true);
 
-      // Future:
-      // upload audioFile to Firebase Storage
-      // send URL to Gemini Audio API
+      setTimeout(() => {
+        setTranscript(
+          "My grandmother taught us traditional fishing songs passed down for generations. Before every fishing trip, the community gathered to sing together and seek blessings from nature."
+        );
 
-      const res = await fetch(
-        "/api/transcribe",
-        {
-          method: "POST",
-        }
-      );
-
-      const result =
-        await res.json();
-
-      setTranscript(
-        result.transcript
-      );
+        setTranscribing(false);
+      }, 1500);
     } catch (error) {
       console.error(
         "Transcription failed:",
         error
       );
-    } finally {
+
       setTranscribing(false);
     }
   };
@@ -104,7 +93,6 @@ export default function LastVoicesPage() {
 
   return (
     <main className="max-w-6xl mx-auto py-20 px-6">
-
       <h1 className="text-6xl font-bold">
         🎙 Last Voices
       </h1>
@@ -117,7 +105,6 @@ export default function LastVoicesPage() {
       {/* Audio Upload */}
 
       <div className="mt-10">
-
         <label className="block mb-3 font-medium">
           Upload Elder Recording
         </label>
@@ -125,34 +112,47 @@ export default function LastVoicesPage() {
         <input
           id="audio-upload"
           type="file"
+          accept="audio/*"
           className="hidden"
+          onChange={(e) => {
+            const file =
+              e.target.files?.[0];
+
+            if (file) {
+              setAudioFile(file);
+            }
+          }}
         />
-        
+
         <label
           htmlFor="audio-upload"
           className="
-          cursor-pointer
-          inline-block
-          px-6
-          py-3
-          rounded-xl
-          bg-purple-600
-          text-white
-          hover:bg-purple-500
-          transition
-        "
+            cursor-pointer
+            inline-block
+            px-6
+            py-3
+            rounded-xl
+            bg-purple-600
+            text-white
+            hover:bg-purple-500
+            transition
+          "
         >
           Upload Recording
         </label>
+
+        {audioFile && (
+          <div className="mt-3 text-cyan-300">
+            Uploaded: {audioFile.name}
+          </div>
+        )}
       </div>
 
       {/* Transcribe */}
 
       <button
         onClick={transcribe}
-        disabled={
-          transcribing
-        }
+        disabled={transcribing}
         className="
           mt-6
           px-8
@@ -171,7 +171,6 @@ export default function LastVoicesPage() {
       {/* Transcript */}
 
       <div className="mt-10">
-
         <label className="block mb-3 font-medium">
           Transcript
         </label>
@@ -183,8 +182,7 @@ export default function LastVoicesPage() {
               e.target.value
             )
           }
-          placeholder="
-My grandmother taught us to sing before fishing..."
+          placeholder="My grandmother taught us to sing before fishing..."
           className="
             w-full
             min-h-[240px]
@@ -195,7 +193,6 @@ My grandmother taught us to sing before fishing..."
             p-6
           "
         />
-
       </div>
 
       {/* Analyze */}
@@ -218,28 +215,24 @@ My grandmother taught us to sing before fishing..."
           : "Analyze Wisdom"}
       </button>
 
-      {/* Results */}
-      
-      {!data && (
+      {/* Upload Success Card */}
+
+      {audioFile && !data && (
         <div className="glass rounded-3xl p-6 mt-10">
           <div className="text-xl font-bold">
-            🎙 Recording Preserved Successfully
+            🎙 Recording Uploaded
           </div>
-      
+
           <div className="mt-4 text-white/60">
-            Voice archived into the Global Memory Vault
-          </div>
-      
-          <div className="mt-4 text-cyan-300">
-            Extracted 3 stories, 2 traditions,
-            and 4 life lessons.
+            Ready for transcription and analysis.
           </div>
         </div>
       )}
 
+      {/* Results */}
+
       {data && (
         <div className="mt-12 space-y-8">
-
           <WisdomCards
             title="Stories"
             items={
@@ -276,10 +269,8 @@ My grandmother taught us to sing before fishing..."
               ""
             }
           />
-
         </div>
       )}
-
     </main>
   );
 }

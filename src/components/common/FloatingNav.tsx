@@ -39,11 +39,11 @@ export default function FloatingNav() {
         border
         border-white/20
         rounded-full
-        px-6
-        py-2
-        text-base
+        px-8
+        py-4
+        text-lg  
         flex
-        gap-6
+        gap-10
         shadow-2xl
       "
     >

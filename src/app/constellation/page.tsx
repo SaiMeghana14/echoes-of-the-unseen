@@ -48,7 +48,7 @@ export default function ConstellationPage() {
       </p>
 
       <div className="h-[700px] rounded-3xl overflow-hidden border border-white/10 bg-black/20">
-        <ForceGraph2D
+        <ForceGraph3D
           graphData={data}
           nodeAutoColorBy="id"
         />

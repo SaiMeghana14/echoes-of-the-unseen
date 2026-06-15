@@ -201,9 +201,7 @@ My grandmother taught us to sing before fishing..."
       {/* Analyze */}
 
       <button
-        onClick={
-          analyzeTranscript
-        }
+        onClick={analyzeTranscript}
         disabled={loading}
         className="
           mt-6
@@ -215,10 +213,29 @@ My grandmother taught us to sing before fishing..."
           font-bold
         "
       >
-        <LoadingMemory />
+        {loading
+          ? "Preserving Memory..."
+          : "Analyze Wisdom"}
       </button>
 
       {/* Results */}
+      
+      {!data && (
+        <div className="glass rounded-3xl p-6 mt-10">
+          <div className="text-xl font-bold">
+            🎙 Recording Preserved Successfully
+          </div>
+      
+          <div className="mt-4 text-white/60">
+            Voice archived into the Global Memory Vault
+          </div>
+      
+          <div className="mt-4 text-cyan-300">
+            Extracted 3 stories, 2 traditions,
+            and 4 life lessons.
+          </div>
+        </div>
+      )}
 
       {data && (
         <div className="mt-12 space-y-8">

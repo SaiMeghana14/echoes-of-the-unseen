@@ -30,7 +30,7 @@ export default function FloatingNav() {
     <nav
       className="
         fixed
-        top-6
+        top-0
         left-1/2
         -translate-x-1/2
         z-[999]
@@ -39,11 +39,11 @@ export default function FloatingNav() {
         border
         border-white/20
         rounded-full
-        px-8
-        py-4
-        text-lg  
+        px-6
+        py-2
+        text-base
         flex
-        gap-10
+        gap-6
         shadow-2xl
       "
     >
@@ -53,10 +53,11 @@ export default function FloatingNav() {
           key={link.href}
           href={link.href}
           className="
+          text-sm
           text-white/80
           hover:text-cyan-400
           transition
-        "
+          "
         >
           {link.name}
         </Link>

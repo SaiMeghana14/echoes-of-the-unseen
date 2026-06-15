@@ -64,19 +64,35 @@ What traditions are disappearing in APAC?"
         onClick={handleAsk}
         disabled={loading}
         className="
-        mt-6
-        px-8
-        py-4
-        rounded-2xl
-        bg-nebula
-      "
+          mt-6
+          px-8
+          py-4
+          rounded-2xl
+          bg-nebula
+          text-white
+          font-bold
+        "
       >
-        <LoadingMemory />
+        {loading
+          ? "Searching Memory..."
+          : "Ask Oracle"}
       </button>
-
-      <OracleResponse
-        response={response}
-      />
+      
+      {response ? (
+        <OracleResponse response={response} />
+      ) : (
+        <div className="glass rounded-3xl p-6 mt-8">
+          <h3 className="text-xl font-bold mb-2">
+            🌏 Heritage Insight
+          </h3>
+      
+          <p className="text-white/70">
+            Traditional weaving techniques across APAC
+            are disappearing due to urbanization and
+            declining intergenerational transfer.
+          </p>
+        </div>
+      )}
 
     </main>
   );

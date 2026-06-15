@@ -4,7 +4,7 @@
 
 ### Live Demo
 
-🚀 https://your-vercel-url.vercel.app
+🚀 [View Demo](https://echoes-of-the-unseen.vercel.app/)
 
 ---
 
@@ -36,143 +36,63 @@ Built for:
 
 ---
 
-# 🎥 Demo Experience
+# ✨ Key Features
 
-## 🌍 Vanishing Earth
-
-A living globe of human memory.
-
-Every pulse represents something at risk:
-
-- Endangered languages
-- Disappearing traditions
-- Oral histories
-- Indigenous knowledge
-- Cultural practices
-
-Users explore a dynamic map of cultural preservation needs across APAC.
+- 🌍 Vanishing Earth – Interactive endangered heritage globe
+- 🔮 Echo Oracle – AI-powered cultural intelligence assistant
+- 🕰 Future Historian – Predict future historical significance
+- 🎙 Last Voices – Preserve oral histories and elder wisdom
+- 🧬 Cultural DNA – Knowledge graph of cultural relationships
+- 🌌 Memory Atlas – Interactive heritage network visualization
+- 🏺 Digital Fossils – Archive disappearing digital communities
+- 📚 Heritage Book Generator – One-click preservation reports
+- ⏳ Time Capsule – Future memory preservation
 
 ---
 
-## 🔮 Echo Oracle
+# ✨ Core Features
 
-Ask:
+### 🌍 Vanishing Earth
+Interactive globe showing endangered cultures, languages, and traditions.
 
-> What is humanity forgetting right now?
+### 🔮 Echo Oracle
+AI-powered heritage intelligence assistant.
 
-The Oracle combines:
+### 🕰 Future Historian
+Predicts future historical significance of memories and artifacts.
 
-- Gemini AI
-- Vector Search
-- Heritage Intelligence
-- Cultural Risk Prediction
+### 🎙 Last Voices
+Preserves oral histories and extracts cultural wisdom.
 
-to identify hidden cultural treasures and emerging preservation priorities.
+### 🧬 Cultural DNA
+Visualizes relationships between stories, rituals, beliefs, and knowledge.
 
----
-
-## 🕰 Future Historian
-
-Upload:
-
-- Story
-- Recipe
-- Tradition
-- Photograph
-- Website
-- Cultural Artifact
-
-AI responds:
-
-> A historian in 2126 would consider this significant because...
-
-This feature transforms ordinary memories into future historical narratives.
+### 🌌 Memory Atlas
+Interactive network of cultural connections and preserved memories.
 
 ---
 
-## 🎙 Last Voices
+# 🚀 Innovation Highlights
 
-Preserve wisdom before it disappears.
-
-Upload elder interviews or transcripts.
-
-AI extracts:
-
-- Stories
-- Traditions
-- Beliefs
-- Cultural Practices
-- Life Lessons
-
-and creates searchable heritage archives.
+- AI for cultural preservation rather than content generation
+- Heritage risk prediction engine
+- Multi-agent preservation architecture
+- Interactive cultural knowledge graph
+- Future historical significance analysis
+- Human memory mapping through network intelligence
+- Preservation-first AI design philosophy
 
 ---
 
-## 🧬 Cultural DNA
+# ❗ Problem Statement
 
-Every culture contains:
+According to UNESCO, languages, traditions, oral histories, and indigenous knowledge systems disappear every year.
 
-- Stories
-- Rituals
-- Symbols
-- Beliefs
-- Knowledge
+Many cultural assets exist only in the memories of elders, small communities, and fragile digital archives.
 
-Cultural DNA visualizes these relationships using a dynamic Neo4j knowledge graph.
+Current AI systems generate content but rarely help preserve human memory.
 
----
-
-## 🌌 Memory Constellation
-
-Memories become stars.
-
-Stories become galaxies.
-
-Cultural relationships become constellations.
-
-Users explore a living universe of human knowledge.
-
----
-
-## 🏺 Digital Fossils
-
-Analyze:
-
-- Websites
-- Blogs
-- Forums
-- Online Communities
-
-before they disappear forever.
-
-The system evaluates:
-
-- Historical Significance
-- Cultural Value
-- Community Impact
-- Future Relevance
-
----
-
-## 📚 Heritage Book Generator
-
-Generate a complete preservation archive:
-
-- Timeline
-- Historical Summary
-- Stories
-- Cultural Significance
-- Preservation Recommendations
-
-with a single click.
-
----
-
-## ⏳ Time Capsule
-
-Create future memory archives.
-
-Store cultural knowledge and artifacts that can be revisited years later.
+Echoes of the Unseen was built to address this gap.
 
 ---
 
@@ -246,6 +166,30 @@ Transforms heritage into narratives.
 ## Deployment
 
 - Vercel
+
+---
+
+# 🛣️ Roadmap
+
+### Phase 1
+- AI heritage discovery
+- Cultural DNA visualization
+- Oracle intelligence engine
+
+### Phase 2
+- Real-time UNESCO heritage integration
+- Community preservation submissions
+- Mobile application
+
+### Phase 3
+- Global Memory Vault
+- Multilingual preservation engine
+- Cultural extinction early-warning system
+
+### Phase 4
+- Open Heritage API
+- Research partnerships
+- Global cultural preservation network
 
 ---
 
@@ -425,15 +369,17 @@ Our goal is to build the world's first AI-powered Heritage Intelligence Platform
 
 # 📸 Screenshots
 
-Add screenshots here after deployment:
+| 🌍 Vanishing Earth |
+|-------------------|
+| ![](./docs/screenshots/earth.png) |
 
-- Homepage
-- Vanishing Earth
-- Echo Oracle
-- Future Historian
-- Cultural DNA
-- Memory Constellation
-- Dashboard
+| 🧬 Cultural DNA |
+|----------------|
+| ![](./docs/screenshots/dna.png) |
+
+| 🌌 Memory Atlas |
+|----------------|
+| ![](./docs/screenshots/atlas.png) |
 
 ---
 

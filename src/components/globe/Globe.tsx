@@ -102,10 +102,28 @@ const heritageData: HeritageItem[] = [
 export default function GlobeView({
   onSelect,
 }: GlobeViewProps) {
-  const points = useMemo(
-    () => heritageData,
-    []
-  );
+  const points = [
+    {
+      lat: 43.0,
+      lng: 142.0,
+      label: "Ainu Language",
+      risk: "91%"
+    },
+  
+    {
+      lat: 11.4,
+      lng: 76.7,
+      label: "Toda Embroidery",
+      risk: "82%"
+    },
+  
+    {
+      lat: 14.5,
+      lng: 121,
+      label: "Fishing Songs",
+      risk: "88%"
+    }
+  ];
 
   const rings = useMemo(
     () => [

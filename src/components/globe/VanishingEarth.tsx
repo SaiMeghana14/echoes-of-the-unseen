@@ -17,10 +17,6 @@ export default function VanishingEarth() {
         onSelect={setSelected}
       />
 
-      <HeritageDrawer
-        item={selected}
-      />
-
       <div
         className="
           absolute

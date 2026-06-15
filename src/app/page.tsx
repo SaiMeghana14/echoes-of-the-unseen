@@ -6,6 +6,7 @@ import VoicesPreview from "@/components/home/VoicesPreview";
 import ConstellationPreview from "@/components/home/ConstellationPreview";
 
 import ImpactStats from "@/components/dashboard/ImpactStats";
+import GalaxyView from "@/components/constellation/GalaxyView";
 
 import CulturalDNA from "@/components/dna/CulturalDNA";
 import VanishingEarth from "@/components/globe/VanishingEarth";
@@ -21,6 +22,7 @@ export default function HomePage() {
         id="explore"
         className="relative h-screen overflow-hidden"
       >
+
         <VanishingEarth />
 
         <div
@@ -48,12 +50,11 @@ export default function HomePage() {
       >
         <ImpactStats />
       </section>
+      
+      <GalaxyView />
 
       {/* Cultural DNA */}
       <section className="py-24">
-        <div className="text-center mb-12">
-        </div>
-
         <CulturalDNA />
       </section>
 

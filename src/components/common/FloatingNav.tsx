@@ -40,7 +40,8 @@ export default function FloatingNav() {
         border-white/20
         rounded-full
         px-6
-        py-3
+        py-2
+        text-base
         flex
         gap-6
         shadow-2xl

@@ -1,36 +1,128 @@
 import { Pinecone } from "@pinecone-database/pinecone";
 
+if (!process.env.PINECONE_API_KEY) {
+  throw new Error(
+    "Missing PINECONE_API_KEY environment variable"
+  );
+}
+
+if (!process.env.PINECONE_INDEX) {
+  throw new Error(
+    "Missing PINECONE_INDEX environment variable"
+  );
+}
+
 const pinecone = new Pinecone({
-  apiKey: process.env.PINECONE_API_KEY!,
+  apiKey: process.env.PINECONE_API_KEY,
 });
 
 const index = pinecone.index(
-  process.env.PINECONE_INDEX!
+  process.env.PINECONE_INDEX
 );
+
+export interface MemoryMetadata {
+  title?: string;
+  description?: string;
+  content?: string;
+  region?: string;
+  country?: string;
+  category?: string;
+  tags?: string[];
+  source?: string;
+  createdAt?: string;
+
+  [key: string]: any;
+}
 
 export async function upsertEmbedding(
   id: string,
   values: number[],
-  metadata: Record<string, any>
+  metadata: MemoryMetadata
 ) {
-  await index.upsert([
-    {
-      id,
-      values,
-      metadata,
-    },
-  ]);
+  try {
+    await index.upsert([
+      {
+        id,
+        values,
+        metadata: {
+          title:
+            metadata.title ?? "",
+
+          description:
+            metadata.description ??
+            "",
+
+          content:
+            metadata.content ?? "",
+
+          region:
+            metadata.region ?? "",
+
+          country:
+            metadata.country ?? "",
+
+          category:
+            metadata.category ?? "",
+
+          tags:
+            metadata.tags ?? [],
+
+          source:
+            metadata.source ?? "",
+
+          createdAt:
+            metadata.createdAt ??
+            new Date().toISOString(),
+
+          ...metadata,
+        },
+      },
+    ]);
+
+    return true;
+  } catch (error) {
+    console.error(
+      "[PINECONE_UPSERT_ERROR]",
+      error
+    );
+
+    throw error;
+  }
 }
 
 export async function searchSimilar(
   embedding: number[],
-  topK = 5
+  topK = 8,
+  minScore = 0.65
 ) {
-  const result = await index.query({
-    vector: embedding,
-    topK,
-    includeMetadata: true,
-  });
+  try {
+    const result =
+      await index.query({
+        vector: embedding,
+        topK,
+        includeMetadata: true,
+      });
 
-  return result.matches ?? [];
+    const matches =
+      result.matches ?? [];
+
+    return matches
+      .filter(
+        (match) =>
+          (match.score ?? 0) >=
+          minScore
+      )
+      .sort(
+        (a, b) =>
+          (b.score ?? 0) -
+          (a.score ?? 0)
+      );
+  } catch (error) {
+    console.error(
+      "[PINECONE_SEARCH_ERROR]",
+      error
+    );
+
+    return [];
+  }
 }

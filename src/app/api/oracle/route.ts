@@ -27,10 +27,7 @@ export async function POST(req: Request) {
     const prediction =
       typeof result === "string"
         ? result
-        : result?.prediction ||
-          result?.answer ||
-          result?.response ||
-          "The Oracle could not find an answer.";
+        : result.prediction;
 
     return NextResponse.json({
       success: true,

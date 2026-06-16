@@ -2,13 +2,13 @@ import { Pinecone } from "@pinecone-database/pinecone";
 
 if (!process.env.PINECONE_API_KEY) {
   throw new Error(
-    "Missing PINECONE_API_KEY environment variable"
+    "PINECONE_API_KEY is not configured."
   );
 }
 
 if (!process.env.PINECONE_INDEX) {
   throw new Error(
-    "Missing PINECONE_INDEX environment variable"
+    "PINECONE_INDEX is not configured."
   );
 }
 
@@ -49,8 +49,7 @@ export async function upsertEmbedding(
             metadata.title ?? "",
 
           description:
-            metadata.description ??
-            "",
+            metadata.description ?? "",
 
           content:
             metadata.content ?? "",

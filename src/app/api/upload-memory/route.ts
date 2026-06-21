@@ -56,16 +56,21 @@ export async function POST(
       success: true,
       memoryId,
     });
-  } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      {
-        success: false,
-      },
-      {
-        status: 500,
-      }
-    );
-  }
-}
+  } catch (error: any) {
+      console.error(
+        "UPLOAD_MEMORY_ERROR:",
+        error
+      );
+    
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            error?.message ??
+            "Unknown error",
+        },
+        {
+          status: 500,
+        }
+      );
+    }

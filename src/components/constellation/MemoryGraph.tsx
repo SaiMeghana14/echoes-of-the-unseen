@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect,useState } from "react";
 import dynamic from "next/dynamic";
 
 const ForceGraph3D = dynamic(
@@ -26,167 +26,126 @@ export default function MemoryGraph() {
   const [selected, setSelected] =
     useState<any>(null);
 
-  const [graph] = useState({
-    nodes: [
+  const [graph, setGraph] = useState<{
+    nodes: any[];
+    links: any[];
+  }>({
+    nodes: [],
+    links: [],
+  });
+  
+  useEffect(() => {
+    async function load() {
+  
+      try {
+        const res =
+          await fetch(
+            "/api/memory-atlas"
+          );
+      
+        if (!res.ok) {
+          throw new Error(
+            "Failed to load memories"
+          );
+        }
+      
+        const memories =
+          await res.json();
+      
+        buildGraph(memories);
+      
+      } catch (error) {
+        console.error(
+          "Memory Atlas Error:",
+          error
+        );
+      }
+    }
+  
+    load();
+  
+  }, []);
+  
+  function buildGraph(
+    memories: any[]
+  ) {
+    const nodes: any[] = [
       {
         id: "Human Memory",
         group: "core",
         size: 40,
         description:
-          "The collective memory of humanity preserved across cultures, traditions, languages, and stories.",
+          "Collective cultural memory",
       },
-
-      {
-        id: "Languages",
-        group: "language",
-        size: 22,
-        description:
-          "Endangered languages and oral communication systems.",
-      },
-
-      {
-        id: "Traditions",
-        group: "tradition",
-        size: 22,
-        description:
-          "Customs, rituals, and practices passed through generations.",
-      },
-
-      {
-        id: "Folklore",
-        group: "folklore",
-        size: 22,
-        description:
-          "Myths, legends, and oral storytelling traditions.",
-      },
-
-      {
-        id: "Artifacts",
-        group: "artifact",
-        size: 22,
-        description:
-          "Objects and creations representing cultural identity.",
-      },
-
-      {
-        id: "Ainu Stories",
-        group: "story",
-        size: 12,
-        description:
-          "Traditional stories from the indigenous Ainu people.",
-      },
-
-      {
-        id: "Harvest Festival",
-        group: "festival",
-        size: 12,
-        description:
-          "Seasonal celebrations preserving agricultural heritage.",
-      },
-
-      {
-        id: "Traditional Weaving",
-        group: "craft",
-        size: 12,
-        description:
-          "Ancient weaving techniques at risk of disappearing.",
-      },
-
-      {
-        id: "Oral Histories",
-        group: "story",
-        size: 12,
-        description:
-          "Spoken memories and intergenerational knowledge.",
-      },
-
-      {
-        id: "Sacred Songs",
-        group: "music",
-        size: 12,
-        description:
-          "Traditional songs preserving spiritual heritage.",
-      },
-
-      {
-        id: "Temple Architecture",
-        group: "artifact",
-        size: 12,
-        description:
-          "Architectural knowledge embedded in heritage sites.",
-      },
-
-      {
-        id: "Indigenous Knowledge",
-        group: "tradition",
-        size: 12,
-        description:
-          "Traditional ecological and community knowledge.",
-      },
-    ],
-
-    links: [
-      {
-        source: "Human Memory",
-        target: "Languages",
-      },
-
-      {
-        source: "Human Memory",
-        target: "Traditions",
-      },
-
-      {
-        source: "Human Memory",
-        target: "Folklore",
-      },
-
-      {
-        source: "Human Memory",
-        target: "Artifacts",
-      },
-
-      {
-        source: "Languages",
-        target: "Oral Histories",
-      },
-
-      {
-        source: "Folklore",
-        target: "Ainu Stories",
-      },
-
-      {
-        source: "Folklore",
-        target: "Sacred Songs",
-      },
-
-      {
-        source: "Traditions",
-        target: "Harvest Festival",
-      },
-
-      {
-        source: "Traditions",
-        target: "Indigenous Knowledge",
-      },
-
-      {
-        source: "Artifacts",
-        target: "Traditional Weaving",
-      },
-
-      {
-        source: "Artifacts",
-        target: "Temple Architecture",
-      },
-
-      {
-        source: "Traditional Weaving",
-        target: "Harvest Festival",
-      },
-    ],
-  });
+    ];
+  
+    const links: any[] = [];
+  
+    const categorySet =
+      new Set<string>();
+  
+    memories.forEach(
+      (memory) => {
+  
+        const category =
+          memory.category ||
+          "Uncategorized";
+  
+        categorySet.add(
+          category
+        );
+  
+        nodes.push({
+          id: memory.title,
+          group: category,
+          size: 12,
+          region:
+            memory.region,
+          description:
+            memory.description,
+        });
+      }
+    );
+  
+    categorySet.forEach(
+      (category) => {
+  
+        nodes.push({
+          id: category,
+          group: "category",
+          size: 22,
+          description:
+            `${category} memories`,
+        });
+  
+        links.push({
+          source:
+            "Human Memory",
+          target:
+            category,
+        });
+      }
+    );
+  
+    memories.forEach(
+      (memory) => {
+  
+        links.push({
+          source:
+            memory.category ||
+            "Uncategorized",
+  
+          target:
+            memory.title,
+        });
+      }
+    );
+  
+    setGraph({
+      nodes,
+      links,
+    });
+  }
 
   return (
     <div className="relative h-screen w-full rounded-3xl overflow-hidden">
@@ -241,6 +200,18 @@ ${node.description ?? ""}
           <p className="mt-3 text-white/70">
             {selected.description}
           </p>
+          
+          {selected.region && (
+            <p className="mt-2 text-sm text-white/50">
+              🌍 {selected.region}
+            </p>
+          )}
+          
+          {selected.group && (
+            <p className="mt-1 text-sm text-white/50">
+              🏺 {selected.group}
+            </p>
+          )}
 
           <button
             onClick={() =>

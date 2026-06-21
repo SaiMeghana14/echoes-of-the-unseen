@@ -1,16 +1,21 @@
 import { NextResponse } from "next/server";
 
-import { createEmbedding }
-  from "@/services/gemini/embeddings";
+import {
+  createEmbedding,
+} from "@/services/gemini/embeddings";
 
-import { upsertEmbedding }
-  from "@/services/pinecone/vectorStore";
+import {
+  upsertEmbedding,
+} from "@/services/pinecone/vectorStore";
+
+import {
+  saveMemory,
+} from "@/services/firebase/memories";
 
 export async function POST(
   req: Request
 ) {
   try {
-
     const {
       title,
       description,
@@ -20,13 +25,23 @@ export async function POST(
     } = await req.json();
 
     const embedding =
-      await createEmbedding(story);
+      await createEmbedding(
+        story
+      );
 
-    const id =
+    const memoryId =
       crypto.randomUUID();
 
+    await saveMemory({
+      title,
+      description,
+      region,
+      category,
+      story,
+    });
+
     await upsertEmbedding(
-      id,
+      memoryId,
       embedding,
       {
         title,
@@ -39,11 +54,9 @@ export async function POST(
 
     return NextResponse.json({
       success: true,
-      id,
+      memoryId,
     });
-
   } catch (error) {
-
     console.error(error);
 
     return NextResponse.json(

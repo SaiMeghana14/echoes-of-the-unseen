@@ -15,17 +15,21 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Memory saved to Firestore",
+      message: "Memory saved successfully",
     });
+
   } catch (error: any) {
-    console.error(error);
+
+    console.error("UPLOAD ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
         error: error?.message ?? "Unknown error",
       },
-      { status: 500 }
+      {
+        status: 500,
+      }
     );
   }
 }

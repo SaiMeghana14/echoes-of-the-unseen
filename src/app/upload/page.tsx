@@ -47,16 +47,15 @@ export default function UploadPage() {
       }
     );
 
-    const data =
-      await res.json();
+    const data = await res.json();
 
+    console.log("Upload response:", data);
+    
     if (data.success) {
-      setStatus(
-        "✓ Memory Preserved"
-      );
+      setStatus("✓ Memory Preserved");
     } else {
       setStatus(
-        "Upload failed"
+        `Upload failed: ${data.error || "Unknown error"}`
       );
     }
   }

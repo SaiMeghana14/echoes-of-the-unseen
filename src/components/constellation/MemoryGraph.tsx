@@ -148,7 +148,7 @@ export default function MemoryGraph() {
   }
 
   return (
-    <div className="relative h-screen w-full rounded-3xl overflow-hidden">
+    <div className="relative h-[700px] w-full rounded-3xl overflow-hidden border border-white/10 bg-black/20">
       <ForceGraph3D
         graphData={graph}
         backgroundColor="#020817"

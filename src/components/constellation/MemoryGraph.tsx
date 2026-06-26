@@ -1,6 +1,11 @@
 "use client";
 
-import { useEffect,useRef,useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
 import dynamic from "next/dynamic";
 
 const ForceGraph3D = dynamic(
@@ -24,39 +29,43 @@ const COLORS = {
 };
 
 export default function MemoryGraph() {
+  const fgRef = useRef<any>(null);
+
   const [selected, setSelected] =
     useState<any>(null);
 
-  const [graph, setGraph] = useState<{
-    nodes: any[];
-    links: any[];
-  }>({
-    nodes: [],
-    links: [],
-  });
+  const [graph, setGraph] =
+    useState<{
+      nodes: any[];
+      links: any[];
+    }>({
+      nodes: [],
+      links: [],
+    });
 
-  const fgRef = useRef<any>(null);
-  
   useEffect(() => {
     async function load() {
-  
       try {
-        const res =
-          await fetch(
-            "/api/memory-atlas"
-          );
-      
+        const res = await fetch(
+          "/api/memory-atlas"
+        );
+
         if (!res.ok) {
           throw new Error(
             "Failed to load memories"
           );
         }
-      
+
         const memories =
           await res.json();
-      
+
+        console.log(
+          "Fetched Memories:",
+          memories
+        );
+
         buildGraph(memories);
-      
+
       } catch (error) {
         console.error(
           "Memory Atlas Error:",
@@ -64,11 +73,28 @@ export default function MemoryGraph() {
         );
       }
     }
-  
+
     load();
-  
   }, []);
-  
+
+  useEffect(() => {
+    if (
+      graph.nodes.length === 0
+    )
+      return;
+
+    const timer =
+      setTimeout(() => {
+        fgRef.current?.zoomToFit(
+          800
+        );
+      }, 600);
+
+    return () =>
+      clearTimeout(timer);
+
+  }, [graph]);
+
   function buildGraph(
     memories: any[]
   ) {
@@ -81,114 +107,146 @@ export default function MemoryGraph() {
           "Collective cultural memory",
       },
     ];
-  
+
     const links: any[] = [];
-  
-    const categorySet =
+
+    const categories =
       new Set<string>();
-  
+
     memories.forEach(
       (memory) => {
-  
         const category =
-          memory.category ||
-          "Uncategorized";
-  
-        categorySet.add(
+          (
+            memory.category ??
+            "Uncategorized"
+          ).toLowerCase();
+
+        categories.add(
           category
         );
-  
+
         nodes.push({
           id: memory.title,
-          group: category,
+          group:
+            COLORS[
+              category as keyof typeof COLORS
+            ]
+              ? category
+              : "category",
+
           size: 25,
-          region:
-            memory.region,
+
           description:
             memory.description,
+
+          region:
+            memory.region,
+
+          story:
+            memory.story,
         });
       }
     );
-  
-    categorySet.forEach(
+
+    categories.forEach(
       (category) => {
-  
         nodes.push({
           id: category,
           group: "category",
           size: 40,
-          description:
-            `${category} memories`,
+          description: `${category} memories`,
         });
-  
+
         links.push({
           source:
             "Human Memory",
-          target:
-            category,
+          target: category,
         });
       }
     );
-  
+
     memories.forEach(
       (memory) => {
-  
         links.push({
           source:
-            memory.category ||
-            "Uncategorized",
-  
+            (
+              memory.category ??
+              "Uncategorized"
+            ).toLowerCase(),
+
           target:
             memory.title,
         });
       }
     );
-  
+
+    console.log(
+      "Graph Nodes:",
+      nodes
+    );
+
+    console.log(
+      "Graph Links:",
+      links
+    );
+
     setGraph({
       nodes,
       links,
     });
-    
-    setTimeout(() => {
-      fgRef.current?.zoomToFit(600);
-    }, 300);
-      }
+  }
 
   return (
     <div className="relative h-[700px] w-full rounded-3xl overflow-hidden border border-white/10 bg-black/20">
+
       <ForceGraph3D
+        key={graph.nodes.length}
         ref={fgRef}
+
         graphData={graph}
-        cameraPosition={{
-          x: 0,
-          y: 0,
-          z: 350,
-        }}
-        
-        warmupTicks={200}
-        
-        cooldownTicks={0}
+
         backgroundColor="#020817"
+
+        warmupTicks={200}
+
+        cooldownTicks={0}
+
         nodeLabel={(node: any) => `
 ${node.id}
+
 ${node.description ?? ""}
 `}
+
         nodeColor={(node: any) =>
           COLORS[
             node.group as keyof typeof COLORS
-          ] || "#ffffff"
+          ] ??
+          "#ffffff"
         }
+
         nodeVal={(node: any) =>
-          node.size || 10
+          node.size ?? 10
         }
+
         linkWidth={1.5}
-        linkOpacity={0.3}
+
+        linkOpacity={0.35}
+
         linkDirectionalParticles={2}
-        linkDirectionalParticleSpeed={0.002}
+
+        linkDirectionalParticleSpeed={
+          0.002
+        }
+
         d3VelocityDecay={0.25}
-        enableNodeDrag={true}
+
+        enableNodeDrag
+
         showNavInfo={false}
-        onNodeClick={(node: any) =>
+
+        onNodeClick={(
+          node: any
+        ) =>
           setSelected(node)
         }
       />
@@ -196,18 +254,18 @@ ${node.description ?? ""}
       {selected && (
         <div
           className="
-            absolute
-            bottom-6
-            left-6
-            max-w-md
-            rounded-3xl
-            border
-            border-white/10
-            bg-black/70
-            backdrop-blur-xl
-            p-6
-            text-white
-          "
+          absolute
+          bottom-6
+          left-6
+          max-w-md
+          rounded-3xl
+          border
+          border-white/10
+          bg-black/70
+          backdrop-blur-xl
+          p-6
+          text-white
+        "
         >
           <h3 className="text-2xl font-bold">
             {selected.id}
@@ -216,17 +274,29 @@ ${node.description ?? ""}
           <p className="mt-3 text-white/70">
             {selected.description}
           </p>
-          
+
           {selected.region && (
             <p className="mt-2 text-sm text-white/50">
               🌍 {selected.region}
             </p>
           )}
-          
+
           {selected.group && (
             <p className="mt-1 text-sm text-white/50">
               🏺 {selected.group}
             </p>
+          )}
+
+          {selected.story && (
+            <div className="mt-4 border-t border-white/10 pt-4">
+              <h4 className="font-semibold mb-2">
+                Story
+              </h4>
+
+              <p className="text-sm text-white/70">
+                {selected.story}
+              </p>
+            </div>
           )}
 
           <button
@@ -234,7 +304,7 @@ ${node.description ?? ""}
               setSelected(null)
             }
             className="
-              mt-4
+              mt-5
               px-4
               py-2
               rounded-xl
@@ -246,6 +316,7 @@ ${node.description ?? ""}
           </button>
         </div>
       )}
+
     </div>
   );
 }

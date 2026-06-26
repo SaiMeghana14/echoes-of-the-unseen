@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect,useState } from "react";
+import { useEffect,useRef,useState } from "react";
 import dynamic from "next/dynamic";
 
 const ForceGraph3D = dynamic(
@@ -12,6 +12,7 @@ const ForceGraph3D = dynamic(
 
 const COLORS = {
   core: "#fbbf24",
+  category: "#8b5cf6",
   language: "#60a5fa",
   tradition: "#34d399",
   folklore: "#c084fc",
@@ -33,6 +34,8 @@ export default function MemoryGraph() {
     nodes: [],
     links: [],
   });
+
+  const fgRef = useRef<any>(null);
   
   useEffect(() => {
     async function load() {
@@ -73,7 +76,7 @@ export default function MemoryGraph() {
       {
         id: "Human Memory",
         group: "core",
-        size: 40,
+        size: 80,
         description:
           "Collective cultural memory",
       },
@@ -98,7 +101,7 @@ export default function MemoryGraph() {
         nodes.push({
           id: memory.title,
           group: category,
-          size: 12,
+          size: 25,
           region:
             memory.region,
           description:
@@ -113,7 +116,7 @@ export default function MemoryGraph() {
         nodes.push({
           id: category,
           group: "category",
-          size: 22,
+          size: 40,
           description:
             `${category} memories`,
         });
@@ -145,12 +148,26 @@ export default function MemoryGraph() {
       nodes,
       links,
     });
-  }
+    
+    setTimeout(() => {
+      fgRef.current?.zoomToFit(600);
+    }, 300);
+      }
 
   return (
     <div className="relative h-[700px] w-full rounded-3xl overflow-hidden border border-white/10 bg-black/20">
       <ForceGraph3D
+        ref={fgRef}
         graphData={graph}
+        cameraPosition={{
+          x: 0,
+          y: 0,
+          z: 350,
+        }}
+        
+        warmupTicks={200}
+        
+        cooldownTicks={0}
         backgroundColor="#020817"
         nodeLabel={(node: any) => `
 ${node.id}
@@ -168,7 +185,6 @@ ${node.description ?? ""}
         linkOpacity={0.3}
         linkDirectionalParticles={2}
         linkDirectionalParticleSpeed={0.002}
-        cooldownTicks={100}
         d3VelocityDecay={0.25}
         enableNodeDrag={true}
         showNavInfo={false}

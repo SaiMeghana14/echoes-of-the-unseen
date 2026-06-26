@@ -1,7 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useMemo } from "react";
+import { useMemo, useEffect, useRef } from "react";
+
+const globeRef = useRef<any>(null);
 
 const Globe: any = dynamic(
   () =>
@@ -102,34 +104,6 @@ const heritageData: HeritageItem[] = [
 export default function GlobeView({
   onSelect,
 }: GlobeViewProps) {
-  const points = [
-    {
-      lat: 43.0,
-      lng: 142.0,
-      label: "Ainu Language • 91% Risk",
-      risk: "91%",
-      size: 0.45,
-      color: "#ff4d4d"
-    },
-  
-    {
-      lat: 11.4,
-      lng: 76.7,
-      label: "Toda Embroidery • 82% Risk",
-      risk: "82%",
-      size: 0.40,
-      color: "#FFD166"
-    },
-  
-    {
-      lat: 14.5,
-      lng: 121,
-      label: "Fishing Songs • 88% Risk",
-      risk: "88%",
-      size: 0.42,
-      color: "#ff4d4d"
-    }
-  ];
 
   const rings = useMemo(
     () => [
@@ -201,48 +175,71 @@ export default function GlobeView({
     []
   );
 
+  useEffect(() => {
+    if (!globeRef.current) return;
+  
+    globeRef.current.pointOfView(
+      {
+        lat: 20,
+        lng: 80,
+        altitude: 2.2,
+      },
+      1500
+    );
+  }, []);
+  
   return (
-    <div className="w-full h-[800px]">
+    <div className="w-full h-screen">
       <Globe
-        width={1200}
-        height={800}
-        globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-        bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
-        backgroundColor="#060B17"
+        ref={globeRef}
+      
+        globeImageUrl="/textures/earth-blue-marble.jpg"
+        bumpImageUrl="/textures/earth-topology.png"
+      
+        backgroundColor="#020817"
+      
+        showAtmosphere={true}
+      
         atmosphereColor="#4FD1FF"
-        atmosphereAltitude={0.15}
-
+        atmosphereAltitude={0.22}
+      
+        animateIn={true}
+      
         pointsData={heritageData}
+      
         pointLat="lat"
         pointLng="lng"
         pointAltitude="size"
         pointColor="color"
         pointRadius={0.25}
+        pointResolution={18}
         pointLabel="label"
-
+      
         ringsData={rings}
         ringLat="lat"
         ringLng="lng"
         ringColor="color"
         ringMaxRadius="maxR"
+        ringResolution={64}
         ringPropagationSpeed="propagationSpeed"
         ringRepeatPeriod="repeatPeriod"
-
+      
         arcsData={arcs}
         arcStartLat="startLat"
         arcStartLng="startLng"
         arcEndLat="endLat"
         arcEndLng="endLng"
         arcColor={(d: any) => d.color}
+        arcStroke={0.7}
+        arcAltitude={0.25}
         arcDashLength={0.5}
         arcDashGap={0.15}
         arcDashAnimateTime={2500}
-
+        arcDashInitialGap={() => Math.random()}
+      
         enablePointerInteraction
-
-        onPointClick={(point: any) => {
-          onSelect?.(point as HeritageItem);
-        }}
+      
+        onPointClick={(point: any) => onSelect?.(point as HeritageItem)}
       />
     </div>
   );

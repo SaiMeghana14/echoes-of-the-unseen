@@ -3,8 +3,6 @@
 import dynamic from "next/dynamic";
 import { useMemo, useEffect, useRef } from "react";
 
-const globeRef = useRef<any>(null);
-
 const Globe: any = dynamic(
   () =>
     import("react-globe.gl").then(
@@ -105,6 +103,8 @@ export default function GlobeView({
   onSelect,
 }: GlobeViewProps) {
 
+  const globeRef = useRef<any>(null);
+
   const rings = useMemo(
     () => [
       {
@@ -203,7 +203,7 @@ export default function GlobeView({
         atmosphereColor="#4FD1FF"
         atmosphereAltitude={0.22}
       
-        animateIn={true}
+        animateIn
       
         pointsData={heritageData}
       
@@ -220,7 +220,6 @@ export default function GlobeView({
         ringLng="lng"
         ringColor="color"
         ringMaxRadius="maxR"
-        ringResolution={64}
         ringPropagationSpeed="propagationSpeed"
         ringRepeatPeriod="repeatPeriod"
       

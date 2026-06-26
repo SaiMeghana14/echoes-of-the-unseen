@@ -193,8 +193,8 @@ export default function GlobeView({
       <Globe
         ref={globeRef}
       
-        globeImageUrl="docs/textures/earth-blue-marble.jpg"
-        bumpImageUrl="docs/textures/earth-topology.png"
+        globeImageUrl="/textures/earth-blue-marble.jpg"
+        bumpImageUrl="/textures/earth-topology.png"
       
         backgroundColor="#020817"
       

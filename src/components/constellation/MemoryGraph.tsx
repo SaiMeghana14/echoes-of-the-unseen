@@ -17,6 +17,7 @@ const ForceGraph3D = dynamic(
 
 const COLORS = {
   core: "#fbbf24",
+  region: "#38bdf8",
   category: "#8b5cf6",
   language: "#60a5fa",
   tradition: "#34d399",
@@ -35,10 +36,7 @@ export default function MemoryGraph() {
     useState<any>(null);
 
   const [graph, setGraph] =
-    useState<{
-      nodes: any[];
-      links: any[];
-    }>({
+    useState({
       nodes: [],
       links: [],
     });
@@ -59,18 +57,9 @@ export default function MemoryGraph() {
         const memories =
           await res.json();
 
-        console.log(
-          "Fetched Memories:",
-          memories
-        );
-
         buildGraph(memories);
-
-      } catch (error) {
-        console.error(
-          "Memory Atlas Error:",
-          error
-        );
+      } catch (err) {
+        console.error(err);
       }
     }
 
@@ -78,117 +67,109 @@ export default function MemoryGraph() {
   }, []);
 
   useEffect(() => {
-    if (
-      graph.nodes.length === 0
-    )
-      return;
+    if (!graph.nodes.length) return;
 
-    const timer =
-      setTimeout(() => {
-        fgRef.current?.zoomToFit(
-          800
-        );
-      }, 600);
+    const timer = setTimeout(() => {
+      fgRef.current?.zoomToFit(1200);
+    }, 700);
 
     return () =>
       clearTimeout(timer);
-
   }, [graph]);
 
-  function buildGraph(
-    memories: any[]
-  ) {
-    const nodes: any[] = [
-      {
-        id: "Human Memory",
-        group: "core",
-        size: 80,
-        description:
-          "Collective cultural memory",
-      },
-    ];
-
+  function buildGraph(memories: any[]) {
+    const nodes: any[] = [];
     const links: any[] = [];
 
-    const categories =
-      new Set<string>();
+    const nodeIds = new Set();
 
-    memories.forEach(
-      (memory) => {
-        const category =
-          (
-            memory.category ??
-            "Uncategorized"
-          ).toLowerCase();
-
-        categories.add(
-          category
-        );
-
-        nodes.push({
-          id: memory.title,
-          group:
-            COLORS[
-              category as keyof typeof COLORS
-            ]
-              ? category
-              : "category",
-
-          size: 25,
-
-          description:
-            memory.description,
-
-          region:
-            memory.region,
-
-          story:
-            memory.story,
-        });
+    function addNode(node: any) {
+      if (!nodeIds.has(node.id)) {
+        nodeIds.add(node.id);
+        nodes.push(node);
       }
-    );
+    }
 
-    categories.forEach(
-      (category) => {
-        nodes.push({
-          id: category,
-          group: "category",
-          size: 40,
-          description: `${category} memories`,
-        });
+    addNode({
+      id: "Human Memory",
+      group: "core",
+      size: 80,
+      description:
+        "Collective cultural memory",
+    });
 
-        links.push({
-          source:
-            "Human Memory",
-          target: category,
-        });
-      }
-    );
+    memories.forEach((memory) => {
+      const region =
+        memory.region ||
+        "Unknown Region";
 
-    memories.forEach(
-      (memory) => {
-        links.push({
-          source:
-            (
-              memory.category ??
-              "Uncategorized"
-            ).toLowerCase(),
+      const category =
+        (
+          memory.category ??
+          "Uncategorized"
+        ).toLowerCase();
 
-          target:
-            memory.title,
-        });
-      }
-    );
+      const categoryNode =
+        `${region}-${category}`;
 
-    console.log(
-      "Graph Nodes:",
-      nodes
-    );
+      addNode({
+        id: region,
+        group: "region",
+        size: 45,
+        description:
+          `${region} heritage`,
+      });
 
-    console.log(
-      "Graph Links:",
-      links
-    );
+      addNode({
+        id: categoryNode,
+        label: category,
+        group: "category",
+        size: 35,
+        description:
+          `${category} memories`,
+      });
+
+      addNode({
+        id: memory.title,
+        group:
+          COLORS[
+            category as keyof typeof COLORS
+          ]
+            ? category
+            : "category",
+
+        size: 22,
+
+        description:
+          memory.description,
+
+        region,
+
+        story:
+          memory.story,
+      });
+
+      links.push({
+        source:
+          "Human Memory",
+        target:
+          region,
+      });
+
+      links.push({
+        source:
+          region,
+        target:
+          categoryNode,
+      });
+
+      links.push({
+        source:
+          categoryNode,
+        target:
+          memory.title,
+      });
+    });
 
     setGraph({
       nodes,
@@ -200,7 +181,6 @@ export default function MemoryGraph() {
     <div className="relative h-[700px] w-full rounded-3xl overflow-hidden border border-white/10 bg-black/20">
 
       <ForceGraph3D
-        key={graph.nodes.length}
         ref={fgRef}
 
         graphData={graph}
@@ -211,24 +191,29 @@ export default function MemoryGraph() {
 
         cooldownTicks={0}
 
-        nodeLabel={(node: any) => `
-${node.id}
+        d3AlphaDecay={0.015}
 
-${node.description ?? ""}
-`}
+        d3VelocityDecay={0.2}
+
+        nodeRelSize={6}
+
+        nodeVal={(node: any) =>
+          node.size || 15
+        }
 
         nodeColor={(node: any) =>
           COLORS[
             node.group as keyof typeof COLORS
-          ] ??
-          "#ffffff"
+          ] || "#ffffff"
         }
 
-        nodeVal={(node: any) =>
-          node.size ?? 10
-        }
+        nodeLabel={(node: any) => `
+${node.label || node.id}
 
-        linkWidth={1.5}
+${node.description || ""}
+`}
+
+        linkWidth={2}
 
         linkOpacity={0.35}
 
@@ -238,15 +223,11 @@ ${node.description ?? ""}
           0.002
         }
 
-        d3VelocityDecay={0.25}
-
         enableNodeDrag
 
         showNavInfo={false}
 
-        onNodeClick={(
-          node: any
-        ) =>
+        onNodeClick={(node: any) =>
           setSelected(node)
         }
       />
@@ -268,7 +249,8 @@ ${node.description ?? ""}
         "
         >
           <h3 className="text-2xl font-bold">
-            {selected.id}
+            {selected.label ||
+              selected.id}
           </h3>
 
           <p className="mt-3 text-white/70">
@@ -276,24 +258,18 @@ ${node.description ?? ""}
           </p>
 
           {selected.region && (
-            <p className="mt-2 text-sm text-white/50">
+            <p className="mt-3 text-sm text-white/50">
               🌍 {selected.region}
-            </p>
-          )}
-
-          {selected.group && (
-            <p className="mt-1 text-sm text-white/50">
-              🏺 {selected.group}
             </p>
           )}
 
           {selected.story && (
             <div className="mt-4 border-t border-white/10 pt-4">
-              <h4 className="font-semibold mb-2">
+              <h4 className="font-semibold">
                 Story
               </h4>
 
-              <p className="text-sm text-white/70">
+              <p className="mt-2 text-sm text-white/70">
                 {selected.story}
               </p>
             </div>
@@ -303,20 +279,12 @@ ${node.description ?? ""}
             onClick={() =>
               setSelected(null)
             }
-            className="
-              mt-5
-              px-4
-              py-2
-              rounded-xl
-              bg-white/10
-              hover:bg-white/20
-            "
+            className="mt-5 rounded-xl bg-white/10 px-4 py-2 hover:bg-white/20"
           >
             Close
           </button>
         </div>
       )}
-
     </div>
   );
 }

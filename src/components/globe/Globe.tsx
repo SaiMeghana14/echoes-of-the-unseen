@@ -59,9 +59,10 @@ export default function GlobeView({
   const [
     heritageData,
     setHeritageData,
-  ] = useState<HeritageItem[]>(
-    []
-  );
+  ] = useState<HeritageItem[]>([]);
+  
+  const [loading, setLoading] =
+    useState(true);
 
   useEffect(() => {
     async function load() {
@@ -114,7 +115,20 @@ export default function GlobeView({
                   360 -
                   180,
 
-              size: 0.45,
+              size:
+              memory.category === "festival"
+              ? 0.85
+              : memory.category === "artifact"
+              ? 0.75
+              : memory.category === "language"
+              ? 0.7
+              : memory.category === "tradition"
+              ? 0.65
+              : memory.category === "music"
+              ? 0.6
+              : memory.category === "craft"
+              ? 0.58
+              : 0.5,
 
               color:
                 CATEGORY_COLORS[
@@ -125,18 +139,26 @@ export default function GlobeView({
                 ] ??
                 "#4FD1FF",
 
-              label: `${memory.title}
-${memory.region}
-${memory.category}`,
+              label: `
+              🏛 ${memory.title}
+              
+              🌍 ${memory.region}
+              
+              🏷 ${memory.category}
+              
+              ${memory.description}
+              `,
             })
           );
 
         setHeritageData(points);
+        setLoading(false);
       } catch (err) {
         console.error(
           "Globe Error:",
           err
         );
+        setLoading(false);
       }
     }
 
@@ -154,6 +176,13 @@ ${memory.category}`,
       },
       1500
     );
+
+    const controls =
+      globeRef.current.controls();
+    
+    controls.autoRotate = true;
+    
+    controls.autoRotateSpeed = 0.3;
   }, []);
 
   const rings = useMemo(
@@ -172,44 +201,79 @@ ${memory.category}`,
   );
 
   const arcs = useMemo(() => {
-    if (
-      heritageData.length < 2
-    )
-      return [];
-
-    const list = [];
-
-    for (
-      let i = 1;
-      i <
-      heritageData.length;
-      i++
-    ) {
-      list.push({
-        startLat:
-          heritageData[i - 1].lat,
-
-        startLng:
-          heritageData[i - 1].lng,
-
-        endLat:
-          heritageData[i].lat,
-
-        endLng:
-          heritageData[i].lng,
-
-        color: [
-          heritageData[i - 1]
-            .color,
-          heritageData[i]
-            .color,
-        ],
-      });
-    }
-
-    return list;
+    const grouped = heritageData.reduce(
+      (acc, point) => {
+        if (!acc[point.country]) {
+          acc[point.country] = [];
+        }
+  
+        acc[point.country].push(point);
+  
+        return acc;
+      },
+      {} as Record<
+        string,
+        HeritageItem[]
+      >
+    );
+  
+    const connections: any[] = [];
+  
+    Object.values(grouped).forEach(
+      (items) => {
+        if (items.length < 2) return;
+  
+        for (
+          let i = 1;
+          i < items.length;
+          i++
+        ) {
+          connections.push({
+            startLat:
+              items[0].lat,
+  
+            startLng:
+              items[0].lng,
+  
+            endLat:
+              items[i].lat,
+  
+            endLng:
+              items[i].lng,
+  
+            color: [
+              items[0].color,
+              items[i].color,
+            ],
+          });
+        }
+      }
+    );
+  
+    return connections;
+  
   }, [heritageData]);
 
+  if (loading) {
+    return (
+      <div
+        className="
+        w-full
+        h-screen
+        flex
+        items-center
+        justify-center
+        bg-[#020817]
+        text-cyan-300
+        text-2xl
+        font-semibold
+      "
+      >
+        🌍 Loading Heritage Network...
+      </div>
+    );
+  }
+  
   return (
     <div className="w-full h-screen">
       <Globe
@@ -220,8 +284,8 @@ ${memory.category}`,
         bumpImageUrl="/textures/earth-topology.png"
         backgroundColor="#020817"
         showAtmosphere
-        atmosphereColor="#4FD1FF"
-        atmosphereAltitude={0.22}
+        atmosphereColor="#7DD3FC"
+        atmosphereAltitude={0.28}
         animateIn
         pointsData={
           heritageData
@@ -230,7 +294,7 @@ ${memory.category}`,
         pointLng="lng"
         pointAltitude="size"
         pointColor="color"
-        pointRadius={0.35}
+        pointRadius={0.45}
         pointResolution={18}
         pointLabel="label"
         ringsData={rings}
@@ -249,12 +313,10 @@ ${memory.category}`,
           d: any
         ) => d.color}
         arcStroke={0.8}
-        arcAltitude={0.25}
+        arcAltitude={0.18}
         arcDashLength={0.5}
         arcDashGap={0.15}
-        arcDashAnimateTime={
-          2500
-        }
+        arcDashAnimateTime={1800}
         arcDashInitialGap={() =>
           Math.random()
         }

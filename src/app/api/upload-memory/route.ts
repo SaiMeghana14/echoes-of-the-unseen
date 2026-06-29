@@ -86,14 +86,20 @@ export async function POST(
     try {
       await saveGraph({
         id: memoryId,
-        title,
-        description,
-        region,
-        category,
-        story,
-        latitude,
-        longitude,
+        title: body.title,
+        description: body.description,
+        region: body.region,
+        category: body.category,
+        story: body.story,
+        latitude: body.latitude,
+        longitude: body.longitude,
       });
+    } catch (error) {
+      console.error(
+        "Neo4j Error:",
+        error
+      );
+    }
 
       console.log(
         "✓ Neo4j graph updated"

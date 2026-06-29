@@ -36,10 +36,14 @@ export default function VanishingEarth() {
         </h3>
 
         <div className="space-y-2 text-sm">
-          <div>🔴 Critical Heritage</div>
-          <div>🟡 At Risk Heritage</div>
-          <div>🔵 Protected Heritage</div>
-          <div>🌐 Cultural Relationships</div>
+          <div>🟦 Languages</div>
+          <div>🟩 Traditions</div>
+          <div>🟪 Folklore</div>
+          <div>🟧 Artifacts</div>
+          <div>🟨 Crafts</div>
+          <div>🩷 Music</div>
+          <div>🟢 Festivals</div>
+          <div>🌍 Cultural Connections</div>
         </div>
       </div>
 

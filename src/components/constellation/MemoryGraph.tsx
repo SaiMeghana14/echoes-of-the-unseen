@@ -115,7 +115,7 @@ export default function MemoryGraph() {
     addNode({
       id: "Human Memory",
       group: "core",
-      size: 80,
+      size: 50,
       description:
         "Collective cultural memory",
     });
@@ -137,7 +137,7 @@ export default function MemoryGraph() {
       addNode({
         id: region,
         group: "region",
-        size: 45,
+        size: 28,
         description:
           `${region} heritage`,
       });
@@ -146,7 +146,7 @@ export default function MemoryGraph() {
         id: categoryNode,
         label: category,
         group: "category",
-        size: 35,
+        size: 20,
         description:
           `${category} memories`,
       });
@@ -160,7 +160,7 @@ export default function MemoryGraph() {
             ? category
             : "category",
 
-        size: 22,
+        size: 10,
 
         description:
           memory.description,
@@ -213,11 +213,15 @@ export default function MemoryGraph() {
 
         cooldownTicks={0}
 
-        d3AlphaDecay={0.015}
+        d3Force="charge"
 
-        d3VelocityDecay={0.2}
-
-        nodeRelSize={6}
+        d3AlphaDecay={0.02}
+        
+        d3VelocityDecay={0.35}
+        
+        linkDistance={120}
+        
+        nodeRelSize={4}
 
         nodeVal={(node) =>
           (node as GraphNode).size || 15

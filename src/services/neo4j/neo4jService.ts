@@ -1,4 +1,4 @@
-import driver from "./driver";
+import { getDriver } from "./driver";
 
 export async function saveGraph(
   memory: {
@@ -12,8 +12,16 @@ export async function saveGraph(
     longitude: number;
   }
 ) {
-  const session =
-    driver.session();
+  const driver = getDriver();
+
+  if (!driver) {
+    console.warn(
+      "Neo4j not configured. Skipping graph save."
+    );
+    return;
+  }
+  
+  const session = driver.session();
 
   try {
     await session.run(

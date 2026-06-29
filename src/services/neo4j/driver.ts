@@ -1,6 +1,6 @@
-import neo4j from "neo4j-driver";
+import neo4j, { Driver } from "neo4j-driver";
 
-let driver: neo4j.Driver | null = null;
+let driver: Driver | null = null;
 
 export function getDriver() {
   if (driver) {

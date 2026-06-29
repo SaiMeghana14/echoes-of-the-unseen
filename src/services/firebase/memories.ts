@@ -1,6 +1,6 @@
 import {
-  collection,
   addDoc,
+  collection,
   getDocs,
   orderBy,
   query,
@@ -9,19 +9,36 @@ import {
 
 import { db } from "./firestore";
 
+export interface Memory {
+  title: string;
+  description: string;
+  region: string;
+  category: string;
+  story: string;
+
+  latitude: number;
+  longitude: number;
+}
+
 export async function saveMemory(
-  memory: {
-    title: string;
-    description: string;
-    region: string;
-    category: string;
-    story: string;
-  }
+  memory: Memory
 ) {
   const docRef = await addDoc(
     collection(db, "memories"),
     {
-      ...memory,
+      title: memory.title,
+      description:
+        memory.description,
+      region: memory.region,
+      category:
+        memory.category,
+      story: memory.story,
+
+      latitude:
+        memory.latitude,
+      longitude:
+        memory.longitude,
+
       createdAt:
         serverTimestamp(),
     }
@@ -32,7 +49,11 @@ export async function saveMemory(
 
 export async function getMemories() {
   const q = query(
-    collection(db, "memories")
+    collection(db, "memories"),
+    orderBy(
+      "createdAt",
+      "desc"
+    )
   );
 
   const snapshot =
@@ -41,7 +62,7 @@ export async function getMemories() {
   return snapshot.docs.map(
     (doc) => ({
       id: doc.id,
-      ...doc.data(),
+      ...(doc.data() as Memory),
     })
   );
 }

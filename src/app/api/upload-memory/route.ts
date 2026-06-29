@@ -6,60 +6,116 @@ import { createEmbedding } from "@/services/gemini/embeddings";
 
 import { upsertEmbedding } from "@/services/pinecone/vectorStore";
 
-export async function POST(req: Request) {
+import { saveGraph } from "@/services/neo4j/neo4jService";
+
+export async function POST(
+  req: Request
+) {
   try {
-    const body = await req.json();
+    const {
+      title,
+      description,
+      region,
+      category,
+      story,
+      latitude,
+      longitude,
+    } = await req.json();
 
-    // STEP 1: Always save to Firestore
-    const memoryId = await saveMemory({
-      title: body.title,
-      description: body.description,
-      region: body.region,
-      category: body.category,
-      story: body.story,
-    });
+    // ============================
+    // STEP 1
+    // Save metadata to Firestore
+    // ============================
 
-    // STEP 2: Try to generate embedding + save to Pinecone
+    const memoryId =
+      await saveMemory({
+        title,
+        description,
+        region,
+        category,
+        story,
+        latitude,
+        longitude,
+      });
+
+    // ============================
+    // STEP 2
+    // Generate embedding
+    // ============================
+
     try {
       const embedding =
         await createEmbedding(
-          body.story
+          story
         );
+
+      // ============================
+      // STEP 3
+      // Save embedding to Pinecone
+      // ============================
 
       await upsertEmbedding(
         memoryId,
         embedding,
         {
-          title: body.title,
-          description: body.description,
-          region: body.region,
-          category: body.category,
-          content: body.story,
+          title,
+          description,
+          region,
+          category,
+          story,
+          latitude,
+          longitude,
         }
       );
 
       console.log(
-        "Pinecone upload successful"
+        "✓ Pinecone upload successful"
       );
-
-    } catch (embeddingError) {
-
+    } catch (error) {
       console.error(
-        "Embedding/Pinecone Error:",
-        embeddingError
+        "Pinecone Error:",
+        error
       );
+    }
 
-      // Don't fail the upload.
-      // Firestore already has the memory.
+    // ============================
+    // STEP 4
+    // Save relationships to Neo4j
+    // ============================
+
+    try {
+      await saveGraph({
+        id: memoryId,
+        title,
+        description,
+        region,
+        category,
+        story,
+        latitude,
+        longitude,
+      });
+
+      console.log(
+        "✓ Neo4j graph updated"
+      );
+    } catch (error) {
+      console.error(
+        "Neo4j Error:",
+        error
+      );
     }
 
     return NextResponse.json({
       success: true,
+      id: memoryId,
     });
 
   } catch (error: any) {
 
-    console.error(error);
+    console.error(
+      "UPLOAD ERROR:",
+      error
+    );
 
     return NextResponse.json(
       {

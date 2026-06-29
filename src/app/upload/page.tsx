@@ -3,144 +3,248 @@
 import { useState } from "react";
 
 export default function UploadPage() {
-  const [title, setTitle] =
+  const [title, setTitle] = useState("");
+  const [description, setDescription] =
     useState("");
-
-  const [description,
-    setDescription] =
-    useState("");
-
   const [region, setRegion] =
     useState("");
-
-  const [category,
-    setCategory] =
+  const [category, setCategory] =
     useState("");
-
   const [story, setStory] =
     useState("");
 
-  const [status,
-    setStatus] =
+  const [latitude, setLatitude] =
+    useState("");
+
+  const [longitude, setLongitude] =
+    useState("");
+
+  const [status, setStatus] =
     useState("");
 
   async function handleSubmit() {
-    setStatus(
-      "Preserving memory..."
-    );
-
-    const res = await fetch(
-      "/api/upload-memory",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type":
-            "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          region,
-          category,
-          story,
-        }),
-      }
-    );
-
-    const data = await res.json();
-
-    console.log("Upload response:", data);
-    
-    if (data.success) {
-      setStatus("✓ Memory Preserved");
-    } else {
+    if (
+      !title ||
+      !description ||
+      !region ||
+      !category ||
+      !story ||
+      !latitude ||
+      !longitude
+    ) {
       setStatus(
-        `Upload failed: ${data.error || "Unknown error"}`
+        "Please fill all fields."
+      );
+      return;
+    }
+
+    setStatus("Preserving memory...");
+
+    try {
+      const res = await fetch(
+        "/api/upload-memory",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            description,
+            region,
+            category,
+            story,
+            latitude:
+              Number(latitude),
+            longitude:
+              Number(longitude),
+          }),
+        }
+      );
+
+      const data =
+        await res.json();
+
+      console.log(
+        "Upload Response:",
+        data
+      );
+
+      if (data.success) {
+        setStatus(
+          "✓ Memory Preserved Successfully!"
+        );
+
+        setTitle("");
+        setDescription("");
+        setRegion("");
+        setCategory("");
+        setStory("");
+        setLatitude("");
+        setLongitude("");
+      } else {
+        setStatus(
+          `Upload Failed: ${
+            data.error ??
+            "Unknown error"
+          }`
+        );
+      }
+    } catch (err) {
+      console.error(err);
+
+      setStatus(
+        "Upload Failed. Please try again."
       );
     }
   }
 
   return (
-    <main className="max-w-4xl mx-auto p-10 text-white">
+    <main className="max-w-5xl mx-auto p-10 text-white">
 
       <h1 className="text-5xl font-bold">
-        Preserve Memory
+        🌍 Preserve Human Memory
       </h1>
 
-      <div className="mt-8 space-y-4">
+      <p className="mt-3 text-white/60">
+        Document endangered cultures,
+        traditions, stories and artifacts
+        before they disappear forever.
+      </p>
+
+      <div className="mt-10 space-y-5">
 
         <input
-          placeholder="Title"
+          placeholder="Memory Title"
           value={title}
           onChange={(e) =>
-            setTitle(
-              e.target.value
-            )
+            setTitle(e.target.value)
           }
-          className="w-full p-4 rounded-xl bg-black/30"
+          className="w-full rounded-xl bg-black/30 border border-white/10 p-4"
         />
 
         <input
-          placeholder="Description"
+          placeholder="Short Description"
           value={description}
           onChange={(e) =>
             setDescription(
               e.target.value
             )
           }
-          className="w-full p-4 rounded-xl bg-black/30"
+          className="w-full rounded-xl bg-black/30 border border-white/10 p-4"
         />
 
         <input
-          placeholder="Region"
+          placeholder="Region / Country"
           value={region}
           onChange={(e) =>
             setRegion(
               e.target.value
             )
           }
-          className="w-full p-4 rounded-xl bg-black/30"
+          className="w-full rounded-xl bg-black/30 border border-white/10 p-4"
         />
 
-        <input
-          placeholder="Category"
+        <select
           value={category}
           onChange={(e) =>
             setCategory(
               e.target.value
             )
           }
-          className="w-full p-4 rounded-xl bg-black/30"
-        />
+          className="w-full rounded-xl bg-black/30 border border-white/10 p-4"
+        >
+          <option value="">
+            Select Category
+          </option>
+
+          <option value="artifact">
+            Artifact
+          </option>
+
+          <option value="language">
+            Language
+          </option>
+
+          <option value="tradition">
+            Tradition
+          </option>
+
+          <option value="festival">
+            Festival
+          </option>
+
+          <option value="story">
+            Story
+          </option>
+
+          <option value="craft">
+            Craft
+          </option>
+
+          <option value="music">
+            Music
+          </option>
+
+          <option value="folklore">
+            Folklore
+          </option>
+        </select>
+
+        <div className="grid md:grid-cols-2 gap-4">
+
+          <input
+            type="number"
+            step="any"
+            placeholder="Latitude"
+            value={latitude}
+            onChange={(e) =>
+              setLatitude(
+                e.target.value
+              )
+            }
+            className="rounded-xl bg-black/30 border border-white/10 p-4"
+          />
+
+          <input
+            type="number"
+            step="any"
+            placeholder="Longitude"
+            value={longitude}
+            onChange={(e) =>
+              setLongitude(
+                e.target.value
+              )
+            }
+            className="rounded-xl bg-black/30 border border-white/10 p-4"
+          />
+
+        </div>
 
         <textarea
-          placeholder="Story"
+          placeholder="Write the cultural story here..."
           value={story}
           onChange={(e) =>
             setStory(
               e.target.value
             )
           }
-          className="w-full min-h-[200px] p-4 rounded-xl bg-black/30"
+          className="w-full min-h-[220px] rounded-xl bg-black/30 border border-white/10 p-4"
         />
 
         <button
-          onClick={
-            handleSubmit
-          }
-          className="
-            px-8
-            py-4
-            rounded-xl
-            bg-indigo-600
-          "
+          onClick={handleSubmit}
+          className="w-full rounded-xl bg-indigo-600 hover:bg-indigo-700 transition py-4 font-semibold"
         >
           Preserve Memory
         </button>
 
-        <p>
-          {status}
-        </p>
+        {status && (
+          <div className="rounded-xl bg-black/30 border border-white/10 p-4 text-center">
+            {status}
+          </div>
+        )}
 
       </div>
     </main>

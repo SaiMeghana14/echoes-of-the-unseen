@@ -29,18 +29,38 @@ const COLORS = {
   music: "#f9a8d4",
 };
 
+interface GraphNode {
+  id: string;
+  label?: string;
+  group: string;
+  size: number;
+  description?: string;
+  region?: string;
+  story?: string;
+}
+
+interface GraphLink {
+  source: string;
+  target: string;
+}
+
+interface GraphData {
+  nodes: GraphNode[];
+  links: GraphLink[];
+}
+
 export default function MemoryGraph() {
   const fgRef = useRef<any>(null);
 
   const [selected, setSelected] =
-    useState<any>(null);
+    useState<GraphNode | null>(null);
 
   const [graph, setGraph] =
-    useState({
+    useState<GraphData>({
       nodes: [],
       links: [],
     });
-
+  
   useEffect(() => {
     async function load() {
       try {
@@ -77,13 +97,15 @@ export default function MemoryGraph() {
       clearTimeout(timer);
   }, [graph]);
 
-  function buildGraph(memories: any[]) {
-    const nodes: any[] = [];
-    const links: any[] = [];
+  function buildGraph(
+    memories: any[]
+  )  {
+    const nodes: GraphNode[] = [];
+    const links: GraphLink[] = [];
 
-    const nodeIds = new Set();
+    const nodeIds = new Set<string>();
 
-    function addNode(node: any) {
+    function addNode(node: GraphNode) {
       if (!nodeIds.has(node.id)) {
         nodeIds.add(node.id);
         nodes.push(node);
@@ -197,22 +219,26 @@ export default function MemoryGraph() {
 
         nodeRelSize={6}
 
-        nodeVal={(node: any) =>
-          node.size || 15
+        nodeVal={(node) =>
+          (node as GraphNode).size || 15
         }
 
-        nodeColor={(node: any) =>
+        nodeColor={(node) =>
           COLORS[
-            node.group as keyof typeof COLORS
-          ] || "#ffffff"
+            (node as GraphNode)
+              .group as keyof typeof COLORS
+          ] ?? "#ffffff"
         }
 
-        nodeLabel={(node: any) => `
-${node.label || node.id}
-
-${node.description || ""}
-`}
-
+        nodeLabel={(node) => {
+          const n = node as GraphNode;
+        
+          return `
+        ${n.label || n.id}
+        
+        ${n.description || ""}
+        `;
+        }}
         linkWidth={2}
 
         linkOpacity={0.35}
@@ -227,8 +253,8 @@ ${node.description || ""}
 
         showNavInfo={false}
 
-        onNodeClick={(node: any) =>
-          setSelected(node)
+        onNodeClick={(node) =>
+          setSelected(node as GraphNode)
         }
       />
 

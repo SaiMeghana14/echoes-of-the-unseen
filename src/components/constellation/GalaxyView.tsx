@@ -246,21 +246,17 @@ export default function GalaxyView() {
 
         ) : (
 
-          <div className="mb-6 text-white/60">
-    
-          Showing
-          
-          <strong>
-          
-          {filteredMemories.length}
-          
-          </strong>
-          
-          preserved memories
-          
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
+          <div>
+        
+            <div className="mb-6 text-white/60">
+              Showing{" "}
+              <strong>
+                {filteredMemories.length}
+              </strong>{" "}
+              preserved memories
+            </div>
+        
+            <div className="grid md:grid-cols-3 gap-6">
 
             {filteredMemories
               .slice(0, 6)
@@ -385,7 +381,7 @@ export default function GalaxyView() {
               ))}
 
           </div>
-
+        </div>
         )}
 
       </div>

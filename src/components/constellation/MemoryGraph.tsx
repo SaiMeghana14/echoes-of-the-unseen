@@ -16,17 +16,17 @@ const ForceGraph3D = dynamic(
 );
 
 const COLORS = {
-  core: "#fbbf24",
-  region: "#38bdf8",
-  category: "#8b5cf6",
-  language: "#60a5fa",
-  tradition: "#34d399",
-  folklore: "#c084fc",
-  artifact: "#f97316",
-  story: "#93c5fd",
-  craft: "#fdba74",
-  festival: "#6ee7b7",
-  music: "#f9a8d4",
+  core: "#FFD54A",
+  region: "#38BDF8",
+  category: "#A855F7",
+  language: "#3B82F6",
+  tradition: "#10B981",
+  folklore: "#C084FC",
+  artifact: "#FF8C42",
+  story: "#93C5FD",
+  craft: "#FBBF24",
+  festival: "#4ADE80",
+  music: "#FF77C8",
 };
 
 interface GraphNode {
@@ -49,18 +49,30 @@ interface GraphData {
   links: GraphLink[];
 }
 
-export default function MemoryGraph() {
+interface MemoryGraphProps {
+  searchTerm?: string;
+  selectedCategory?: string;
+}
+
+export default function MemoryGraph({
+  searchTerm = "",
+  selectedCategory = "All",
+}: MemoryGraphProps) {
+
   const fgRef = useRef<any>(null);
 
   const [selected, setSelected] =
     useState<GraphNode | null>(null);
+
+  const [hovered, setHovered] =
+    useState<string | null>(null);
 
   const [graph, setGraph] =
     useState<GraphData>({
       nodes: [],
       links: [],
     });
-  
+
   useEffect(() => {
     async function load() {
       try {
@@ -77,39 +89,107 @@ export default function MemoryGraph() {
         const memories =
           await res.json();
 
-        buildGraph(memories);
+        const filtered =
+          memories.filter(
+            (memory: any) => {
+
+              const matchesSearch =
+                memory.title
+                  ?.toLowerCase()
+                  .includes(
+                    searchTerm.toLowerCase()
+                  ) ||
+
+                memory.region
+                  ?.toLowerCase()
+                  .includes(
+                    searchTerm.toLowerCase()
+                  ) ||
+
+                memory.category
+                  ?.toLowerCase()
+                  .includes(
+                    searchTerm.toLowerCase()
+                  );
+
+              const matchesCategory =
+                selectedCategory === "All" ||
+
+                memory.category
+                  ?.toLowerCase() ===
+                  selectedCategory;
+
+              return (
+                matchesSearch &&
+                matchesCategory
+              );
+            }
+          );
+
+        buildGraph(filtered);
+
       } catch (err) {
-        console.error(err);
+        console.error("MemoryGraph:", err);
       }
     }
 
     load();
-  }, []);
+
+  }, [
+    searchTerm,
+    selectedCategory,
+  ]);
 
   useEffect(() => {
+
     if (!graph.nodes.length) return;
 
     const timer = setTimeout(() => {
+
       fgRef.current?.zoomToFit(1200);
+
+      const linkForce =
+        fgRef.current?.d3Force("link") as any;
+      
+      if (linkForce) {
+        linkForce.distance(120);
+      }
+      
+      const chargeForce =
+        fgRef.current?.d3Force("charge") as any;
+      
+      if (chargeForce) {
+        chargeForce.strength(-250);
+      }
+
     }, 700);
 
     return () =>
       clearTimeout(timer);
+
   }, [graph]);
 
   function buildGraph(
     memories: any[]
-  )  {
+  ) {
+
     const nodes: GraphNode[] = [];
     const links: GraphLink[] = [];
 
-    const nodeIds = new Set<string>();
+    const nodeIds =
+      new Set<string>();
 
-    function addNode(node: GraphNode) {
-      if (!nodeIds.has(node.id)) {
+    function addNode(
+      node: GraphNode
+    ) {
+
+      if (
+        !nodeIds.has(node.id)
+      ) {
         nodeIds.add(node.id);
         nodes.push(node);
       }
+
     }
 
     addNode({
@@ -120,87 +200,93 @@ export default function MemoryGraph() {
         "Collective cultural memory",
     });
 
-    memories.forEach((memory) => {
-      const region =
-        memory.region ||
-        "Unknown Region";
+    memories.forEach(
+      (memory) => {
 
-      const category =
-        (
-          memory.category ??
-          "Uncategorized"
-        ).toLowerCase();
+        const region =
+          memory.region ||
+          "Unknown Region";
 
-      const categoryNode =
-        `${region}-${category}`;
+        const category =
+          (
+            memory.category ??
+            "Uncategorized"
+          ).toLowerCase();
 
-      addNode({
-        id: region,
-        group: "region",
-        size: 28,
-        description:
-          `${region} heritage`,
-      });
+        const categoryNode =
+          `${region}-${category}`;
 
-      addNode({
-        id: categoryNode,
-        label: category,
-        group: "category",
-        size: 20,
-        description:
-          `${category} memories`,
-      });
+        addNode({
+          id: region,
+          group: "region",
+          size: 28,
+          description:
+            `${region} heritage`,
+        });
 
-      addNode({
-        id: memory.title,
-        group:
-          COLORS[
-            category as keyof typeof COLORS
-          ]
-            ? category
-            : "category",
+        addNode({
+          id: categoryNode,
+          label: category,
+          group: "category",
+          size: 20,
+          description:
+            `${category} memories`,
+        });
 
-        size: 10,
+        addNode({
+          id: memory.id,
+          label: memory.title,
 
-        description:
-          memory.description,
+          group:
+            COLORS[
+              category as keyof typeof COLORS
+            ]
+              ? category
+              : "category",
 
-        region,
+          size: 10,
 
-        story:
-          memory.story,
-      });
+          description:
+            memory.description,
 
-      links.push({
-        source:
-          "Human Memory",
-        target:
           region,
-      });
 
-      links.push({
-        source:
-          region,
-        target:
-          categoryNode,
-      });
+          story:
+            memory.story,
+        });
 
-      links.push({
-        source:
-          categoryNode,
-        target:
-          memory.title,
-      });
-    });
+        links.push({
+          source:
+            "Human Memory",
+          target:
+            region,
+        });
+
+        links.push({
+          source:
+            region,
+          target:
+            categoryNode,
+        });
+
+        links.push({
+          source:
+            categoryNode,
+          target: 
+            memory.id,
+        });
+
+      }
+    );
 
     setGraph({
       nodes,
       links,
     });
   }
-
+  
   return (
-    <div className="relative h-[700px] w-full rounded-3xl overflow-hidden border border-white/10 bg-black/20">
+    <div className="relative h-[700px] w-full rounded-3xl overflow-hidden border border-cyan-500/20 bg-gradient-to-b from-[#020817] to-[#081326]">
 
       <ForceGraph3D
         ref={fgRef}
@@ -213,19 +299,19 @@ export default function MemoryGraph() {
 
         cooldownTicks={0}
 
-        d3Force="charge"
-
         d3AlphaDecay={0.02}
-        
+
         d3VelocityDecay={0.35}
-        
-        linkDistance={120}
-        
+
         nodeRelSize={4}
 
-        nodeVal={(node) =>
-          (node as GraphNode).size || 15
-        }
+        nodeVal={(node) => {
+          const n = node as GraphNode;
+
+          return hovered === n.id
+            ? n.size * 1.7
+            : n.size;
+        }}
 
         nodeColor={(node) =>
           COLORS[
@@ -236,13 +322,14 @@ export default function MemoryGraph() {
 
         nodeLabel={(node) => {
           const n = node as GraphNode;
-        
+
           return `
-        ${n.label || n.id}
-        
-        ${n.description || ""}
-        `;
+${n.label || n.id}
+
+${n.description || ""}
+`;
         }}
+
         linkWidth={2}
 
         linkOpacity={0.35}
@@ -253,14 +340,28 @@ export default function MemoryGraph() {
           0.002
         }
 
-        enableNodeDrag
-
         showNavInfo={false}
 
+        onNodeHover={(node) =>
+          setHovered(
+            node
+              ? (node as GraphNode).id
+              : null
+          )
+        }
+
         onNodeClick={(node) =>
-          setSelected(node as GraphNode)
+          setSelected(
+            node as GraphNode
+          )
         }
       />
+
+      {/* Background Glow */}
+
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.08),transparent_70%)]" />
+
+      {/* Selected Memory */}
 
       {selected && (
         <div
@@ -271,11 +372,12 @@ export default function MemoryGraph() {
           max-w-md
           rounded-3xl
           border
-          border-white/10
-          bg-black/70
+          border-cyan-400/20
+          bg-black/75
           backdrop-blur-xl
           p-6
           text-white
+          shadow-2xl
         "
         >
           <h3 className="text-2xl font-bold">
@@ -288,18 +390,18 @@ export default function MemoryGraph() {
           </p>
 
           {selected.region && (
-            <p className="mt-3 text-sm text-white/50">
+            <p className="mt-3 text-sm text-cyan-300">
               🌍 {selected.region}
             </p>
           )}
 
           {selected.story && (
             <div className="mt-4 border-t border-white/10 pt-4">
-              <h4 className="font-semibold">
+              <h4 className="font-semibold text-cyan-300">
                 Story
               </h4>
 
-              <p className="mt-2 text-sm text-white/70">
+              <p className="mt-2 text-sm text-white/70 leading-relaxed max-h-48 overflow-y-auto">
                 {selected.story}
               </p>
             </div>
@@ -309,7 +411,16 @@ export default function MemoryGraph() {
             onClick={() =>
               setSelected(null)
             }
-            className="mt-5 rounded-xl bg-white/10 px-4 py-2 hover:bg-white/20"
+            className="
+              mt-5
+              rounded-xl
+              bg-cyan-500/20
+              px-4
+              py-2
+              text-cyan-200
+              hover:bg-cyan-500/30
+              transition
+            "
           >
             Close
           </button>

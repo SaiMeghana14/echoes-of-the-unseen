@@ -176,6 +176,7 @@ export default function GalaxyView() {
       setSearchTerm(
       e.target.value
       )}
+      />
 
       <div className="flex flex-wrap gap-3 mb-10">
 

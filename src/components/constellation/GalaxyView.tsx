@@ -168,89 +168,61 @@ export default function GalaxyView() {
 
       <div className="mb-6">
       
-      <input
+        <input
+          placeholder="🔍 Search memories, regions, categories..."
+          value={searchTerm}
+          onChange={(e) =>
+            setSearchTerm(e.target.value)
+          }
+          className="
+            w-full
+            rounded-xl
+            border
+            border-white/10
+            bg-white/5
+            px-5
+            py-4
+            text-white
+            placeholder:text-white/40
+            outline-none
+            focus:border-cyan-400
+            mb-6
+          "
+        />
       
-      value={searchTerm}
+        <div className="flex flex-wrap gap-3 mb-10">
       
-      onChange={(e)=>
-      setSearchTerm(
-      e.target.value
-      )}
-      />
-
-      <div className="flex flex-wrap gap-3 mb-10">
-
-      {categories.map((category)=>(
+          {categories.map((category) => (
       
-      <button
+            <button
+              key={category}
+              onClick={() =>
+                setSelectedCategory(category)
+              }
+              className={`
+                px-4
+                py-2
+                rounded-full
+                transition
+                ${
+                  selectedCategory === category
+                    ? "bg-cyan-400 text-black"
+                    : "bg-white/5 text-white border border-white/10"
+                }
+              `}
+            >
+              {category}
+            </button>
       
-      key={category}
+          ))}
       
-      onClick={()=>
-      setSelectedCategory(category)
-      }
-      
-      className={`
-      
-      px-4
-      
-      py-2
-      
-      rounded-full
-      
-      transition
-      
-      ${
-      selectedCategory===category
-      
-      ?
-      
-      "bg-cyan-400 text-black"
-      
-      :
-      
-      "bg-white/5 text-white border border-white/10"
-      
-      }
-      
-      `}
-      
-      >
-      
-      {category}
-      
-      </button>
-      
-      ))}
-      
-      </div>
-        
-      placeholder="🔍 Search memories, regions, categories..."
-      
-      className="
-      w-full
-      rounded-xl
-      border
-      border-white/10
-      bg-white/5
-      px-5
-      py-4
-      text-white
-      placeholder:text-white/40
-      outline-none
-      focus:border-cyan-400
-      "
-      
-      />
+        </div>
       
       </div>
       
       <MemoryGraph
-
-      searchTerm={searchTerm}
-      
-      selectedCategory={selectedCategory}
-      
+        searchTerm={searchTerm}
+        selectedCategory={selectedCategory}
       />
 
       {/* Recent Memories */}
@@ -262,7 +234,7 @@ export default function GalaxyView() {
           Memories
         </h2>
 
-        {memories.length === 0 ? (
+        {filteredMemories.length === 0 ? (
 
           <div className="glass-card rounded-2xl p-10 border border-white/10 text-white/60 text-center">
 

@@ -152,14 +152,14 @@ export default function MemoryGraph({
         fgRef.current?.d3Force("link") as any;
       
       if (linkForce) {
-        linkForce.distance(120);
+        linkForce.distance(45);
       }
       
       const chargeForce =
         fgRef.current?.d3Force("charge") as any;
       
       if (chargeForce) {
-        chargeForce.strength(-250);
+        chargeForce.strength(-80);
       }
 
     }, 700);
@@ -225,15 +225,6 @@ export default function MemoryGraph({
         });
 
         addNode({
-          id: categoryNode,
-          label: category,
-          group: "category",
-          size: 20,
-          description:
-            `${category} memories`,
-        });
-
-        addNode({
           id: memory.id,
           label: memory.title,
 
@@ -245,12 +236,9 @@ export default function MemoryGraph({
               : "category",
 
           size: 10,
-
           description:
             memory.description,
-
           region,
-
           story:
             memory.story,
         });
@@ -263,19 +251,9 @@ export default function MemoryGraph({
         });
 
         links.push({
-          source:
-            region,
-          target:
-            categoryNode,
-        });
-
-        links.push({
-          source:
-            categoryNode,
-          target: 
-            memory.id,
-        });
-
+          source: region,
+          target: memory.title,
+      });
       }
     );
 
@@ -290,20 +268,15 @@ export default function MemoryGraph({
 
       <ForceGraph3D
         ref={fgRef}
-
         graphData={graph}
-
         backgroundColor="#020817"
 
         warmupTicks={200}
-
         cooldownTicks={0}
-
         d3AlphaDecay={0.02}
-
         d3VelocityDecay={0.35}
-
-        nodeRelSize={4}
+        nodeRelSize={6}
+        nodeOpacity={0.95}
 
         nodeVal={(node) => {
           const n = node as GraphNode;
@@ -330,12 +303,10 @@ ${n.description || ""}
 `;
         }}
 
-        linkWidth={2}
-
-        linkOpacity={0.35}
-
-        linkDirectionalParticles={2}
-
+        linkWidth={0.4}
+        linkOpacity={0.08}
+        linkColor={() => "#334155"}
+        linkDirectionalParticles={0}
         linkDirectionalParticleSpeed={
           0.002
         }
@@ -367,8 +338,8 @@ ${n.description || ""}
         <div
           className="
           absolute
-          bottom-6
-          left-6
+          top-6
+          right-6
           max-w-md
           rounded-3xl
           border

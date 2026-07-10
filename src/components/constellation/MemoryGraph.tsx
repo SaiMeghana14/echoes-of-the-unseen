@@ -94,7 +94,7 @@ export default function MemoryGraph({
       add({
         id: "Human Memory",
         group: "core",
-        size: 12,
+        size: 8,
         description: "Collective cultural memory",
       });
 
@@ -103,16 +103,10 @@ export default function MemoryGraph({
         const memoryId = m.id || m.title;
 
         add({
-          id: region,
-          group: "region",
-          size: 1.3,
-        });
-
-        add({
           id: memoryId,
           label: m.title,
           group: m.category?.toLowerCase() || "default",
-          size: 2.2,
+          size: 1.2,
           description: m.description,
           region,
           story: m.story,
@@ -120,11 +114,6 @@ export default function MemoryGraph({
 
         links.push({
           source: "Human Memory",
-          target: region,
-        });
-
-        links.push({
-          source: region,
           target: memoryId,
         });
       });
@@ -139,17 +128,19 @@ export default function MemoryGraph({
     if (!graph.nodes.length) return;
 
     const t = setTimeout(() => {
-      fgRef.current?.zoomToFit(800);
+      fgRef.current?.zoomToFit(1200, 80);
+      fgRef.current?.cameraPosition(
+        { x: 0, y: 0, z: 220 },
+        undefined,
+        1200
+      );
 
       const charge = fgRef.current?.d3Force("charge");
-      charge?.strength(-180);
+      charge?.strength(-70);
 
       const link = fgRef.current?.d3Force("link");
-      link?.distance(70);
+      link?.distance(25);
     }, 500);
-
-      const center = fgRef.current?.d3Force("center");
-      center?.strength(0.05);
 
     return () => clearTimeout(t);
   }, [graph]);
@@ -162,8 +153,7 @@ export default function MemoryGraph({
       background:
       `
       radial-gradient(circle at center,rgba(56,189,248,.12),transparent 55%),
-      radial-gradient(#ffffff 1px,transparent 1px)
-      `,
+      
       backgroundSize:"100% 100%,60px 60px",
       opacity:.25
       }}
@@ -173,43 +163,44 @@ export default function MemoryGraph({
         ref={fgRef}
         graphData={graph}
         backgroundColor="#020817"
-        nodeRelSize={2.2}
+        nodeRelSize={1.4}
         nodeOpacity={0.95}
-        linkWidth={0.4}
-        linkOpacity={0.03}
-        linkColor={() => "rgba(125,211,252,0.15)"}
+        linkWidth={0.22}
+        linkOpacity={0.18}
+        linkColor={(link: any) => {
+          const source =
+            typeof link.source === "object"
+              ? link.source.id
+              : link.source;
+        
+          const target =
+            typeof link.target === "object"
+              ? link.target.id
+              : link.target;
+        
+          if (
+            hovered &&
+            (source === hovered || target === hovered)
+          ) {
+            return "rgba(56,189,248,0.9)";
+          }
+        
+          return "rgba(148,163,184,0.18)";
+        }}
         linkDirectionalParticles={0}
         d3AlphaDecay={0.04}
-        d3VelocityDecay={0.6}
+        d3VelocityDecay={0.55}
+        cooldownTicks={500}
         showNavInfo={false}
         nodeColor={(node: any) => {
           return COLORS[node.group] || COLORS.default;
         }}
         
-        nodeThreeObject={(node: any) => {
-          const THREE = require("three");
-        
-          const sprite = new THREE.Sprite(
-            new THREE.SpriteMaterial({
-              color:
-                node.group === "core"
-                  ? "#FFD54A"
-                  : (COLORS[node.group] || "#38bdf8"),
-              transparent: true,
-              opacity: 0.95,
-            })
-          );
-        
-          sprite.scale.set(3, 3, 1);
-        
-          if (node.group === "core") {
-            sprite.scale.set(10, 10, 1);
-          }
-        
-          return sprite;
-        }}
-        
-        nodeVal={(node:any)=>hovered===node.id?node.size*1.6:node.size}
+        nodeVal={(node:any)=>
+          hovered===node.id
+            ? node.size*1.35
+            : node.size
+        }
         onNodeHover={(n:any)=>setHovered(n?n.id:null)}
         onNodeClick={(n:any)=>setSelected(n)}
       />

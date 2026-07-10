@@ -130,7 +130,7 @@ export default function MemoryGraph({
     const t = setTimeout(() => {
       fgRef.current?.zoomToFit(1200, 80);
       fgRef.current?.cameraPosition(
-        { x: 0, y: 0, z: 220 },
+        { x: 0, y: 0, z: 50 },
         undefined,
         1200
       );
@@ -148,15 +148,15 @@ export default function MemoryGraph({
   return (
     <div className="relative h-[700px] overflow-hidden rounded-3xl border border-cyan-500/20 bg-gradient-to-b from-[#020817] to-[#081326]">
       <div
-      className="absolute inset-0 pointer-events-none"
-      style={{
-      background:
-      `
-      radial-gradient(circle at center,rgba(56,189,248,.12),transparent 55%),
-      
-      backgroundSize:"100% 100%,60px 60px",
-      opacity:.25
-      }}
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(circle at center, rgba(56,189,248,0.12), transparent 55%),
+            radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)
+          `,
+          backgroundSize: "100% 100%, 80px 80px",
+          opacity: 0.22,
+        }}
       />
 
       <ForceGraph3D

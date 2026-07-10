@@ -11,7 +11,7 @@ export default function VanishingEarth() {
     useState<any>(null);
 
   return (
-    <section className="relative">
+    <section className="relative overflow-hidden bg-[#030712]">
 
       <GlobeView
         onSelect={setSelected}
@@ -24,11 +24,13 @@ export default function VanishingEarth() {
           top-1/2
           -translate-y-1/2
           z-20
-          w-80
-          bg-black/70
+          w-72
+          bg-slate-950/60
           backdrop-blur-xl
           p-6
-          rounded-2xl
+          rounded-3xl
+          border border-cyan-400/10
+          shadow-[0_0_40px_rgba(34,211,238,.08)]
         "
       >
         <h3 className="font-bold mb-3">

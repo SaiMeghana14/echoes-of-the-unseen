@@ -19,10 +19,6 @@ const endangeredItems = [
 export default function EndangeredFeed() {
   return (
     <section className="py-24 px-6">
-      
-      <div className="text-xs text-gray-500">
-      #{index+1}
-      </div>
 
       <h2 className="text-5xl font-bold mb-12">
         🚨 Endangered Today
@@ -37,13 +33,18 @@ export default function EndangeredFeed() {
           <div
             key={item.name}
             className="
-            p-5
-            rounded-3xl
-            border
-            border-red-500/20
-            bg-red-500/5
-          "
+              p-5
+              rounded-3xl
+              border
+              border-red-500/20
+              bg-red-500/5
+            "
           >
+
+            <div className="text-xs text-gray-500 mb-3">
+              #{index + 1}
+            </div>
+            
             <h3 className="text-2xl font-bold">
               {item.name}
             </h3>

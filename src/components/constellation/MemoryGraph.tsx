@@ -94,7 +94,7 @@ export default function MemoryGraph({
       add({
         id: "Human Memory",
         group: "core",
-        size: 18,
+        size: 12,
         description: "Collective cultural memory",
       });
 
@@ -105,14 +105,14 @@ export default function MemoryGraph({
         add({
           id: region,
           group: "region",
-          size: 11,
+          size: 1.3,
         });
 
         add({
           id: memoryId,
           label: m.title,
           group: m.category?.toLowerCase() || "default",
-          size: 7,
+          size: 2.2,
           description: m.description,
           region,
           story: m.story,
@@ -142,33 +142,73 @@ export default function MemoryGraph({
       fgRef.current?.zoomToFit(800);
 
       const charge = fgRef.current?.d3Force("charge");
-      charge?.strength(-80);
+      charge?.strength(-180);
 
       const link = fgRef.current?.d3Force("link");
-      link?.distance(45);
+      link?.distance(70);
     }, 500);
+
+      const center = fgRef.current?.d3Force("center");
+      center?.strength(0.05);
 
     return () => clearTimeout(t);
   }, [graph]);
 
   return (
     <div className="relative h-[700px] overflow-hidden rounded-3xl border border-cyan-500/20 bg-gradient-to-b from-[#020817] to-[#081326]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,.12),transparent_70%)] pointer-events-none" />
+      <div
+      className="absolute inset-0 pointer-events-none"
+      style={{
+      background:
+      `
+      radial-gradient(circle at center,rgba(56,189,248,.12),transparent 55%),
+      radial-gradient(#ffffff 1px,transparent 1px)
+      `,
+      backgroundSize:"100% 100%,60px 60px",
+      opacity:.25
+      }}
+      />
 
       <ForceGraph3D
         ref={fgRef}
         graphData={graph}
         backgroundColor="#020817"
-        nodeRelSize={6}
+        nodeRelSize={2.2}
         nodeOpacity={0.95}
         linkWidth={0.4}
-        linkOpacity={0.08}
-        linkColor={() => "#334155"}
+        linkOpacity={0.03}
+        linkColor={() => "rgba(125,211,252,0.15)"}
         linkDirectionalParticles={0}
-        d3AlphaDecay={0.02}
-        d3VelocityDecay={0.35}
+        d3AlphaDecay={0.04}
+        d3VelocityDecay={0.6}
         showNavInfo={false}
-        nodeColor={(node:any)=>COLORS[node.group] || COLORS.default}
+        nodeColor={(node: any) => {
+          return COLORS[node.group] || COLORS.default;
+        }}
+        
+        nodeThreeObject={(node: any) => {
+          const THREE = require("three");
+        
+          const sprite = new THREE.Sprite(
+            new THREE.SpriteMaterial({
+              color:
+                node.group === "core"
+                  ? "#FFD54A"
+                  : (COLORS[node.group] || "#38bdf8"),
+              transparent: true,
+              opacity: 0.95,
+            })
+          );
+        
+          sprite.scale.set(3, 3, 1);
+        
+          if (node.group === "core") {
+            sprite.scale.set(10, 10, 1);
+          }
+        
+          return sprite;
+        }}
+        
         nodeVal={(node:any)=>hovered===node.id?node.size*1.6:node.size}
         onNodeHover={(n:any)=>setHovered(n?n.id:null)}
         onNodeClick={(n:any)=>setSelected(n)}

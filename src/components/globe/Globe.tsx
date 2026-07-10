@@ -1,22 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-const Globe: any = dynamic(
-  () =>
-    import("react-globe.gl").then(
-      (mod) => mod.default
-    ),
-  {
-    ssr: false,
-  }
-);
+const Globe: any = dynamic(() => import("react-globe.gl").then(m => m.default), {
+  ssr: false,
+});
 
 interface HeritageItem {
   id: string;
@@ -26,277 +15,119 @@ interface HeritageItem {
   description: string;
   lat: number;
   lng: number;
-  size: number;
   color: string;
   label: string;
 }
 
-interface GlobeViewProps {
-  onSelect?: (
-    item: HeritageItem
-  ) => void;
-}
-
-const CATEGORY_COLORS: Record<
-  string,
-  string
-> = {
-  artifact: "#F97316",
-  tradition: "#34D399",
-  language: "#60A5FA",
-  festival: "#6EE7B7",
-  folklore: "#C084FC",
-  music: "#F9A8D4",
-  craft: "#FDBA74",
-  story: "#93C5FD",
+const CATEGORY_COLORS: Record<string, string> = {
+  artifact: "#f59e0b",
+  tradition: "#34d399",
+  language: "#60a5fa",
+  festival: "#22d3ee",
+  folklore: "#c084fc",
+  music: "#f472b6",
+  craft: "#fb923c",
+  story: "#93c5fd",
 };
 
-export default function GlobeView({
-  onSelect,
-}: GlobeViewProps) {
+export default function GlobeView({ onSelect }: { onSelect?: (item: HeritageItem)=>void }) {
   const globeRef = useRef<any>(null);
+  const [loading,setLoading]=useState(true);
+  const [heritageData,setHeritageData]=useState<HeritageItem[]>([]);
 
-  const [
-    heritageData,
-    setHeritageData,
-  ] = useState<HeritageItem[]>([]);
-  
-  const [loading, setLoading] =
-    useState(true);
+  useEffect(()=>{
+    (async()=>{
+      try{
+        const res=await fetch("/api/memory-atlas");
+        const memories=await res.json();
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const res =
-          await fetch(
-            "/api/memory-atlas"
-          );
-
-        if (!res.ok) return;
-
-        const memories =
-          await res.json();
-
-        const points =
-          memories.map(
-            (
-              memory: any,
-              index: number
-            ) => ({
-              id:
-                memory.id ??
-                index.toString(),
-
-              title:
-                memory.title,
-
-              country:
-                memory.region,
-
-              category:
-                memory.category,
-
-              description:
-                memory.description,
-
-              lat:
-                Number(
-                  memory.latitude
-                ) ||
-                Math.random() *
-                  120 -
-                  60,
-
-              lng:
-                Number(
-                  memory.longitude
-                ) ||
-                Math.random() *
-                  360 -
-                  180,
-
-              size:
-              memory.category === "festival"
-              ? 0.85
-              : memory.category === "artifact"
-              ? 0.75
-              : memory.category === "language"
-              ? 0.7
-              : memory.category === "tradition"
-              ? 0.65
-              : memory.category === "music"
-              ? 0.6
-              : memory.category === "craft"
-              ? 0.58
-              : 0.5,
-
-              color:
-                CATEGORY_COLORS[
-                  (
-                    memory.category ??
-                    ""
-                  ).toLowerCase()
-                ] ??
-                "#4FD1FF",
-
-              label: `
-              🏛 ${memory.title}
-              
-              🌍 ${memory.region}
-              
-              🏷 ${memory.category}
-              
-              ${memory.description}
-              `,
-            })
-          );
-
-        setHeritageData(points);
-        setLoading(false);
-      } catch (err) {
-        console.error(
-          "Globe Error:",
-          err
-        );
+        setHeritageData(memories.map((m:any,i:number)=>({
+          id:m.id ?? String(i),
+          title:m.title,
+          country:m.region,
+          category:m.category,
+          description:m.description,
+          lat:Number(m.latitude)||Math.random()*120-60,
+          lng:Number(m.longitude)||Math.random()*360-180,
+          color:CATEGORY_COLORS[(m.category??"").toLowerCase()] ?? "#38bdf8",
+          label:`🏛 ${m.title}\n🌍 ${m.region}\n${m.description}`
+        })));
+      }catch(e){
+        console.error(e);
+      }finally{
         setLoading(false);
       }
-    }
+    })();
+  },[]);
 
-    load();
-  }, []);
-
-  useEffect(() => {
-    if (!globeRef.current) return;
+  useEffect(()=>{
+    if(!globeRef.current) return;
 
     globeRef.current.pointOfView(
-      {
-        lat: 20,
-        lng: 80,
-        altitude: 2.2,
-      },
-      1500
+      {lat:18,lng:78,altitude:1.55},
+      1800
     );
 
-    const controls =
-      globeRef.current.controls();
-    
-    controls.autoRotate = true;
-    
-    controls.autoRotateSpeed = 0.3;
-  }, []);
+    const c=globeRef.current.controls();
+    c.autoRotate=true;
+    c.autoRotateSpeed=0.18;
+  },[]);
 
-  const rings = useMemo(
-    () =>
-      heritageData.map(
-        (point) => ({
-          lat: point.lat,
-          lng: point.lng,
-          color: point.color,
-          maxR: 4,
-          propagationSpeed: 2,
-          repeatPeriod: 1800,
-        })
-      ),
-    [heritageData]
-  );
+  const rings=useMemo(()=>heritageData.map(p=>({
+    lat:p.lat,
+    lng:p.lng,
+    color:p.color,
+    maxR:1.8,
+    propagationSpeed:1.3,
+    repeatPeriod:2400
+  })),[heritageData]);
 
-  const arcs = useMemo(() => {
-    const grouped = heritageData.reduce(
-      (acc, point) => {
-        if (!acc[point.country]) {
-          acc[point.country] = [];
-        }
-  
-        acc[point.country].push(point);
-  
-        return acc;
-      },
-      {} as Record<
-        string,
-        HeritageItem[]
-      >
-    );
-  
-    const connections: any[] = [];
-  
-    Object.values(grouped).forEach(
-      (items) => {
-        if (items.length < 2) return;
-  
-        for (
-          let i = 1;
-          i < items.length;
-          i++
-        ) {
-          connections.push({
-            startLat:
-              items[0].lat,
-  
-            startLng:
-              items[0].lng,
-  
-            endLat:
-              items[i].lat,
-  
-            endLng:
-              items[i].lng,
-  
-            color: [
-              items[0].color,
-              items[i].color,
-            ],
-          });
-        }
-      }
-    );
-  
-    return connections;
-  
-  }, [heritageData]);
-
-  if (loading) {
+  if(loading){
     return (
-      <div
-        className="
-        w-full
-        h-screen
-        flex
-        items-center
-        justify-center
-        bg-[#020817]
-        text-cyan-300
-        text-2xl
-        font-semibold
-      "
-      >
-        🌍 Loading Heritage Network...
+      <div className="h-screen flex items-center justify-center bg-[#020817] text-cyan-300 text-2xl">
+        Loading Heritage Network...
       </div>
     );
   }
-  
+
   return (
-    <div className="w-full h-screen">
+    <div
+      className="w-full h-screen relative"
+      style={{
+        background:
+          "radial-gradient(circle at center,#0b2545 0%,#020817 55%,#01040c 100%)"
+      }}
+    >
+      {/* simple star field */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-60"
+        style={{
+          backgroundImage:
+            "radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(1.5px 1.5px at 140px 160px,#7dd3fc,transparent),radial-gradient(2px 2px at 300px 90px,#fff,transparent),radial-gradient(2px 2px at 500px 260px,#c4b5fd,transparent)",
+          backgroundSize:"320px 320px"
+        }}
+      />
+
       <Globe
         ref={globeRef}
-        width={1200}
-        height={800}
         globeImageUrl="/textures/earth-blue-marble.jpg"
         bumpImageUrl="/textures/earth-topology.png"
-        backgroundColor="#020817"
+        backgroundColor="rgba(0,0,0,0)"
         showAtmosphere
-        atmosphereColor="#7DD3FC"
-        atmosphereAltitude={0.28}
-        animateIn
-        pointsData={
-          heritageData
-        }
+        atmosphereColor="#38bdf8"
+        atmosphereAltitude={0.16}
+        pointsData={heritageData}
         pointLat="lat"
         pointLng="lng"
-        pointAltitude="size"
         pointColor="color"
-        pointRadius={0.45}
-        pointResolution={18}
+
+        /* no spikes */
+        pointAltitude={0.015}
+        pointRadius={0.16}
+        pointResolution={20}
+
         pointLabel="label"
+
         ringsData={rings}
         ringLat="lat"
         ringLng="lng"
@@ -304,30 +135,12 @@ export default function GlobeView({
         ringMaxRadius="maxR"
         ringPropagationSpeed="propagationSpeed"
         ringRepeatPeriod="repeatPeriod"
-        arcsData={arcs}
-        arcStartLat="startLat"
-        arcStartLng="startLng"
-        arcEndLat="endLat"
-        arcEndLng="endLng"
-        arcColor={(
-          d: any
-        ) => d.color}
-        arcStroke={0.8}
-        arcAltitude={0.18}
-        arcDashLength={0.5}
-        arcDashGap={0.15}
-        arcDashAnimateTime={1800}
-        arcDashInitialGap={() =>
-          Math.random()
-        }
+
+        /* remove permanent arcs */
+        arcsData={[]}
+
         enablePointerInteraction
-        onPointClick={(
-          point: any
-        ) =>
-          onSelect?.(
-            point as HeritageItem
-          )
-        }
+        onPointClick={(p:any)=>onSelect?.(p as HeritageItem)}
       />
     </div>
   );

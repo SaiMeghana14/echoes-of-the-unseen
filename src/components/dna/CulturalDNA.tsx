@@ -262,7 +262,7 @@ export default function CulturalDNA() {
 
         {/* Graph */}
 
-        <div className="mt-8">
+        <div className="mt-8 max-w-4xl mx-auto">
           <div
           className="
           rounded-3xl

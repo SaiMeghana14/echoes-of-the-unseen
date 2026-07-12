@@ -11,13 +11,9 @@ const ForceGraph3D = dynamic(
 
 interface DNAGraphProps {
   cultureName: string;
-
   stories: string[];
-
   beliefs: string[];
-
   rituals: string[];
-
   knowledge: string[];
 }
 
@@ -81,7 +77,7 @@ export default function DNAGraph({
         graphData={graphData}
         nodeLabel="id"
         nodeAutoColorBy="group"
-        nodeRelSize={8}
+        nodeRelSize={2.4}
         linkWidth={2}
         linkDirectionalParticles={4}
         linkDirectionalParticleSpeed={0.003}

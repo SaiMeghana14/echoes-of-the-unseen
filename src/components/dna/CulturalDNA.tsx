@@ -113,7 +113,7 @@ export default function CulturalDNA() {
 
         {/* Header */}
 
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
 
           <h2 className="text-6xl font-bold">
             🧬 Cultural DNA
@@ -128,7 +128,18 @@ export default function CulturalDNA() {
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 max-w-3xl mx-auto">
           
-            <div>
+            <div
+            className="
+            rounded-2xl
+            border
+            border-white/10
+            bg-white/5
+            backdrop-blur-md
+            p-5
+            hover:border-cyan-400/40
+            transition
+            "
+            >
               <div className="text-cyan-400 text-3xl font-bold">
                 38
               </div>
@@ -137,7 +148,18 @@ export default function CulturalDNA() {
               </div>
             </div>
           
-            <div>
+            <div
+            className="
+            rounded-2xl
+            border
+            border-white/10
+            bg-white/5
+            backdrop-blur-md
+            p-5
+            hover:border-cyan-400/40
+            transition
+            "
+            >
               <div className="text-cyan-400 text-3xl font-bold">
                 22
               </div>
@@ -146,7 +168,18 @@ export default function CulturalDNA() {
               </div>
             </div>
           
-            <div>
+            <div
+            className="
+            rounded-2xl
+            border
+            border-white/10
+            bg-white/5
+            backdrop-blur-md
+            p-5
+            hover:border-cyan-400/40
+            transition
+            "
+            >
               <div className="text-cyan-400 text-3xl font-bold">
                 150+
               </div>
@@ -155,7 +188,18 @@ export default function CulturalDNA() {
               </div>
             </div>
           
-            <div>
+            <div
+            className="
+            rounded-2xl
+            border
+            border-white/10
+            bg-white/5
+            backdrop-blur-md
+            p-5
+            hover:border-cyan-400/40
+            transition
+            "
+            >
               <div className="text-cyan-400 text-3xl font-bold">
                 9
               </div>
@@ -169,22 +213,34 @@ export default function CulturalDNA() {
 
         {/* Culture Core */}
 
-        <div className="flex justify-center mb-16">
-
-          <div
-            className="
-            px-10
-            py-5
-            rounded-full
-            bg-memory
-            text-black
-            text-2xl
-            font-bold
-          "
-          >
-            {dna.culture}
-          </div>
-
+        <div className="flex flex-wrap justify-center gap-3 mb-16">
+          {[
+            "🗣 Languages",
+            "🪘 Traditions",
+            "📖 Stories",
+            "🙏 Beliefs",
+            "🎵 Music",
+            "🧺 Crafts",
+          ].map((item) => (
+            <div
+              key={item}
+              className="
+                px-5
+                py-2
+                rounded-full
+                border
+                border-cyan-400/20
+                bg-cyan-500/5
+                text-cyan-200
+                backdrop-blur-md
+                hover:bg-cyan-500/10
+                transition
+              "
+            >
+              {item}
+            </div>
+          ))}
+        
         </div>
 
         {/* Stats */}
@@ -196,33 +252,146 @@ export default function CulturalDNA() {
           knowledge={dna.knowledge}
         />
 
+        <h3 className="text-2xl font-semibold text-center mb-6">
+        🧬 Heritage Relationship Network
+        </h3>
+        
+        <p className="text-center text-gray-400 mb-8">
+        Explore how stories, rituals, beliefs and knowledge connect across cultures.
+        </p>
+
         {/* Graph */}
 
-        <div className="mt-12">
+        <div className="mt-8">
+          <div
+          className="
+          rounded-3xl
+          border
+          border-cyan-500/20
+          bg-white/5
+          backdrop-blur-xl
+          p-8
+          "
+          >
 
-          <DNAGraph
-            cultureName={
-              dna.culture
-            }
-            stories={
-              dna.stories
-            }
-            beliefs={
-              dna.beliefs
-            }
-            rituals={
-              dna.rituals
-            }
-            knowledge={
-              dna.knowledge
-            }
-          />
+            <DNAGraph
+              cultureName={
+                dna.culture
+              }
+              stories={
+                dna.stories
+              }
+              beliefs={
+                dna.beliefs
+              }
+              rituals={
+                dna.rituals
+              }
+              knowledge={
+                dna.knowledge
+              }
+            />
 
+          </div>
         </div>
 
+        {/* DNA Composition */}
+
+        <div
+          className="
+            mt-8
+            rounded-3xl
+            border
+            border-cyan-500/20
+            bg-white/5
+            backdrop-blur-xl
+            p-8
+          "
+        >
+        
+          <h3 className="text-2xl font-semibold mb-6">
+            🧬 DNA Composition
+          </h3>
+        
+          <div className="space-y-5">
+        
+            <div>
+              <div className="flex justify-between mb-2">
+                <span>📖 Stories</span>
+                <span>40%</span>
+              </div>
+        
+              <div className="h-2 rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full bg-cyan-400"
+                  style={{ width: "40%" }}
+                />
+              </div>
+            </div>
+        
+            <div>
+              <div className="flex justify-between mb-2">
+                <span>🪘 Traditions</span>
+                <span>25%</span>
+              </div>
+        
+              <div className="h-2 rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full bg-emerald-400"
+                  style={{ width: "25%" }}
+                />
+              </div>
+            </div>
+        
+            <div>
+              <div className="flex justify-between mb-2">
+                <span>🙏 Beliefs</span>
+                <span>18%</span>
+              </div>
+        
+              <div className="h-2 rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full bg-purple-400"
+                  style={{ width: "18%" }}
+                />
+              </div>
+            </div>
+        
+            <div>
+              <div className="flex justify-between mb-2">
+                <span>🎭 Rituals</span>
+                <span>12%</span>
+              </div>
+        
+              <div className="h-2 rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full bg-pink-400"
+                  style={{ width: "12%" }}
+                />
+              </div>
+            </div>
+        
+            <div>
+              <div className="flex justify-between mb-2">
+                <span>🧺 Crafts</span>
+                <span>5%</span>
+              </div>
+        
+              <div className="h-2 rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full bg-amber-400"
+                  style={{ width: "5%" }}
+                />
+              </div>
+            </div>
+        
+          </div>
+        
+        </div>
+        
         {/* Explorer */}
 
-        <div className="mt-12">
+        <div className="mt-8">
 
           <DNAExplorer
             stories={
@@ -243,7 +412,7 @@ export default function CulturalDNA() {
 
         {/* Original Clusters */}
 
-        <div className="grid lg:grid-cols-2 gap-8 mt-12">
+        <div className="grid lg:grid-cols-2 gap-8 mt-8">
 
           <DNACluster
             title="📖 Stories"

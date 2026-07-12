@@ -113,7 +113,7 @@ export default function CulturalDNA() {
 
         {/* Header */}
 
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
 
           <h2 className="text-6xl font-bold">
             🧬 Cultural DNA
@@ -252,7 +252,9 @@ export default function CulturalDNA() {
           knowledge={dna.knowledge}
         />
 
-        <h3 className="text-2xl font-semibold text-center mb-6">
+        {/* Heritage Network */}
+        
+        <h3 className="text-2xl font-semibold text-center mb-10">
         🧬 Heritage Relationship Network
         </h3>
         
@@ -262,7 +264,7 @@ export default function CulturalDNA() {
 
         {/* Graph */}
 
-        <div className="mt-8 max-w-4xl mx-auto">
+        <div className="mt-12 mx-auto">
           <div
           className="
           rounded-3xl

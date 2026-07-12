@@ -48,11 +48,11 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 text-center overflow-hidden">
+    <section className="relative min-h-screen flex items-start justify-center px-6 text-center overflow-hidden">
 
       <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent pointer-events-none" />
 
-      <div className="relative z-10 max-w-6xl">
+      <div className="relative z-10 max-w-6xl ">
 
         <div className="mb-8">
 

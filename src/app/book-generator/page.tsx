@@ -6,6 +6,11 @@ import BookPreview from "@/components/book/BookPreview";
 import TimelineSection from "@/components/book/TimelineSection";
 import StorySection from "@/components/book/StorySection";
 
+import ThreatSection from "@/components/book/ThreatSection";
+import PreservationPlan from "@/components/book/PreservationPlan";
+import AIInsights from "@/components/book/AIInsights";
+import CulturalSignificance from "@/components/book/CulturalSignificance";
+
 export default function BookGeneratorPage() {
   const [title, setTitle] =
     useState("");
@@ -106,22 +111,38 @@ export default function BookGeneratorPage() {
 
       {book && (
         <div className="mt-12 space-y-8">
-
+      
           <BookPreview
             title={book.title}
-            summary={
-              book.summary
+            summary={book.summary}
+          />
+
+          <CulturalSignificance
+            culturalSignificance={
+              book.culturalSignificance
             }
           />
-
+      
           <TimelineSection
-            timeline={book.timeline || []}
+            timeline={book.timeline ?? []}
           />
-
+      
           <StorySection
-            stories={book.stories || []}
+            stories={book.stories ?? []}
           />
-
+      
+          <ThreatSection
+            threats={book.threats ?? []}
+          />
+      
+          <PreservationPlan
+            preservationPlan={book.preservationPlan ?? []}
+          />
+      
+          <AIInsights
+            aiInsights={book.aiInsights ?? []}
+          />
+      
         </div>
       )}
 

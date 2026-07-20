@@ -1,50 +1,107 @@
 interface TimelineEvent {
-    year: string;
-    title: string;
-    description: string;
+  year: string;
+  title: string;
+  description: string;
 }
 
 interface TimelineSectionProps {
-    timeline?: TimelineEvent[];
+  timeline?: TimelineEvent[];
 }
 
 export default function TimelineSection({
-  timeline,
+  timeline = [],
 }: TimelineSectionProps) {
   return (
-    <div className="glass rounded-3xl p-8">
+    <section className="glass rounded-3xl p-8">
 
-      <h2 className="text-3xl font-bold mb-8">
-        🕰 Heritage Timeline
-      </h2>
+      <div className="flex items-center gap-4 mb-8">
 
-      <div className="space-y-6">
+        <div
+          className="
+            w-12
+            h-12
+            rounded-2xl
+            bg-memory/20
+            flex
+            items-center
+            justify-center
+            text-2xl
+          "
+        >
+          🕰
+        </div>
 
-        {(timeline ?? []).map((event) => (
-          <div
-            key={item}
-            className="
-              p-4
-              rounded-xl
-              bg-white/5
-            "
-          >
-            {item}
-          </div>
-      
-          <div key={event.year + event.title}>
-    
-              <div>{event.year}</div>
-          
-              <h3>{event.title}</h3>
-          
-              <p>{event.description}</p>
-          
-          </div>
-        ))}
+        <div>
+
+          <h2 className="text-3xl font-bold">
+            Heritage Timeline
+          </h2>
+
+          <p className="text-gray-400">
+            Important milestones throughout history.
+          </p>
+
+        </div>
 
       </div>
 
-    </div>
+      {timeline.length === 0 ? (
+        <p className="text-gray-500">
+          No timeline available.
+        </p>
+      ) : (
+        <div className="space-y-5">
+
+          {timeline.map((event, index) => (
+
+            <div
+              key={`${event.year}-${event.title}-${index}`}
+              className="
+                rounded-2xl
+                border
+                border-white/10
+                bg-white/5
+                p-6
+              "
+            >
+
+              <div className="flex items-start gap-5">
+
+                <div
+                  className="
+                    shrink-0
+                    px-4
+                    py-2
+                    rounded-xl
+                    bg-memory/20
+                    text-memory
+                    font-semibold
+                  "
+                >
+                  {event.year}
+                </div>
+
+                <div className="flex-1">
+
+                  <h3 className="text-xl font-semibold text-white mb-2">
+                    {event.title}
+                  </h3>
+
+                  <p className="text-gray-300 leading-8">
+                    {event.description}
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+      )}
+
+    </section>
   );
 }

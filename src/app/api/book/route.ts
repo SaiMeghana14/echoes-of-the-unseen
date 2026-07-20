@@ -6,46 +6,113 @@ export async function POST(req: Request) {
     const { title } = await req.json();
 
     const prompt = `
-You are an expert cultural heritage researcher.
+You are an expert anthropologist, UNESCO heritage researcher, historian, linguist, and AI cultural preservation specialist.
+
+Generate a complete digital heritage preservation book.
 
 Return ONLY valid JSON.
 
-Schema:
+The JSON MUST follow this schema EXACTLY:
 
 {
   "title": "string",
+
   "summary": "string",
+
+  "culturalSignificance": "string",
+
   "timeline": [
-    "string",
-    "string",
-    "string",
-    "string"
+    {
+      "year": "string",
+      "title": "string",
+      "description": "string"
+    }
   ],
+
   "stories": [
-    "string",
-    "string",
-    "string"
+    {
+      "title": "string",
+      "type": "string",
+      "content": "string"
+    }
   ],
+
+  "threats": [
+    {
+      "title": "string",
+      "severity": "High",
+      "description": "string"
+    }
+  ],
+
   "preservationPlan": [
-    "string",
-    "string",
-    "string",
-    "string"
+    {
+      "step": 1,
+      "title": "string",
+      "description": "string"
+    }
+  ],
+
+  "aiInsights": [
+    {
+      "title": "string",
+      "value": "string",
+      "description": "string"
+    }
   ]
 }
 
-Generate a complete heritage preservation book for:
+Generate the heritage book for:
 
 "${title}"
 
-Requirements:
+Instructions:
 
-- Return ONLY JSON.
-- No markdown.
-- No code fences.
-- Timeline should contain important historical milestones.
-- Stories should contain meaningful cultural narratives.
-- Preservation Plan should contain practical AI and heritage preservation recommendations.
+• Title should be descriptive.
+
+• Summary should be 2-3 paragraphs.
+
+• Cultural Significance should explain:
+  - historical importance
+  - cultural identity
+  - social importance
+  - why the heritage should survive
+
+• Timeline should include important historical milestones.
+
+• Stories should contain oral traditions, legends, rituals, customs, or historical narratives.
+
+• Threats should describe current risks like:
+  - modernization
+  - climate change
+  - migration
+  - language extinction
+  - conflict
+  - loss of practitioners
+
+• Preservation Plan should provide actionable recommendations including:
+  - documentation
+  - digitization
+  - AI archiving
+  - education
+  - community participation
+  - government support
+
+• AI Insights should provide observations such as:
+  - endangered status
+  - preservation priority
+  - uniqueness
+  - recommended digital technologies
+
+IMPORTANT:
+
+Return ONLY JSON.
+
+Do NOT include markdown.
+
+Do NOT include code fences.
+
+Do NOT explain anything outside the JSON.
 `;
 
     const response = await generateText(prompt);
@@ -60,19 +127,27 @@ Requirements:
 
     return NextResponse.json(book);
   } catch (error) {
-    console.error(error);
+    console.error("Book Generation Error:", error);
 
     return NextResponse.json(
       {
         title: "Unable to Generate Book",
+
         summary:
           "An error occurred while generating the heritage book.",
+
+        culturalSignificance:
+          "No cultural significance information available.",
 
         timeline: [],
 
         stories: [],
 
+        threats: [],
+
         preservationPlan: [],
+
+        aiInsights: [],
       },
       {
         status: 500,

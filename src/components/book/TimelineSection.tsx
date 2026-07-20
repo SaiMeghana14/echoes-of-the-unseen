@@ -1,5 +1,11 @@
+interface TimelineEvent {
+    year: string;
+    title: string;
+    description: string;
+}
+
 interface TimelineSectionProps {
-  timeline?: string[];
+    timeline?: TimelineEvent[];
 }
 
 export default function TimelineSection({
@@ -14,7 +20,7 @@ export default function TimelineSection({
 
       <div className="space-y-6">
 
-        {(timeline ?? []).map((item) => (
+        {(timeline ?? []).map((event) => (
           <div
             key={item}
             className="
@@ -24,6 +30,16 @@ export default function TimelineSection({
             "
           >
             {item}
+          </div>
+      
+          <div key={event.year + event.title}>
+    
+              <div>{event.year}</div>
+          
+              <h3>{event.title}</h3>
+          
+              <p>{event.description}</p>
+          
           </div>
         ))}
 

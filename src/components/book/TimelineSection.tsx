@@ -1,5 +1,5 @@
 interface TimelineSectionProps {
-  timeline: string[];
+  timeline?: string[];
 }
 
 export default function TimelineSection({
@@ -14,7 +14,7 @@ export default function TimelineSection({
 
       <div className="space-y-6">
 
-        {timeline.map((item) => (
+        (timeline ?? []).map((item) => (
           <div
             key={item}
             className="

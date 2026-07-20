@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import {
+  History,
+} from "lucide-react";
 
 import { useHistorian } from "@/hooks/useHistorian";
-
 import LoadingMemory from "@/components/common/LoadingMemory";
-
 import HistorianOutput from "@/components/historian/HistorianOutput";
 
 export default function FutureHistorianPage() {
@@ -26,13 +27,46 @@ export default function FutureHistorianPage() {
     };
 
   return (
-    <main className="max-w-5xl mx-auto py-20 px-6">
+    <main className="max-w-5xl mx-auto pt-32 pb-20 px-6">
 
-      <h1 className="text-6xl font-bold">
-        🕰 Future Historian
-      </h1>
+      <div className="flex items-center gap-5 mb-8">
 
-      <p className="mt-4 text-gray-400">
+        <div
+          className="
+            w-16
+            h-16
+            rounded-2xl
+            border
+            border-cyan-400/20
+            bg-cyan-500/10
+            flex
+            items-center
+            justify-center
+            shadow-lg
+            shadow-cyan-500/10
+          "
+        >
+          <History
+            size={34}
+            className="text-cyan-300"
+          />
+        </div>
+      
+        <div>
+      
+          <h1 className="text-5xl md:text-6xl font-black">
+            Future Historian
+          </h1>
+      
+          <p className="text-white/60 mt-2">
+            Predict how cultural memories evolve across generations.
+          </p>
+      
+        </div>
+      
+      </div>
+
+      <p className="mt-4 max-w-2xl text-white/60 leading-relaxed">
         Discover why future generations
         would value today's memories.
       </p>
@@ -50,11 +84,17 @@ export default function FutureHistorianPage() {
         w-full
         min-h-[220px]
         rounded-3xl
-        bg-black/20
+        bg-white/5
+        backdrop-blur-xl
         border
         border-white/10
         p-6
-      "
+        text-white
+        placeholder:text-white/40
+        focus:outline-none
+        focus:border-cyan-400/40
+        transition
+        "
       />
 
       <button

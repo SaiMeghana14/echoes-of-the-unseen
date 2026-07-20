@@ -115,15 +115,11 @@ export default function BookGeneratorPage() {
           />
 
           <TimelineSection
-            timeline={
-              book.timeline
-            }
+            timeline={book.timeline || []}
           />
 
           <StorySection
-            stories={
-              book.stories || []
-            }
+            stories={book.stories || []}
           />
 
         </div>

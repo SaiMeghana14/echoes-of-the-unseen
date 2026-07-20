@@ -15,8 +15,8 @@ import FeatureCard from "@/components/common/FeatureCard";
 import {
   Search,
   BookOpen,
-  Upload,
   Archive,
+  Gem,
 } from "lucide-react";
 
 export default function HomePage() {
@@ -103,11 +103,11 @@ export default function HomePage() {
             />
       
             <FeatureCard
-              icon={<Upload size={30} />}
-              title="Memory Upload"
-              description="Contribute stories, traditions, photographs and cultural artifacts."
-              href="/upload"
-              accent="green"
+              icon={<Gem size={30} />}
+              title="Digital Fossils"
+              description="Recover and explore forgotten digital artifacts, memories, and cultural traces preserved through AI."
+              href="/digital-fossils"
+              accent="cyan"
             />
       
             <FeatureCard

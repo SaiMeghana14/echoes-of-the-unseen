@@ -1,5 +1,11 @@
+interface Story {
+    title: string;
+    type: string;
+    content: string;
+}
+
 interface StorySectionProps {
-  stories?: string[];
+  stories?: Story[];
 }
 
 export default function StorySection({
@@ -39,13 +45,35 @@ export default function StorySection({
               key={index}
               className="rounded-2xl bg-white/5 border border-white/10 p-6"
             >
-              <h3 className="font-semibold text-memory mb-3">
-                Story {index + 1}
-              </h3>
 
-              <p className="text-gray-300 leading-8">
-                {story}
-              </p>
+              <div className="space-y-3">
+
+                <div className="flex items-center gap-3">
+              
+                  <h3 className="text-xl font-semibold text-white">
+                    {story.title}
+                  </h3>
+              
+                  <span
+                    className="
+                      text-xs
+                      px-3
+                      py-1
+                      rounded-full
+                      bg-memory/20
+                      text-memory
+                    "
+                  >
+                    {story.type}
+                  </span>
+              
+                </div>
+              
+                <p className="text-gray-300 leading-8">
+                  {story.content}
+                </p>
+              
+              </div>
             </div>
 
           ))}

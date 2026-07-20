@@ -14,14 +14,14 @@ export default function TimelineSection({
 
       <div className="space-y-6">
 
-        (timeline ?? []).map((item) => (
+        {(timeline ?? []).map((item) => (
           <div
             key={item}
             className="
-            p-4
-            rounded-xl
-            bg-white/5
-          "
+              p-4
+              rounded-xl
+              bg-white/5
+            "
           >
             {item}
           </div>

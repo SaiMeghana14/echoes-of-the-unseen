@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { generateText } from "@/services/gemini/geminiClient";
-import type { HeritageBook } from "@/types/book";
 
 export async function POST(req: Request) {
   try {
@@ -153,10 +152,9 @@ Return JSON that can be parsed directly using JSON.parse().
       .replace(/```\s*/g, "")
       .trim();
 
-    let book: HeritageBook;
-
+    let book: any;
     try {
-      book = JSON.parse(cleaned) as HeritageBook;
+      book = JSON.parse(cleaned);
     } catch (parseError) {
       console.error("Invalid JSON returned by Gemini:");
       console.error(cleaned);

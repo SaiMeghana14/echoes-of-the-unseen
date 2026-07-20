@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import {
+  AudioLines,
+} from "lucide-react";
 
 import WisdomCards from "@/components/voices/WisdomCards";
 import PreservationSummary from "@/components/voices/PreservationSummary";
@@ -93,9 +96,42 @@ export default function LastVoicesPage() {
 
   return (
     <main className="max-w-6xl mx-auto py-20 px-6">
-      <h1 className="text-6xl font-bold">
-        🎙 Last Voices
-      </h1>
+      <div className="flex items-center gap-5 mb-8">
+
+        <div
+          className="
+            w-16
+            h-16
+            rounded-2xl
+            border
+            border-cyan-400/20
+            bg-cyan-500/10
+            flex
+            items-center
+            justify-center
+            shadow-lg
+            shadow-cyan-500/10
+          "
+        >
+          <AudioLines
+            size={34}
+            className="text-cyan-300"
+          />
+        </div>
+      
+        <div>
+      
+          <h1 className="text-6xl font-black">
+            Last Voices
+          </h1>
+      
+          <p className="text-white/60 mt-2">
+            Preserve endangered languages, oral traditions and human stories.
+          </p>
+      
+        </div>
+      
+      </div>
 
       <p className="text-gray-400 mt-4">
         Preserve wisdom before it

@@ -10,6 +10,14 @@ import GalaxyView from "@/components/constellation/GalaxyView";
 
 import CulturalDNA from "@/components/dna/CulturalDNA";
 import VanishingEarth from "@/components/globe/VanishingEarth";
+import FeatureCard from "@/components/common/FeatureCard";
+
+import {
+  Search,
+  BookOpen,
+  Upload,
+  Archive,
+} from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -62,6 +70,59 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Explore the Platform */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-6">
+      
+          <h2 className="text-5xl font-black text-center mb-6">
+            Explore Echoes
+          </h2>
+      
+          <p className="text-center text-white/60 max-w-3xl mx-auto mb-16">
+            Discover every AI-powered preservation tool inside Echoes of the
+            Unseen—from semantic search and heritage books to digital memory
+            uploads and long-term preservation.
+          </p>
+      
+          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
+      
+            <FeatureCard
+              icon={<Search size={30} />}
+              title="Semantic Search"
+              description="Search endangered cultures, traditions and languages using AI-powered semantic retrieval."
+              href="/search"
+              accent="cyan"
+            />
+      
+            <FeatureCard
+              icon={<BookOpen size={30} />}
+              title="Heritage Book"
+              description="Generate beautifully structured digital heritage books from preserved memories."
+              href="/book-generator"
+              accent="purple"
+            />
+      
+            <FeatureCard
+              icon={<Upload size={30} />}
+              title="Memory Upload"
+              description="Contribute stories, traditions, photographs and cultural artifacts."
+              href="/upload"
+              accent="green"
+            />
+      
+            <FeatureCard
+              icon={<Archive size={30} />}
+              title="Time Capsule"
+              description="Preserve cultural memories for future generations."
+              href="/time-capsule"
+              accent="orange"
+            />
+      
+          </div>
+      
+        </div>
+      </section>
+      
       {/* Endangered Heritage */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">

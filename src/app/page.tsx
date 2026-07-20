@@ -25,6 +25,13 @@ export default function HomePage() {
       {/* Hero */}
       <HeroSection />
 
+      {/* Platform Impact */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <ImpactStats />
+        </div>
+      </section>
+      
       {/* Interactive Globe */}
       <section
         id="explore"
